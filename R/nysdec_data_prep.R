@@ -37,9 +37,8 @@ nysdec_data_prep <- function(taxa.df, master.df){
   taxa.df$REPORTING_VALUE <- as.numeric(as.character(taxa.df$REPORTING_VALUE))
   # Check for EVENT_ID column. If absent, create one.
   if(!"EVENT_ID" %in% names(taxa.df)) {
-    taxa.df$EVENT_ID <- with(taxa.df, paste(STATION_ID, DATE, SAMPLE_NUMBER, sep = "_"))
+    taxa.df$EVENT_ID <- with(taxa.df, paste(STATION_ID, DATE, SAMPLE_NUMBER, METHOD, sep = "_"))
   }
-  
   
   
   agency.df <- taxa.df[, c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE",
