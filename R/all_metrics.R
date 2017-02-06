@@ -13,7 +13,10 @@
 #'@return Calculates all of applicable and available metrics in the package.
 #'@export
 #'
-all_metrics <- function(long.df, master.df, taxa.rank) {
+all_metrics <- function(long.df, master.df, taxa.rank,
+                        tv.col = "BIBI_TV",
+                        ffg.col = "BIBI_FFG",
+                        hab.col = "BIBI_HABIT") {
   #Prep==========================================================================
   # Wide format data frames for necessary taxonomic levels.
   names(long.df) <- trimws(toupper(names(long.df)))
@@ -91,52 +94,52 @@ all_metrics <- function(long.df, master.df, taxa.rank) {
     # FFGs
     print("...Collector Richness")
     metrics$RICH_COLLECT <- rich_attribute(taxa.rank.df, master.df,
-                                           attribute.column = "BIBI_FFG",
+                                           attribute.column = ffg.col,
                                            attribute.interest = c("CG", "CF"), taxa.rank)
     print("...Gatherer Richness")
     metrics$RICH_GATHER <- rich_attribute(taxa.rank.df, master.df,
-                                          attribute.column = "BIBI_FFG",
+                                          attribute.column = ffg.col,
                                           attribute.interest = "CG", taxa.rank)
     print("...Filter Feeder Richness")
     metrics$RICH_FILTER <- rich_attribute(taxa.rank.df, master.df,
-                                          attribute.column = "BIBI_FFG",
+                                          attribute.column = ffg.col,
                                           attribute.interest = "CF", taxa.rank)
     print("...Shredder Richness")
     metrics$RICH_SHRED <- rich_attribute(taxa.rank.df, master.df,
-                                         attribute.column = "BIBI_FFG",
+                                         attribute.column = ffg.col,
                                          attribute.interest = "SH", taxa.rank)
     print("...Scraper Richness")
     metrics$RICH_SCRAPE <- rich_attribute(taxa.rank.df, master.df,
-                                          attribute.column = "BIBI_FFG",
+                                          attribute.column = ffg.col,
                                           attribute.interest = "SC", taxa.rank)
     print("...Predator Richness")
     metrics$RICH_PREDATOR <- rich_attribute(taxa.rank.df, master.df,
-                                            attribute.column = "BIBI_FFG",
+                                            attribute.column = ffg.col,
                                             attribute.interest = "PR", taxa.rank)
     # Habits
     print("...Climber Richness")
     metrics$RICH_CLIMB <- rich_attribute(taxa.rank.df, master.df,
-                                         attribute.column = "BIBI_HABIT",
+                                         attribute.column = hab.col,
                                          attribute.interest = "CB", taxa.rank)
     print("...Swimmer Richness")
     metrics$RICH_SWIM <- rich_attribute(taxa.rank.df, master.df,
-                                        attribute.column = "BIBI_HABIT",
+                                        attribute.column = hab.col,
                                         attribute.interest = "SW", taxa.rank)
     print("...Clinger Richness")
     metrics$RICH_CLING <- rich_attribute(taxa.rank.df, master.df,
-                                         attribute.column = "BIBI_HABIT",
+                                         attribute.column = hab.col,
                                          attribute.interest = "CN", taxa.rank)
     print("...Burrower Richness")
     metrics$RICH_BURROW <- rich_attribute(taxa.rank.df, master.df,
-                                          attribute.column = "BIBI_HABIT",
+                                          attribute.column = hab.col,
                                           attribute.interest = "BU", taxa.rank)
     print("...Sprawler Richness")
     metrics$RICH_SPRAWL <- rich_attribute(taxa.rank.df, master.df,
-                                          attribute.column = "BIBI_HABIT",
+                                          attribute.column = hab.col,
                                           attribute.interest = "SP", taxa.rank)
     print("...Skater Richness")
     metrics$RICH_SKATE <- rich_attribute(taxa.rank.df, master.df,
-                                         attribute.column = "BIBI_HABIT",
+                                         attribute.column = hab.col,
                                          attribute.interest = "SK", taxa.rank)
   }
 
@@ -150,11 +153,11 @@ all_metrics <- function(long.df, master.df, taxa.rank) {
 
   if(taxa.rank %in% c("FAMILY", "GENUS")){
     print("...Intolerant Richness")
-    metrics$RICH_INTOL <- rich_tolerance(taxa.rank.df, master.df, "BIBI_TV", 0, 3)
+    metrics$RICH_INTOL <- rich_tolerance(taxa.rank.df, master.df, tv.col, 0, 3)
     print("...Moderately-Tolerant Richness")
-    metrics$RICH_MODTOL <- rich_tolerance(taxa.rank.df, master.df, "BIBI_TV", 4, 6)
+    metrics$RICH_MODTOL <- rich_tolerance(taxa.rank.df, master.df, tv.col, 4, 6)
     print("...Tolerant Richness")
-    metrics$RICH_TOL <- rich_tolerance(taxa.rank.df, master.df, "BIBI_TV", 7, 10)
+    metrics$RICH_TOL <- rich_tolerance(taxa.rank.df, master.df, tv.col, 7, 10)
     print("...Intolerant EPT Richness")
     metrics$RICH_EPT_NO_TOL <- ept_rich_no_tol(long.df, "FAMILY", master.df)
     print("...Intolerant %EPT Richness")
@@ -220,19 +223,19 @@ all_metrics <- function(long.df, master.df, taxa.rank) {
   }
   if(taxa.rank %in% c("FAMILY", "GENUS")){
     print("...HBI")
-    metrics$HBI <- tol_index(long.fill, master.df, "BIBI_TV", taxa.rank)
+    metrics$HBI <- tol_index(long.fill, master.df, tv.col, taxa.rank)
     print("...% Urban Intolerant")
     metrics$PCT_URBAN_INTOL <- pct_urban_intol(long.df, master.df)
     print("...% Intolerant (0-3)")
-    metrics$PCT_INTOL_0_3 <- pct_tol_val(taxa.rank.fill, master.df, "BIBI_TV", 0, 3)
+    metrics$PCT_INTOL_0_3 <- pct_tol_val(taxa.rank.fill, master.df, tv.col, 0, 3)
     print("...% Intolerant (0-4)")
-    metrics$PCT_INTOL_0_4 <- pct_tol_val(taxa.rank.fill, master.df, "BIBI_TV", 0, 4)
+    metrics$PCT_INTOL_0_4 <- pct_tol_val(taxa.rank.fill, master.df, tv.col, 0, 4)
     print("...% Moderately Tolerant (4-6)")
-    metrics$PCT_MOD_TOL_4_6 <- pct_tol_val(taxa.rank.fill, master.df, "BIBI_TV", 4, 6)
+    metrics$PCT_MOD_TOL_4_6 <- pct_tol_val(taxa.rank.fill, master.df, tv.col, 4, 6)
     print("...% Tolerant (7-10)")
-    metrics$PCT_TOLERANT_7_10 <- pct_tol_val(taxa.rank.fill, master.df, "BIBI_TV", 7, 10)
+    metrics$PCT_TOLERANT_7_10 <- pct_tol_val(taxa.rank.fill, master.df, tv.col, 7, 10)
     print("...% Tolerant (5-10)")
-    metrics$PCT_TOLERANT_5_10 <- pct_tol_val(taxa.rank.fill, master.df, "BIBI_TV", 5, 10)
+    metrics$PCT_TOLERANT_5_10 <- pct_tol_val(taxa.rank.fill, master.df, tv.col, 5, 10)
   }
 
   #Composition Metrics==========================================================
@@ -323,37 +326,37 @@ all_metrics <- function(long.df, master.df, taxa.rank) {
   if(taxa.rank %in% c("FAMILY", "SUBFAMILY", "TRIBE")) taxa.rank.att <- "FAMILY"
   # Update once genus attributes added
   if(taxa.rank %in% c("GENUS", "SPECIES")) taxa.rank.att <- "GENUS"
-  #metrics$PCT_FFG_UNASSIGNED <- pct_attribute(taxa.rank.df, master.df, "BIBI_FFG", "UA", taxa.rank.att)
-  #metrics$PCT_DOM_FFG <- pct_dom1_group(long.df, master.df, "BIBI_FFG", taxa.rank.att)
+  #metrics$PCT_FFG_UNASSIGNED <- pct_attribute(taxa.rank.df, master.df, ffg.col, "UA", taxa.rank.att)
+  #metrics$PCT_DOM_FFG <- pct_dom1_group(long.df, master.df, ffg.col, taxa.rank.att)
   print("...%Collector")
-  metrics$PCT_COLLECT <- pct_attribute(taxa.rank.fill, master.df, "BIBI_FFG", c("CG", "CF"), taxa.rank.att)
+  metrics$PCT_COLLECT <- pct_attribute(taxa.rank.fill, master.df, ffg.col, c("CG", "CF"), taxa.rank.att)
   print("...%Filter Feeder")
-  metrics$PCT_FILTER <- pct_attribute(taxa.rank.fill, master.df, "BIBI_FFG", "CF", taxa.rank.att)
+  metrics$PCT_FILTER <- pct_attribute(taxa.rank.fill, master.df, ffg.col, "CF", taxa.rank.att)
   print("...%Gatherer")
-  metrics$PCT_GATHER <- pct_attribute(taxa.rank.fill, master.df, "BIBI_FFG", "CG", taxa.rank.att)
+  metrics$PCT_GATHER <- pct_attribute(taxa.rank.fill, master.df, ffg.col, "CG", taxa.rank.att)
   print("...%Predator")
-  metrics$PCT_PREDATOR <- pct_attribute(taxa.rank.fill, master.df, "BIBI_FFG", "PR", taxa.rank.att)
+  metrics$PCT_PREDATOR <- pct_attribute(taxa.rank.fill, master.df, ffg.col, "PR", taxa.rank.att)
   print("...%Scraper")
-  metrics$PCT_SCRAPE <- pct_attribute(taxa.rank.fill, master.df, "BIBI_FFG", "SC", taxa.rank.att)
+  metrics$PCT_SCRAPE <- pct_attribute(taxa.rank.fill, master.df, ffg.col, "SC", taxa.rank.att)
   print("...%Shredder")
-  metrics$PCT_SHRED <- pct_attribute(taxa.rank.fill, master.df, "BIBI_FFG", "SH", taxa.rank.att)
+  metrics$PCT_SHRED <- pct_attribute(taxa.rank.fill, master.df, ffg.col, "SH", taxa.rank.att)
 
   #Habit Metrics=================================================================
   print("Calculating Habit Metrics:")
-  #metrics$PCT_DOM_Habit <- pct_dom1_group(long.df, master.df, "BIBI_HABIT", taxa.rank.att)
-  #metrics$PCT_HABIT_UNASSIGNED <- pct_attribute(taxa.rank.df, master.df, "BIBI_HABIT", "UA", taxa.rank.att)
+  #metrics$PCT_DOM_Habit <- pct_dom1_group(long.df, master.df, hab.col, taxa.rank.att)
+  #metrics$PCT_HABIT_UNASSIGNED <- pct_attribute(taxa.rank.df, master.df, hab.col, "UA", taxa.rank.att)
   print("...%Burrower")
-  metrics$PCT_BURROW <- pct_attribute(taxa.rank.fill, master.df, "BIBI_HABIT", "BU", taxa.rank.att)
+  metrics$PCT_BURROW <- pct_attribute(taxa.rank.fill, master.df, hab.col, "BU", taxa.rank.att)
   print("...%Climber")
-  metrics$PCT_CLIMB <- pct_attribute(taxa.rank.fill, master.df, "BIBI_HABIT", "CB", taxa.rank.att)
+  metrics$PCT_CLIMB <- pct_attribute(taxa.rank.fill, master.df, hab.col, "CB", taxa.rank.att)
   print("...%Clinger")
-  metrics$PCT_CLING <- pct_attribute(taxa.rank.fill, master.df, "BIBI_HABIT", "CN", taxa.rank.att)
+  metrics$PCT_CLING <- pct_attribute(taxa.rank.fill, master.df, hab.col, "CN", taxa.rank.att)
   print("...%Skater")
-  metrics$PCT_SKATE <- pct_attribute(taxa.rank.fill, master.df, "BIBI_HABIT", "SK", taxa.rank.att)
+  metrics$PCT_SKATE <- pct_attribute(taxa.rank.fill, master.df, hab.col, "SK", taxa.rank.att)
   print("...%Sprawler")
-  metrics$PCT_SPRAWL <- pct_attribute(taxa.rank.fill, master.df, "BIBI_HABIT", "SP", taxa.rank.att)
+  metrics$PCT_SPRAWL <- pct_attribute(taxa.rank.fill, master.df, hab.col, "SP", taxa.rank.att)
   print("...%Swimmer")
-  metrics$PCT_SWIM <- pct_attribute(taxa.rank.fill, master.df, "BIBI_HABIT", "SW", taxa.rank.att)
+  metrics$PCT_SWIM <- pct_attribute(taxa.rank.fill, master.df, hab.col, "SW", taxa.rank.att)
 
   #print("...%Unidentified Taxa")
   #metrics$PCT_UNIDENTIFIED <- pct_unidentified(taxa.rank.df)
