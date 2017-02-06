@@ -3,13 +3,20 @@
 #==============================================================================
 #'Run All Metrics
 #'
+#'@param long.df = Taxonomic counts in a long data format.
 #'@param master.df = The master taxa list contains taxonomic ranks from Phylum
 #'to species and known taxonomic attributes.
-#'@param long.df = Taxonomic counts in a long data format.
 #'@param taxa.rank = The lowest taxonomic rank ("ORDER", "FAMILY", or "GENUS")
 #' used to calculate the metrics.  If the majority of your taxa are identified
 #' to the family level, then it would be inappropriate to perform metric
 #' calculations at the genus level.
+#' @param tv.cols = The name of the tolerance value column you want to use
+#' during metric calculations.
+#' @param ffg.cols = The name of the ffg value column you want to use
+#' during metric calculations.
+#' @param hab.cols = The name of the habit value column you want to use
+#' during metric calculations.
+#' 
 #'@return Calculates all of applicable and available metrics in the package.
 #'@export
 #'

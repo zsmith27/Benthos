@@ -17,6 +17,15 @@ to species and known taxonomic attributes.}
 used to calculate the metrics.  If the majority of your taxa are identified
 to the family level, then it would be inappropriate to perform metric
 calculations at the genus level.}
+
+\item{tv.cols}{= The name of the tolerance value column you want to use
+during metric calculations.}
+
+\item{ffg.cols}{= The name of the ffg value column you want to use
+during metric calculations.}
+
+\item{hab.cols}{= The name of the habit value column you want to use
+during metric calculations.}
 }
 \value{
 Calculates all of applicable and available metrics in the package.
