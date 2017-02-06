@@ -369,7 +369,9 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   #metrics$PCT_UNIDENTIFIED <- pct_unidentified(taxa.rank.df)
   #============================================================================
   print("...Sequence % Taxa")
-  seq.pct <- seq_pct_taxa(long.df, master.df)
+  last.col <- which(names(long.df) %in% taxa.rank)
+  long.sub <- long.df[, 1:last.col]
+  seq.pct <- seq_pct_taxa(long.sub, master.df)
   merge.cols <- c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE", "SAMPLE_NUMBER")
   final.df <- merge(metrics, seq.pct, by = merge.cols)
   
