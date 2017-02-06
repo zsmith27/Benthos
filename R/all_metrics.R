@@ -27,7 +27,7 @@ all_metrics <- function(long.df, master.df, taxa.rank) {
     tribe.wide <- NULL
   }
 
-  if(taxa.rank %in% c("GENUS", "SPECIES")){
+  if(taxa.rank %in% c("GENUS")){
     genus.wide <- wide(long.df, "GENUS")
   }else{
     genus.wide <- NULL
@@ -163,9 +163,9 @@ all_metrics <- function(long.df, master.df, taxa.rank) {
 
   if(taxa.rank %in% c("FAMILY")){
     print("...Becks Version 1")
-    metrics$BECKS_V1 <- becks(taxa.rank.df,  taxa.rank, master.df, beck.version = 1)
-    print("...Becks Version 2")
-    metrics$BECKS_V3 <- becks(taxa.rank.df,  taxa.rank, master.df, beck.version = 3)
+    metrics$BECKS_V1 <- becks(taxa.rank.df, taxa.rank, master.df, beck.version = 1)
+    print("...Becks Version 3")
+    metrics$BECKS_V3 <- becks(taxa.rank.df, taxa.rank, master.df, beck.version = 3)
   }
 
   if(taxa.rank %in% c("GENUS", "SPECIES")){
@@ -179,11 +179,11 @@ all_metrics <- function(long.df, master.df, taxa.rank) {
             "GENUS", "SPECIES")
 
   master.fill <- fill_taxa(master.df)
-  master.fill <- unique(master.fill[, c("TSN_R", taxa)])
+  master.fill <- unique(master.fill[, c("FINAL_ID", taxa)])
   #test <- (master.fill[duplicated(master.fill$TSN_R), ])
   long.fill <- long.df
   long.fill <- long.fill[, !names(long.fill) %in% taxa]
-  long.fill <- merge(long.fill, master.fill, by.x = "TSN", by.y = "TSN_R", all.x = T)
+  long.fill <- merge(long.fill, master.fill, by = "FINAL_ID", all.x = T)
 
   ord.fill <- wide(long.fill, "ORDER")
   if(taxa.rank %in% c("FAMILY", "GENUS")){
@@ -194,6 +194,7 @@ all_metrics <- function(long.df, master.df, taxa.rank) {
   if(taxa.rank %in% "ORDER") taxa.rank.fill <- ord.fill
   if(taxa.rank %in% "FAMILY") taxa.rank.fill <- fam.fill
   if(taxa.rank %in% "GENUS") taxa.rank.fill <- gen.fill
+  if(!taxa.rank %in% c("ORDER", "FAMILY", "GENUS")) taxa.rank.fill <- wide(long.fill, taxa.rank)
   #============================================================================
 
   print("...%Dominant 1")
@@ -248,19 +249,18 @@ all_metrics <- function(long.df, master.df, taxa.rank) {
     metrics$PCT_EPHEMEROPTERA_NO_BAETID <- pct_epmeroptera_no_baetid(order.wide, family.wide)
     print("...%EPT Composed of Hydropsychidae")
     metrics$PCT_HYDRO_EPT <- pct_hydro_ept(order.wide, family.wide)
-    print("...%Retreat Caddisfly")
-    suborder.wide <- wide(long.df, "PHYLUM")
-    metrics$PCT_RETREAT_CADDISFLY <- pct_retreat_trichoptera(long.df)
-    metrics$PCT_RETREAT_CADDISFLY_TEST <- pct_taxon(suborder.wide, "ANNULIPALPIA")
-    print("...%Corbiculidae")
-    metrics$PCT_CORBICULIDAE <- pct_corbiculidae(family.wide)
-    metrics$PCT_CORBICULIDA_TEST <- pct_taxon(family.wide, "CORBICULIDAE")
-    print("...%Simuliidae")
-    metrics$PCT_SIMULIIDAE <- pct_simuliidae(family.wide)
-    metrics$PCT_SIMULIIDAE_TEST <- pct_taxon(family.wide, "SIMULIIDAE")
-    print("...%Chironomidae")
-    metrics$PCT_CHIRONOMIDAE <- pct_chironomidae(family.wide)
-    metrics$PCT_CHIRONOMIDAE_TEST <- pct_taxon(family.wide, "CHIRONOMIDAE")
+    #print("...%Retreat Caddisfly")
+    suborder.wide <- wide(long.df, "SUBORDER")
+    #metrics$PCT_RETREAT_CADDISFLY <- pct_taxon(suborder.wide, "ANNULIPALPIA")
+    #print("...%Corbiculidae")
+    #metrics$PCT_CORBICULIDAE <- pct_corbiculidae(family.wide)
+    #metrics$PCT_CORBICULIDA_TEST <- pct_taxon(family.wide, "CORBICULIDAE")
+    #print("...%Simuliidae")
+    #metrics$PCT_SIMULIIDAE <- pct_simuliidae(family.wide)
+    #metrics$PCT_SIMULIIDAE_TEST <- pct_taxon(family.wide, "SIMULIIDAE")
+    #print("...%Chironomidae")
+    #metrics$PCT_CHIRONOMIDAE <- pct_chironomidae(family.wide)
+    #metrics$PCT_CHIRONOMIDAE_TEST <- pct_taxon(family.wide, "CHIRONOMIDAE")
     print("...%Oligochaeta and Chironomidae")
     metrics$PCT_OLIGO_CHIRO <- pct_oligo_chiro(class.wide, family.wide)
     phylum.wide <- wide(long.df, "PHYLUM")
@@ -278,42 +278,42 @@ all_metrics <- function(long.df, master.df, taxa.rank) {
     print("...%EPT Composed of Hydropsyche")
     metrics$PCT_EPT_HYDROPSYCHE <- pct_ept_hydropsyche(order.wide, genus.wide)
     tribe.wide <- wide(long.df, "TRIBE")
-    print("...%Tanytarsini")
-    metrics$PCT_TANYTARSINI <- pct_tanytarsini(tribe.wide)
-    print("...%Orthocladiinae")
-    metrics$PCT_ORTHOCLADIINAE <- pct_orthocladiinae(long.df)
+    #print("...%Tanytarsini")
+    #metrics$PCT_TANYTARSINI <- pct_tanytarsini(tribe.wide)
+    #print("...%Orthocladiinae")
+    #metrics$PCT_ORTHOCLADIINAE <- pct_orthocladiinae(long.df)
   }
   print("...%EPT")
   metrics$PCT_EPT <- pct_ept(order.wide)
-  print("...%Ephemeroptera")
-  metrics$PCT_EPHEMEROPTERA <- pct_ephemeroptera(order.wide)
-  print("...%Plecoptera")
-  metrics$PCT_PLECOPTERA <- pct_plecoptera(order.wide)
-  print("...%Trichoptera")
-  metrics$PCT_TRICHOPTERA <- pct_trichoptera(order.wide)
+  #print("...%Ephemeroptera")
+  #metrics$PCT_EPHEMEROPTERA <- pct_ephemeroptera(order.wide)
+  #print("...%Plecoptera")
+  #metrics$PCT_PLECOPTERA <- pct_plecoptera(order.wide)
+  #print("...%Trichoptera")
+  #metrics$PCT_TRICHOPTERA <- pct_trichoptera(order.wide)
 
-  print("...%Coleoptera")
-  metrics$PCT_COLEOPTERA <- pct_coleoptera(order.wide)
-  print("...%Odonata")
-  metrics$PCT_ODONATA <- pct_odonata(order.wide)
+  #print("...%Coleoptera")
+  #metrics$PCT_COLEOPTERA <- pct_coleoptera(order.wide)
+  #print("...%Odonata")
+  #metrics$PCT_ODONATA <- pct_odonata(order.wide)
   print("...%COTE")
   metrics$PCT_COTE <- pct_cote(order.wide)
   print("...%POTEC")
   metrics$PCT_POTEC <- pct_potec(order.wide)
-  print("...%Amphipoda")
-  metrics$PCT_AMPHIPODA <- pct_amphipoda(order.wide)
-  print("...%Bivalvia")
-  metrics$PCT_BIVALVIA <- pct_bivalvia(class.wide)
-  print("...%Unionoida")
-  metrics$PCT_UNIONOIDA <- pct_unionoida(order.wide)
-  print("...%Diptera")
-  metrics$PCT_DIPTERA <- pct_diptera(order.wide)
+  #print("...%Amphipoda")
+  #metrics$PCT_AMPHIPODA <- pct_amphipoda(order.wide)
+  #print("...%Bivalvia")
+  #metrics$PCT_BIVALVIA <- pct_bivalvia(class.wide)
+  #print("...%Unionoida")
+  #metrics$PCT_UNIONOIDA <- pct_unionoida(order.wide)
+  #print("...%Diptera")
+  #metrics$PCT_DIPTERA <- pct_diptera(order.wide)
   print("...GOLD")
   metrics$GOLD <- gold(class.wide, order.wide)
-  print("...%Oligochaeta")
-  metrics$PCT_OLIGOCHAETA <- pct_oligochaeta(class.wide)
-  print("...%Non-Insect")
-  metrics$PCT_NON_INSECT <- pct_non_insect(class.wide)
+  #print("...%Oligochaeta")
+  #metrics$PCT_OLIGOCHAETA <- pct_oligochaeta(class.wide)
+  #print("...%Non-Insect")
+  #metrics$PCT_NON_INSECT <- pct_non_insect(class.wide)
 
 
   #Functional Feeding Group (FFG) Metrics========================================
@@ -355,12 +355,15 @@ all_metrics <- function(long.df, master.df, taxa.rank) {
   print("...%Swimmer")
   metrics$PCT_SWIM <- pct_attribute(taxa.rank.fill, master.df, "BIBI_HABIT", "SW", taxa.rank.att)
 
-  print("...%Unidentified Taxa")
-  metrics$PCT_UNIDENTIFIED <- pct_unidentified(taxa.rank.df)
+  #print("...%Unidentified Taxa")
+  #metrics$PCT_UNIDENTIFIED <- pct_unidentified(taxa.rank.df)
   #============================================================================
-  seq_pct_taxa(long.df, master.df)
+  print("...Sequence % Taxa")
+  seq.pct <- seq_pct_taxa(long.df, master.df)
+  merge.cols <- c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE", "SAMPLE_NUMBER")
+  final.df <- merge(metrics, seq.pct, by = merge.cols)
   
-  return(metrics)
+  return(final.df)
 
 }
 
