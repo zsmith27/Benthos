@@ -86,6 +86,7 @@ data_prep <- function(long.df, master.df){
                  "TRIBE", "GENUS", "SPECIES") 
   keep.cols[!keep.cols %in% names(merged)]
   final.df <- merged[, keep.cols]
+  final.df[final.df == ""] <- NA
   return(final.df)
 }
 
