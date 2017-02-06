@@ -46,6 +46,7 @@ group_taxa <- function(NameList, Taxa.df){
 group_rich <- function(NameList, Taxa.df){
   ID <- c("EVENT_ID", "STATION_ID", "DATE", "AGENCY_CODE", "SAMPLE_NUMBER")
   taxa.list <- as.character(unlist(NameList))
+  taxa.list <- taxa.list[!taxa.list %in% NA]
   taxa_list.df <- data.frame(Taxa.df[, names(Taxa.df) %in% c(ID, taxa.list)])
   taxa_list.df <- taxa_list.df[, !(names(taxa_list.df) %in% "UNIDENTIFIED")]
   taxa_list.df[is.na(taxa_list.df)] <- 0 #NA = zero
