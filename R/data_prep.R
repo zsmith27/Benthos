@@ -1,5 +1,105 @@
 #==============================================================================
+#==============================================================================
 # Title: Prepare Data for Analysis
+#==============================================================================
+#==============================================================================
+#'Data Prep
+#'
+#'@param long.df = Taxonomic counts in a long data format.
+#'@param master.df = A Master Taxa List containing the appropriate and applicable
+#'taxonomic hierarchy and taxonomic traits. Specify 'master' to use the Master
+#'Taxa List built in to the Benthos package.
+#'@return The provided taxonomic counts are merged with the provided Master 
+#'Taxa List taxonomic hierarchy.
+#'@export
+#'
+
+
+data_prep <- function(long.df, master.df){
+  # Make sure all column names are uppercase.
+  names(long.df) <- toupper(names(long.df))
+  #============================================================================
+  # Necessary column names.
+  benthos.cols <- c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE",
+                    "SAMPLE_NUMBER", "FINAL_ID", "REPORTING_VALUE")
+  # Check if any of the necessary columns are missing.
+  if(any((benthos.cols %in% names(long.df)) == FALSE)){
+    missing.cols <- benthos.cols[!benthos.cols %in% names(long.df)]
+    error.1 <- paste("You are missing the following column(s):",
+                     paste(missing.cols, collapse = ", "))
+    stop(error.1)
+  }
+  #============================================================================
+  # Subset the master taxa list to only include taxonomic hierarchy.
+  sub.master <- unique(master[, c("FINAL_ID", "AGENCY_ID",
+                                  "PHYLUM", "SUBPHYLUM", "CLASS", "SUBCLASS",
+                                  "ORDER", "SUBORDER", "FAMILY", "SUBFAMILY",
+                                  "TRIBE", "GENUS", "SPECIES")])
+  # Change the name of the FINAL_ID column to AGENCY_ID to make it easier to
+  # merge with the master taxa list.
+  names(long.df)[names(long.df) %in% "FINAL_ID"] <- "AGENCY_ID"
+  #============================================================================
+  # Merge the taxonomic counts with the master taxa list.
+  merged <- merge(long.df, sub.master, by = "AGENCY_ID", all.x = TRUE)
+  #============================================================================
+  # If there are any NAs in the FINAL_ID column, a taxon or taxa are missing 
+  # from the master taxa list. This issue must be fixed.
+  merged$ISSUE <- ifelse(is.na(merged$FINAL_ID), "YES", "NO")
+  if (nrow(merged[merged$ISSUE %in% "YES", ]) > 0) {
+    
+    issue.rows <- paste("\n", "There was an issue matching ", 
+                        nrow(merged[merged$ISSUE %in% "YES", ]),
+                        " rows with the Master Taxa List (master.df).",  "\n",
+                        "Please review the rows in the 'ISSUE' column equal to 'YES'.",  "\n",
+                        "The missing taxon or taxa must be added to master.df before proceeding.",
+                        "\n",
+                        sep = "")
+    warning(issue.rows)
+  } else {
+    print("No issues merging the Master Taxa List (master.df) with your taxonomic counts (long.df).")
+  }
+  #============================================================================
+  # If the FINAL_ID does not match the AGENCY_ID, a warning is provided.
+  # The taxon has been changed to the most up-to-date taxonomic name in ITIS
+  # but the user may disagree. No action is required.
+  merged$WARNING <- ifelse(merged$FINAL_ID %in% merged$AGENCY_ID, "NO", "YES")
+  if (nrow(merged[merged$WARNING %in% "YES", ]) > 0) {
+    
+    warning.rows <- paste("\n", nrow(merged[merged$WARNING %in% "YES", ]),
+                          " rows contain taxonomic final IDs that were changed to the current valid taxonomic name.",
+                          "\n", 
+                          "Please review the rows in the 'WARNING' column equal to 'YES'.",  "\n",
+                          "If you disagree with the change(s) please email me at zsmith@icprb.org and I will address your concerns.",
+                          "\n", "No action is necessary.", 
+                          "\n",
+                          sep = "")
+    warning(warning.rows)
+  } else {
+    cat(paste("There were no differences between your final ID and the final ID found", 
+              "\n", "in the Master Taxa List (master.df)."))
+  }
+  #============================================================================
+  keep.cols <- c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE", "SAMPLE_NUMBER",
+                 "ISSUE", "WARNING", "FINAL_ID", "AGENCY_ID", "REPORTING_VALUE",
+                 "PHYLUM", "SUBPHYLUM", "CLASS", "SUBCLASS", 
+                 "ORDER", "SUBORDER", "FAMILY", "SUBFAMILY",
+                 "TRIBE", "GENUS", "SPECIES") 
+  keep.cols[!keep.cols %in% names(merged)]
+  final.df <- merged[, keep.cols]
+  return(final.df)
+}
+
+
+
+#if((!class(long.df[, c("EVENT_ID", "STATION_ID", "FINAL_ID")]) %in% c("character", "factor")) == FALSE){}
+
+#If(length(long.df[!long.df$FINAL_ID %in% master.df$FINAL_ID, ]) > 0) {
+#  missing.taxa <- sort(unique(long.df[!long.df$FINAL_ID %in% master.df$FINAL_ID, "FINAL_ID"]))
+#  error.2 <- paste0("The following taxon or taxa were not found in the Master Taxa List: ",
+#                   paste(missing.taxa, collapse = ", "), ". Check the spelling of each name,
+#                   an exact match is required.")
+#  print(error.2)
+#}
 #==============================================================================
 clean_up <- function(x) {
   # Change all names to uppercase and remove leading and trailing white space.
@@ -82,25 +182,39 @@ long <- function (wide.df, taxa.rank = "FAMILY") {
 wide <- function (long.df, taxa.rank, pct.unid = NULL) {
   print("[1/2] Aggregating data for transformation")
   # Use data.table to speed up the aggregation process.
-  long.df <- data.table::data.table(long.df)
+  #long.dt <- data.table::data.table(long.df)
   # List of columns to aggregate by.
   agg.list <- c("EVENT_ID", "STATION_ID", "DATE", "SAMPLE_NUMBER",
-                "AGENCY_CODE", taxa.rank)
+                "AGENCY_CODE", taxa.rank, "REPORTING_VALUE")
   # Aggregate the taxonomic counts.
-  agg <- long.df[, sum(REPORTING_VALUE), by = agg.list]
+  #agg <- long.dt[, sum(REPORTING_VALUE), by = agg.list]
+  sub.df <- long.df[, agg.list]
+  sub.df[, taxa.rank] <- ifelse(is.na(sub.df[, taxa.rank]) | sub.df[, taxa.rank] %in% "",
+                             "UNIDENTIFIED", sub.df[, taxa.rank])
+  agg <- aggregate(REPORTING_VALUE ~ .,
+                   data = sub.df, FUN = sum)
+  
+  
   # Update column names.
-  names(agg) <- c("EVENT_ID", "STATION_ID", "DATE", "SAMPLE_NUMBER",
-                     "AGENCY_CODE", taxa.rank, "REPORTING_VALUE")
+  #names(agg) <- c("EVENT_ID", "STATION_ID", "DATE", "SAMPLE_NUMBER",
+  #                   "AGENCY_CODE", taxa.rank, "REPORTING_VALUE")
 
   #============================================================================
   print("[2/2] Transforming from long.df data format to wide data format.")
   wide.df <- tidyr::spread_(agg, key = taxa.rank, "REPORTING_VALUE" )
-  
+  if(nrow(long.df[!long.df$EVENT_ID %in% wide.df$EVENT_ID, ]) > 0){
+    missing.long <- unique(long.df[!long.df$EVENT_ID %in% wide.df$EVENT_ID, 1:5])
+    missing.wide <- cbind(missing.long, wide.df[1, 6:ncol(wide.df)])
+    missing.wide[, 6:ncol(missing.wide)] <- NA
+    wide.df <- rbind(wide.df, missing.wide)
+  }
 
   # Fill all NA's with zeros.
   wide.df[is.na(wide.df)] <- 0 #NA = zero
   # Sort the dataframe.
-  wide.df <- wide.df[order(EVENT_ID, STATION_ID, DATE, SAMPLE_NUMBER, AGENCY_CODE), ]
+  wide.df <- wide.df[order(wide.df$EVENT_ID, wide.df$STATION_ID,
+                           wide.df$DATE, wide.df$SAMPLE_NUMBER,
+                           wide.df$AGENCY_CODE), ]
   # All columns to uppercase. Easier for specification latter.
   names(wide.df) <- toupper(colnames(wide.df))
   #============================================================================
@@ -119,6 +233,10 @@ wide <- function (long.df, taxa.rank, pct.unid = NULL) {
     
     wide.df <- wide.df[!((wide.df$UNIDENTIFIED /
                             rowSums(wide.df[, 6:ncol(wide.df)])) * 100 >= pct.unid), ]
+  }
+  
+  if("UNIDENTIFIED" %in% names(wide.df)) {
+    names(wide.df)[names(wide.df) %in% "UNIDENTIFIED"] <- paste("UNIDENTIFIED", taxa.rank, sep = "_")
   }
   
   final.df <- data.frame(wide.df)
