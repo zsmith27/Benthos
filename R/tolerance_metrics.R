@@ -35,16 +35,18 @@
 
 tol_index <- function(long.df, master.df = BIBI::master, tolerance.value = "BIBI_TV",
                       taxa.rank = "FAMILY", remove_na = TRUE) {
-  long.df <- long.df[, c("EVENT_ID", "STATION_ID", "DATE", "AGENCY_CODE",
-                   "SAMPLE_NUMBER", taxa.rank, "REPORTING_VALUE")]
+  keep.cols <- c("EVENT_ID", "STATION_ID", "DATE", "AGENCY_CODE",
+                 "SAMPLE_NUMBER", taxa.rank, "REPORTING_VALUE")
+  #keep.cols[!keep.cols %in% names(long.df)]
+  long.df <- long.df[, keep.cols]
   
   
   #test <- aggregate(REPORTING_VALUE ~ . , data = long.df, sum)
-  master.df <- unique(master.df[, c("FINAL_ID", tolerance.value)])
-  test.master <- master.df[!is.na(master.df[, tolerance.value]), ]
+  sub.master <- unique(master.df[, c("FINAL_ID", tolerance.value)])
+  test.master <- sub.master[!is.na(sub.master[, tolerance.value]), ]
   test3 <- test.master[duplicated(test.master$FINAL_ID), ]
   if(nrow(test3) > 0) stop("FINAL_ID duplicated for tolerance.value")
-  merged <- merge(long.df, master.df, by.x = taxa.rank, by.y = "FINAL_ID", all.x = TRUE)
+  merged <- merge(long.df, sub.master, by.x = taxa.rank, by.y = "FINAL_ID", all.x = TRUE)
   merged$MULT <- merged$REPORTING_VALUE * merged[, tolerance.value]
   merged$E2 <- apply(merged[, c("EVENT_ID", "SAMPLE_NUMBER")], 1, function(x) paste0(x, collapse = "_"))
   
@@ -52,7 +54,7 @@ tol_index <- function(long.df, master.df = BIBI::master, tolerance.value = "BIBI
     na.check <- by(merged[, tolerance.value], merged$E2, function(x){
       all(is.na(x))
     })
-    long.unique <- unique(long[, c("EVENT_ID", "SAMPLE_NUMBER")])
+    long.unique <- unique(long.df[, c("EVENT_ID", "SAMPLE_NUMBER")])
     long.unique <- long.unique[order(long.unique$EVENT_ID, long.unique$SAMPLE_NUMBER),]
     
     all.na <- long.unique[na.check, ]
