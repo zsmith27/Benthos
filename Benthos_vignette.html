@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Zachary M. Smith" />
+
+<meta name="date" content="2017-02-03" />
+
+<title>Benthos</title>
+
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Benthos</h1>
+<h4 class="author"><em>Zachary M. Smith</em></h4>
+<h4 class="date"><em>2017-02-03</em></h4>
+
+
+
+<div id="disclaimer" class="section level2">
+<h2><strong>Disclaimer</strong></h2>
+<p>The <em>Benthos</em> package is currently in the early stages of development. Therefore, be aware that <em>Benthos</em> package will be constantly updated and major changes may occur. Additionaly, there are most likely errors in the functions that have not yet been identified. I ask that if you do find an error please send me an email (<a href="mailto:zsmith@icprb.org">zsmith@icprb.org</a>) or visit my GitHub page (<a href="https://github.com/zsmith27" class="uri">https://github.com/zsmith27</a>). If you are R savy the easiest way to communicate issues and solutions is to add an issue on my GitHub page.</p>
+</div>
+<div id="description" class="section level2">
+<h2><strong>Description</strong></h2>
+<p>The <em>Benthos</em> package is useful for the general assessment of benthic macroinverterbate assemblages. More than 80 functions have been written to quickly assess common assemblage metrics. This document provides an overview of the functions contained within the package and their intended use. </p>
+</div>
+<div id="installing-the-package" class="section level2">
+<h2><strong>Installing the Package</strong></h2>
+<p>Currently, the package is available on GitHub. GitHub (<a href="https://github.com/" class="uri">https://github.com/</a>) provides version control for R-packages and allows the package to be easily shared or copied. Once the Benthos package has been thuroughly vetted the ultimate goal will be to add the package to CRAN.</p>
+<p>To install the <em>Benthos</em> package you will first need to install the package <em>dplyr</em>. You only need to install <em>dplyr</em> once to your computer.</p>
+<pre><code>install.packages(&quot;dplyr&quot;)</code></pre>
+<p>Once you have installed <em>dplyr</em> you will need to load it into your library and then use the function <code>instal_github()</code> to install the Benthos package.</p>
+<pre><code>library(devtools)
+install_github(&quot;zsmith27/Benthos&quot;)</code></pre>
+<p>I recommend that you run the script above each time you use the <em>Benthos</em> package to insure that you have the most up-to-date version.</p>
+</div>
+<div id="overview-of-workflow" class="section level2">
+<h2><strong>Overview of Workflow</strong></h2>
+<ol style="list-style-type: decimal">
+<li>Prepare data in R or another program to meet the formating requirements (See Data Preperation).</li>
+<li>Use the <em>check_data</em> function to identify potential formating issues or issues merging the taxa count data with the <code>master</code> (See Check Data).</li>
+<li>Calculate macorinvertebrate metrics.</li>
+</ol>
+</div>
+<div id="master-taxa-list" class="section level2">
+<h2><strong>Master Taxa List</strong></h2>
+<p>The <em>Benthos</em> package relies entirely on the Master Taxa List. Included in the Master Taxa List are all of the necessary taxonomic hierarchy information as well as assigned taxonomic attributes (e.g., tolerance values, functional feeding groups, and habits). The Master Taxa List (<code>master</code>) is built in to the <em>Benthos</em> package and can be loaded with the following script:</p>
+<pre><code>data(&quot;master&quot;)</code></pre>
+<p>Many metrics require that a taxon be rolled up to lower taxonomic resolution. For example, if all of the taxa are identified to the genus-level, the counts must be rolled up and aggregated at the order-level to calulate the percentage of Ephemeroptera taxa. The <code>master</code> includes all of the necessary information for aggregating the reported taxa at various taxonomic levels.</p>
+<p>The <code>master</code> also includes the available taxonomic attributes for calulating tolerance metrics, functional feeding group metrics, and habit metrics. During metric calculations the <code>master</code> is referenced to assign the appropriate taxonomic attribute.</p>
+<p>If a taxon or taxa in your dataset are not present in the <code>master</code>, metrics not be correctly calculated. Therefore, you will recieve an error if you attempt to include a taxon in your dataset that is not present in the <code>master</code>. Users are welcome to modify the <code>master</code> in R or to export the file as a <em>.csv</em> for modifications in other programs. To export as a <em>.csv</em>:</p>
+<pre><code>write.csv(master, &quot;master.csv&quot;, row.names = FALSE)</code></pre>
+<p>If the <code>master</code> is missing a taxon or taxa that you would like to be included, please email me and I will add the taxon to the list as soon as possible. Additionally, it is possible to append accessory taxonomic attributes assigned by your agency to the <code>master</code>. I urge you to send me your agencies taxonomic attributes to be included in the publically available <code>master</code>. My goal is to create a comprehensive table of all of the available taxonomic attributes. This will allow agencies to fill gaps in thier attribute assignments or to compare thier attribute assignments to those of another agency. If you would like your agencies attributes to be publicaly available in the Benthos package, please send me an email with the attributes in a <em>.csv</em> or <em>.xlsx</em> file. Please try to match the format of the <code>master</code> as closely as possible before sending your attributes.</p>
+</div>
+<div id="data-preperation" class="section level2">
+<h2><strong>Data Preperation</strong></h2>
+<p>Preparing your data for the <em>Benthos</em> package will be the most time consuming and diffuclt aspect of using the package. It is too diffucult to calculate may of these metrics if your data set is not in the proper format. Therefore, I have created a strict format that must be followed to use this package.</p>
+<p>It is required that your data is in a long format with the following seven columns:</p>
+<ol style="list-style-type: decimal">
+<li><strong>EVENT_ID</strong> - A name that represents each unique sample. Data will be aggregate by the <strong>EVENT_ID</strong> during metric calculations. Therefore, you must make sure that each sample you want treated seperately has a unique <strong>EVENT_ID</strong>. If you do not already have an <strong>EVENT_ID</strong>, I recommend that you concatanate <strong>STATION_ID</strong>, <strong>AGENCY</strong>, <strong>DATE</strong>, and <strong>REPLICATE</strong> columns. This can easily be done in R with the paste function. Example:</li>
+</ol>
+<pre><code>my.df$EVENT_ID &lt;- paste(my.df$STATION_ID, my.df$AGENCY, my.df$DATE, my.df$REPLICATE, sep = &quot;_&quot;)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>STATION_ID</strong> - Typically a one word or string of characters that represents a particular sampling location. These may be duplicated because samples was collected from the station multiple times or if replicates were collected.</li>
+<li><strong>AGENCY</strong> - For most users this column will be unnecessary and you can fill it with any constant variable that you choose. However, some users may have data from multiple agencies or projects. This column allows you to carry that information through the metric calculation process.</li>
+<li><strong>DATE</strong> - The date that the sample was collected. I do not convert this column to R’s class <em>Date</em>. Therefore, the DATE column can be in any date format you prefer and time can be included as well.</li>
+<li><strong>REPLICATE</strong> - Indicates the number of samples collected during a sampling event. If you do not have any replicates then fill this column with 1’s.</li>
+<li><strong>FINAL_ID</strong> - The taxon collect.
+<ul>
+<li>Must be a single string of characters. To include species as the final ID, genus and species must be concatenated with an underscore seperation (e.g., HAGENIUS_BREVISTYLUS).</li>
+<li>No special or additional characters (e.g., “Caenis <strong>sp.</strong>” or “<strong>Undetermined</strong> Chironomidae”). The final ID will be matched with a row in the <code>master</code>. Therefore, special or additional characters will prevent the taxon from being properly merged with the appropriate taxonomic hierarchy and attributes.
+<ul>
+<li>Advanced users can modify the <code>master</code> to include final IDs that they prefer or to add additional taxa to the list. If you do find that a taxon or taxa are missing from the <code>master</code>, please send me an email with as much information on the taxon as possible and I will add it to the <code>master</code> contained within this package.</li>
+</ul></li>
+</ul></li>
+<li><strong>REPORTING_VALUE</strong> - The number of each taxon collected.</li>
+</ol>
+<p>All of the column names and the <strong>FINAL_ID</strong> are capitalized to enable quick identification of typos that I find difficult with the Camel Case format. The <code>prep_caps()</code> function will automatically convert the column names and the characters in the <strong>FINAL_ID</strong> column to all capital letters.</p>
+</div>
+<div id="importing-taxa-counts-into-r" class="section level2">
+<h2><strong>Importing Taxa Counts into R</strong></h2>
+<p>To import your data into R, I recommend you save you table as a <em>.csv</em> file and use the following script:</p>
+<p>Set working directory. This should specify where your taxonomic counts table is located on your computer.</p>
+<pre><code>setwd(C:/Users/zsmith/Desktop)</code></pre>
+<p>Specify the file you want to import and assign the dataframe a name. In this case I named the dataframe “taxa.df”.</p>
+<pre><code>taxa.df &lt;- read.csv(&quot;my_taxa.csv&quot;, stringsAsFactors = FALSE)</code></pre>
+</div>
+<div id="data-check" class="section level2">
+<h2><strong>Data Check</strong></h2>
+</div>
+<div id="calculate-all-metrics" class="section level2">
+<h2><strong>Calculate All Metrics</strong></h2>
+<p>The user has the ability to calculate metrics individually but it is recommended that the user calculate all metrics at once. The function <code>all_metrics()</code> does all of the work necessary to transform the data and calculate all of the available metrics in the <strong>Benthos</strong> package.</p>
+<pre><code>metrics.df &lt;- all_metrics(long.df = taxa.df, master.df = master, taxa.rank = &quot;FAMILY&quot;, pct_un = 0)</code></pre>
+<ol style="list-style-type: decimal">
+<li><strong>long.df</strong> = Taxonomic counts in a long data format.</li>
+<li><strong>master.df</strong> = The master taxa list contains taxonomic ranks from phylum to species and known taxonomic attributes.</li>
+<li><strong>taxa.rank</strong> = The lowest taxonomic rank (“ORDER”, “FAMILY”, or “GENUS”) used to calculate the metrics. If the majority of your taxa are identified to the family level, then it would be inappropriate to perform metric calculations at the genus level.</li>
+</ol>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

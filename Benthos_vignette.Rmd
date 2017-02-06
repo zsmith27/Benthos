@@ -1,0 +1,125 @@
+---
+title: "Benthos"
+author: "Zachary M. Smith"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+##**Disclaimer**
+The _Benthos_ package is currently in the early stages of development. Therefore, be aware that _Benthos_ package will be constantly updated and major changes may occur.  Additionaly, there are most likely errors in the functions that have not yet been identified.  I ask that if you do find an error please send me an email (zsmith@icprb.org) or visit my GitHub page (https://github.com/zsmith27). If you are R savy the easiest way to communicate issues and solutions is to add an issue on my GitHub page.
+
+
+##**Description**
+The _Benthos_ package is useful for the general assessment of benthic macroinverterbate assemblages. More than 80 functions have been written to quickly assess common assemblage metrics. This document provides an overview of the functions contained within the package and their intended use. \s\s
+
+##**Installing the Package**
+Currently, the package is available on GitHub.  GitHub (https://github.com/) provides version control for R-packages and allows the package to be easily shared or copied. Once the Benthos package has been thuroughly vetted the ultimate goal will be to add the package to CRAN.
+
+To install the _Benthos_ package you will first need to install the package _dplyr_. You only need to install _dplyr_ once to your computer.
+
+```
+install.packages("dplyr")
+```
+
+Once you have installed _dplyr_ you will need to load it into your library and then use the function ```instal_github()``` to install the Benthos package.
+
+```
+library(devtools)
+install_github("zsmith27/Benthos")
+```
+
+I recommend that you run the script above each time you use the _Benthos_ package to insure that you have the most up-to-date version.
+
+##**Overview of Workflow**
+1. Prepare data in R or another program to meet the formating requirements (See Data Preperation).
+2. Use the _check_data_ function to identify potential formating issues or issues merging the taxa count data with the ```master``` (See Check Data).
+3. Calculate macorinvertebrate metrics.
+
+##**Master Taxa List**
+The _Benthos_ package relies entirely on the Master Taxa List.  Included in the Master Taxa List are all of the necessary taxonomic hierarchy information as well as assigned taxonomic attributes (e.g., tolerance values, functional feeding groups, and habits). The Master Taxa List (```master```) is built in to the _Benthos_ package and can be loaded with the following script:
+
+```
+data(master)
+```
+
+Many metrics require that a taxon be rolled up to lower taxonomic resolution.  For example, if all of the taxa are identified to the genus-level, the counts must be rolled up and aggregated at the order-level to calulate the percentage of Ephemeroptera taxa. The ```master``` includes all of the necessary information for aggregating the reported taxa at various taxonomic levels.
+
+The ```master``` also includes the available taxonomic attributes for calulating tolerance metrics, functional feeding group metrics, and habit metrics. During metric calculations the ```master``` is referenced to assign the appropriate taxonomic attribute.
+
+If a taxon or taxa in your dataset are not present in the ```master```, metrics not be correctly calculated. Therefore, you will recieve an error if you attempt to include a taxon in your dataset that is not present in the ```master```. Users are welcome to modify the ```master``` in R or to export the file as a _.csv_ for modifications in other programs.
+To export as a _.csv_:
+
+```
+write.csv(master, "master.csv", row.names = FALSE)
+```
+
+If the ```master``` is missing a taxon or taxa that you would like to be included, please email me and I will add the taxon to the list as soon as possible.  Additionally, it is possible to append accessory taxonomic attributes assigned by your agency to the ```master```.  I urge you to send me your agencies taxonomic attributes to be included in the publically available ```master```. My goal is to create a comprehensive table of all of the available taxonomic attributes. This will allow agencies to fill gaps in thier attribute assignments or to compare thier attribute assignments to those of another agency. If you would like your agencies attributes to be publicaly available in the Benthos package, please send me an email with the attributes in a _.csv_ or _.xlsx_ file. Please try to match the format of the ```master``` as closely as possible before sending your attributes.
+
+
+##**Data Preperation**
+Preparing your data for the _Benthos_ package will be the most time consuming and diffuclt aspect of using the package. It is too diffucult to calculate may of these metrics if your data set is not in the proper format.  Therefore, I have created a strict format that must be followed to use this package.
+
+It is required that your data is in a long format with the following seven columns:
+
+1. __EVENT_ID__ - A name that represents each unique sample. Data will be aggregate by the __EVENT_ID__ during metric calculations. Therefore, you must make sure that each sample you want treated seperately has a unique __EVENT_ID__. If you do not already have an __EVENT_ID__, I recommend that you concatanate __STATION_ID__, __AGENCY_CODE__, __DATE__, and __SAMPLE_NUMBER__ columns. This can easily be done in R with the paste function. Example:
+
+```
+my.df$EVENT_ID <- paste(my.df$STATION_ID, my.df$AGENCY, my.df$DATE, my.df$REPLICATE, sep = "_")
+```
+
+2. __STATION_ID__ - Typically a one word or string of characters that represents a particular sampling location. These may be duplicated because samples was collected from the station multiple times or if replicates were collected. 
+3. __AGENCY_CODE__ - For most users this column will be unnecessary and you can fill it with any constant variable that you choose.  However, some users may have data from multiple agencies or projects. This column allows you to carry that information through the metric calculation process.
+4. __DATE__ - The date that the sample was collected. I do not convert this column to R's class _Date_. Therefore, the DATE column can be in any date format you prefer and time can be included as well.
+5. __SAMPLE_NUMBER__ - Indicates the number of samples collected during a sampling event.  If you do not have any replicates then fill this column with 1's.
+6. __FINAL_ID__ - The taxon collect.
+    + Must be a single string of characters. To include species as the final ID, genus and species must be concatenated with an underscore seperation (e.g., HAGENIUS_BREVISTYLUS).
+    + No special or additional characters (e.g., "Caenis __sp.__" or "__Undetermined__ Chironomidae"). The final ID will be matched with a row in the ```master```. Therefore, special or additional characters will prevent the taxon from being properly merged with the appropriate taxonomic hierarchy and attributes.
+        + Advanced users can modify the ```master``` to include final IDs that they prefer or to add additional taxa to the list.  If you do find that a taxon or taxa are missing from the ```master```, please send me an email with as much information on the taxon as possible and I will add it to the ```master``` contained within this package.
+7. __REPORTING_VALUE__ - The number of each taxon collected.
+
+
+
+All of the column names and the __FINAL_ID__ are capitalized to enable quick identification of typos that I find difficult with the Camel Case format. The ```prep_caps()``` function will automatically convert the column names and the characters in the __FINAL_ID__ column to all capital letters. 
+
+##**Importing Taxa Counts into R**
+To import your data into R, I recommend you save you table as a _.csv_ file and use the following script:
+
+
+Set working directory. This should specify where your taxonomic counts table is located on your computer.
+```
+setwd(C:/Users/zsmith/Desktop)
+```
+Specify the file you want to import and assign the dataframe a name. In this case I named the dataframe "taxa.df".
+
+```
+taxa.df <- read.csv("my_taxa.csv", stringsAsFactors = FALSE)
+```
+
+##**Data Check**
+
+
+##**Calculate All Metrics**
+
+The user has the ability to calculate metrics individually but it is recommended that the user calculate all metrics at once.  The function ```all_metrics()``` does all of the work necessary to transform the data and calculate all of the available metrics in the __Benthos__ package.
+
+```
+metrics.df <- all_metrics(long.df = taxa.df, master.df = master, taxa.rank = "FAMILY", pct_un = 0)
+```
+
+1. __long.df__ = Taxonomic counts in a long data format.
+2. __master.df__ = The master taxa list contains taxonomic ranks from phylum to species and known taxonomic attributes.
+    + If you modified the Master Taxa List (```master```), then you need to specify the modified Master Taxa List here.
+3. __taxa.rank__ = The lowest taxonomic rank ("ORDER", "FAMILY", or "GENUS") used to calculate the metrics.  If the majority of your taxa are identified to the family level, then it would be inappropriate to perform metric calculations at the genus level.
+
+##**The wide function**
+
+
+
+
+
+
+
