@@ -10,8 +10,19 @@
 #'@export
 #==============================================================================
 calc_pct_taxa <- function(wide.df, taxa.rank, master.df = BIBI::master){
-  wide.df[, 6:ncol(wide.df)] <- (wide.df[, 6:ncol(wide.df)] /
-                                   rowSums(wide.df[, 6:ncol(wide.df)])) * 100
+  if(any(rowSums(wide.df[, 6:ncol(wide.df)]) == 0)) {
+    with.counts <- wide.df[rowSums(wide.df[, 6:ncol(wide.df)]) != 0, ]
+    with.counts[, 6:ncol(with.counts)] <- (with.counts[, 6:ncol(with.counts)] /
+                                     rowSums(with.counts[, 6:ncol(with.counts)])) * 100
+    without.counts <- wide.df[rowSums(wide.df[, 6:ncol(wide.df)]) == 0, ]
+    
+    wide.df <- rbind(with.counts, without.counts)
+    
+  } else {
+    wide.df[, 6:ncol(wide.df)] <- (wide.df[, 6:ncol(wide.df)] /
+                                     rowSums(wide.df[, 6:ncol(wide.df)])) * 100
+  }
+  
   t_list <- unique(toupper(master.df[, taxa.rank]))
   shorten <- wide.df[, colnames(wide.df) %in% t_list]
   cn <- colnames(shorten)
@@ -42,17 +53,27 @@ calc_pct_taxa <- function(wide.df, taxa.rank, master.df = BIBI::master){
 #==============================================================================
 
 seq_pct_taxa <- function(long.df, master.df = BIBI::master){
-  
+  print("Phylum Wide")
   phylum <- if("PHYLUM" %in% names(long.df)) wide(long.df, "PHYLUM")
+  print("Subphylum Wide")
   subphylum <- if("SUBPHYLUM" %in% names(long.df)) wide(long.df, "SUBPHYLUM")
+  print("Class Wide")
   class <- if("CLASS" %in% names(long.df)) wide(long.df, "CLASS")
+  print("Subclass Wide")
   subclass <- if("SUBCLASS" %in% names(long.df)) wide(long.df, "SUBCLASS")
+  print("Order Wide")
   order <- if("ORDER" %in% names(long.df)) wide(long.df, "ORDER")
+  print("Suborder Wide")
   suborder <- if("SUBORDER" %in% names(long.df)) wide(long.df, "SUBORDER")
+  print("Family Wide")
   family <- if("FAMILY" %in% names(long.df)) wide(long.df, "FAMILY")
+  print("Subfamily Wide")
   subfamily <- if("SUBFAMILY" %in% names(long.df)) wide(long.df, "SUBFAMILY")
+  print("Tribe Wide")
   tribe <- if("TRIBE" %in% names(long.df)) wide(long.df, "TRIBE")
+  print("Genus Wide")
   genus <- if("GENUS" %in% names(long.df)) wide(long.df, "GENUS")
+  print("Species Wide")
   species <- if("SPECIES" %in% names(long.df)) wide(long.df, "SPECIES")
   
   pct_phylum <- if(length(phylum) > 0) calc_pct_taxa(phylum, taxa.rank = "PHYLUM")
@@ -109,3 +130,4 @@ seq_pct_taxa <- function(long.df, master.df = BIBI::master){
   
   return(final.df)
 }
+
