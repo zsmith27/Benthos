@@ -9,7 +9,7 @@
 #'@return The percent of the sample represented by each taxa per taxon level.
 #'@export
 #==============================================================================
-calc_pct_taxa <- function(wide.df, taxa.rank, master.df = BIBI::master){
+calc_pct_taxa <- function(wide.df, taxa.rank, master.df){
   if(any(rowSums(wide.df[, 6:ncol(wide.df)]) == 0)) {
     with.counts <- wide.df[rowSums(wide.df[, 6:ncol(wide.df)]) != 0, ]
     with.counts[, 6:ncol(with.counts)] <- (with.counts[, 6:ncol(with.counts)] /
@@ -52,28 +52,29 @@ calc_pct_taxa <- function(wide.df, taxa.rank, master.df = BIBI::master){
 #'@export
 #==============================================================================
 
-seq_pct_taxa <- function(long.df, master.df = BIBI::master){
-  print("Phylum Wide")
+seq_pct_taxa <- function(long.df, master.df){
+  print("Sequence %Taxa")
+  print("...Phylum Wide")
   phylum <- if("PHYLUM" %in% names(long.df)) wide(long.df, "PHYLUM")
-  print("Subphylum Wide")
+  print("...Subphylum Wide")
   subphylum <- if("SUBPHYLUM" %in% names(long.df)) wide(long.df, "SUBPHYLUM")
-  print("Class Wide")
+  print("...Class Wide")
   class <- if("CLASS" %in% names(long.df)) wide(long.df, "CLASS")
   print("Subclass Wide")
   subclass <- if("SUBCLASS" %in% names(long.df)) wide(long.df, "SUBCLASS")
-  print("Order Wide")
+  print("...Order Wide")
   order <- if("ORDER" %in% names(long.df)) wide(long.df, "ORDER")
-  print("Suborder Wide")
+  print("...Suborder Wide")
   suborder <- if("SUBORDER" %in% names(long.df)) wide(long.df, "SUBORDER")
-  print("Family Wide")
+  print("...Family Wide")
   family <- if("FAMILY" %in% names(long.df)) wide(long.df, "FAMILY")
-  print("Subfamily Wide")
+  print("...Subfamily Wide")
   subfamily <- if("SUBFAMILY" %in% names(long.df)) wide(long.df, "SUBFAMILY")
-  print("Tribe Wide")
+  print("...Tribe Wide")
   tribe <- if("TRIBE" %in% names(long.df)) wide(long.df, "TRIBE")
-  print("Genus Wide")
+  print("...Genus Wide")
   genus <- if("GENUS" %in% names(long.df)) wide(long.df, "GENUS")
-  print("Species Wide")
+  print("...Species Wide")
   species <- if("SPECIES" %in% names(long.df)) wide(long.df, "SPECIES")
   
   pct_phylum <- if(length(phylum) > 0) calc_pct_taxa(phylum, taxa.rank = "PHYLUM")
@@ -131,3 +132,89 @@ seq_pct_taxa <- function(long.df, master.df = BIBI::master){
   return(final.df)
 }
 
+#==============================================================================
+rich_by_rank <- function(long.df, low.res.rank, high.res.rank) {
+  rich.list <- lapply(unique(long[, low.res.rank]), function(x){
+    print(paste("...RICH", x, sep = "_"))
+    final.list <- taxon_richness(long.df, x, low.res.rank, high.res.rank)
+  return(final.list)
+  } )
+  final.df <- data.frame(do.call(cbind, rich.list))
+  names(final.df) <- paste("RICH", unique(long.df[, low.res.rank]), sep = "_")
+  return(final.df)
+}
+
+seq_taxa_rich <- function(long.df, rank = "GENUS"){
+  print("Sequence Taxa Richness")
+  
+  taxa.cols <- c("PHYLUM", "SUBPHYLUM", "CLASS", "SUBCLASS",
+                 "ORDER", "SUBORDER", "FAMILY", "SUBFAMILY",
+                 "TRIBE", "GENUS", "SPECIES")
+  last.col <- which(taxa.cols %in% rank) - 1
+  
+  taxa.final <- taxa.cols[1:last.col]
+  #============================================================================
+  
+  
+  phylum.df <- if("PHYLUM" %in% names(long.df)){
+    print("...Phylum Richness")
+    rich_by_rank(long, "PHYLUM", rank)
+  } 
+  subphylum.df <- if("SUBPHYLUM" %in% names(long.df)){
+    print("...Subphylum Richness")
+    rich_by_rank(long, "SUBPHYLUM", rank)
+  } 
+  class.df <- if("CLASS" %in% names(long.df)){
+    print("...Class Richness")
+    rich_by_rank(long, "CLASS", rank)
+  } 
+  subclass.df <- if("SUBCLASS" %in% names(long.df)){
+    print("...Subclass Richness")
+    rich_by_rank(long, "SUBCLASS", rank)
+  } 
+  order.df <- if("ORDER" %in% names(long.df)){
+    print("...Order Richness")
+    rich_by_rank(long, "ORDER", rank)
+  } 
+  suborder.df <- if("SUBORDER" %in% names(long.df)){
+    print("...Suborder Richness")
+    rich_by_rank(long, "SUBORDER", rank)
+  } 
+  family.df <- if("FAMILY" %in% names(long.df)){
+    print("...Family Richness")
+    rich_by_rank(long, "FAMILY", rank)
+  } 
+  subfamily.df <- if("SUBFAMILY" %in% names(long.df)){
+    print("...Subfamily Richness")
+    rich_by_rank(long, "SUBFAMILY", rank)
+  } 
+  tribe.df <- if("TRIBE" %in% names(long.df)){
+    print("...Tribe Richness")
+    rich_by_rank(long, "TRIBE", rank)
+  } 
+  genus.df <- if("GENUS" %in% names(long.df)){
+    print("...Genus Richness")
+    rich_by_rank(long, "GENUS", rank)
+  } 
+
+  taxa.dfs <- taxa.cols[taxa.cols %in% names(long.df)]
+  paste0(tolower(taxa.dfs), ".df", collapse = ", ")
+  #============================================================================
+  # Bind columnes together for the data frames that exist. Data frames that
+  # do not exist are first filled with zeros and recieve a name "if "...
+  # After the columns are appended, columns containing "if " are removed.
+  # MORE ELEGANT WAY TO DO THIS?
+  final.df <- cbind(if(exists("phylum.df")) phylum.df else 0,
+                    if(exists("subphylum.df")) subphylum.df else 0,
+                    if(exists("class.df")) class.df else 0,
+                    if(exists("subclass.df")) subclass.df else 0,
+                    if(exists("order.df")) order.df else 0,
+                    if(exists("suborder.df")) suborder.df else 0,
+                    if(exists("family.df")) family.df else 0,
+                    if(exists("subfamily.df")) subfamily.df else 0,
+                    if(exists("tribe.df")) tribe.df else 0,
+                    if(exists("genus.df")) genus.df else 0,
+                    if(exists("species.df")) species.df else 0)
+  final.df <- final.df[,!grepl("if ", names(final.df))]
+  return(final.df)
+}
