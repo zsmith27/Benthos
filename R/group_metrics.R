@@ -51,9 +51,13 @@ group_rich <- function(NameList, Taxa.df){
   taxa_list.df <- taxa_list.df[, !(names(taxa_list.df) %in% "UNIDENTIFIED")]
   taxa_list.df[is.na(taxa_list.df)] <- 0 #NA = zero
   if(ncol(taxa_list.df) < 6) {
-    final.vec <- 0
+    final.vec <- rep(0, nrow(taxa_list.df))
   } else {
-    final.vec <- vegan::specnumber(taxa_list.df[, 6:ncol(taxa_list.df)])
+    if(ncol(taxa_list.df) == 6){
+      final.vec <- ifelse(taxa_list.df[, 6] > 0, 1, 0)
+    } else {
+      final.vec <- vegan::specnumber(taxa_list.df[, 6:ncol(taxa_list.df)])
+    }
   }
   return(final.vec)
 }
@@ -128,7 +132,7 @@ pct_attribute <- function(Taxa.df, master.df, Group, Group_taxa.rank, taxa.rank 
 #'this function is used to assess functional feeding group and habits.
 #'@export
 
-rich_attribute <- function(taxa.wide, master.df = BIBI::master, attribute.column,
+rich_attribute <- function(taxa.wide, master.df, attribute.column,
                            attribute.interest, rank = "FAMILY"){
   new.group <- c(attribute.interest)
   grep.taxa <- master.df[grepl(paste(new.group, collapse="|"), master.df[, attribute.column]), ]
