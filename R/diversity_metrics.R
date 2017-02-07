@@ -192,7 +192,7 @@ pielou <- function(taxa.wide){
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
-#'the following script: master.df <- BIBI::master
+#'the following script: master.df <- data(master)
 #'@param tolerance_value = The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.  Tolerant organisms are classified as organisms with a
@@ -202,7 +202,7 @@ pielou <- function(taxa.wide){
 #' Plecoptera, and Trichoptera), excluding taxa with a tolerance value >= 7.
 #'@export
 
-ept_rich_no_tol <- function(long, rank = "FAMILY", master = BIBI::master, tolerance_value = "BIBI_TV"){
+ept_rich_no_tol <- function(long, rank = "FAMILY", master, tolerance_value = "BIBI_TV"){
   wide.df <- wide(long, rank)
   Order <- split(long[, rank], long$ORDER)
   ephem <- unique(Order$EPHEMEROPTERA)
@@ -236,9 +236,9 @@ ept_rich_no_tol <- function(long, rank = "FAMILY", master = BIBI::master, tolera
 #'@export
 
 rich_ept <- function(long, rank = "FAMILY"){
-  ephem <- rich_ephemeroptera(long, rank)
-  plecop <- rich_plecoptera(long, rank)
-  trichop <- rich_trichoptera(long, rank)
+  ephem <- taxon_richness(long,"EPHEMEROPTERA", "ORDER", rank)
+  plecop <- taxon_richness(long,"PLECOPTERA", "ORDER", rank)
+  trichop <- taxon_richness(long,"TRICHOPTERA", "ORDER", rank)
   final.vec <- ephem + plecop + trichop
   return(final.vec)
 }
@@ -280,7 +280,7 @@ pct_ept_rich <- function(long, rank){
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
-#'the following script: master.df <- BIBI::master
+#'the following script: master.df <- data(master)
 #'@param tolerance_value = The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.  Tolerant organisms are classified as organisms with a
@@ -290,7 +290,7 @@ pct_ept_rich <- function(long, rank){
 #' and Trichoptera (EPT) Familial Richness excluding tolerant EPT taxa
 #'@export
 
-pct_ept_rich_no_tol <- function (long, rank, master = BIBI:master, tolerance_value = "BIBI_TV") {
+pct_ept_rich_no_tol <- function (long, rank, master, tolerance_value = "BIBI_TV") {
   
   wide.df <- wide(long, rank)
   Order <- split(long[, rank], long$ORDER)
@@ -316,7 +316,7 @@ pct_ept_rich_no_tol <- function (long, rank, master = BIBI:master, tolerance_val
 }
 
 #============================================================================
-#'Ephemeropteran Richness
+#'Taxon Richness
 #'
 #'@param long = Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
@@ -325,49 +325,14 @@ pct_ept_rich_no_tol <- function (long, rank, master = BIBI:master, tolerance_val
 #'@return The number of taxa identified as ephemeropterans (Order: Ephemeroptera).
 #'@export
 
-rich_ephemeroptera <- function(long, rank = "FAMILY"){
-  Order <- split(long[, rank], long$ORDER)
-  taxa.list <- unique(Order$EPHEMEROPTERA)
-  taxa.wide <- wide(long, rank)
+taxon_richness <- function(long, taxon, low.res.rank, high.res.rank){
+  taxa.split <- split(long[, high.res.rank], long[, low.res.rank])
+  taxa.list <- unique(unlist(taxa.split[taxon]))
+  taxa.wide <- wide(long, high.res.rank)
   final.vec <- group_rich(taxa.list, taxa.wide)
   return(final.vec)
 }
 
-#============================================================================
-#'Plecopteran Richness
-#'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
-#'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. This
-#'function requires a rank below the Order level taxonomic classification.
-#'@return The number of taxa identified as plecopterans (Order: Plecoptera).
-#'@export
-
-rich_plecoptera <- function(long, rank = "FAMILY"){
-  Order <- split(long[, rank], long$ORDER)
-  taxa.list <- unique(Order$PLECOPTERA)
-  taxa.wide <- wide(long, rank)
-  final.vec <- group_rich(taxa.list, taxa.wide)
-  return(final.vec)
-}
-
-#============================================================================
-#'Trichopteran Richness
-#'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
-#'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. This
-#'function requires a rank below the Order level taxonomic classification.
-#'@return The number of taxa identified as tichopterans (Order: Trichoptera).
-#'@export
-
-rich_trichoptera <- function(long, rank = "FAMILY"){
-  Order <- split(long[, rank], long$ORDER)
-  taxa.list <- unique(Order$TRICHOPTERA)
-  taxa.wide <- wide(long, rank)
-  final.vec <- group_rich(taxa.list, taxa.wide)
-  return(final.vec)
-}
 
 #==============================================================================
 #'Non-Chironomid and Oligochaet Taxa Richness
@@ -382,15 +347,24 @@ rich_trichoptera <- function(long, rank = "FAMILY"){
 
 
 rich_nco <- function(long, rank = "GENUS"){
+  
+  chiro <- taxon_richness(long, "CHIRONOMIDAE", "FAMILY", rank)
+  oligo <- taxon_richness(long, "OLIGOCHAETA", "CLASS", rank)
+  chiro_oligo.rich <- chiro + oligo
+  #============================================================================
   taxa.wide <- wide(long, rank)
-  FAM <- split(long[, rank], long$FAMILY)
-  taxa.list_c <- unique(FAM$CHIRONOMIDAE)
-  CLASS <- split(long[, rank], long$CLASS)
-  taxa.list_o <- unique(CLASS$OLIGOCHAETA)
-  taxa.list <- list(taxa.list_c, taxa.list_o)
-  group.rich <- group_rich(taxa.list, taxa.wide)
-  total.rich <- vegan::specnumber(taxa.wide[, 6:ncol(taxa.wide)])
-  final.vec <- total.rich - group.rich
+  if (ncol(taxa.wide) < 6) {
+    total.rich <- rep(0, nrow(taxa.wide))
+  } else {
+    if (ncol(taxa.wide) == 6) {
+      total.rich <- ifelse(taxa.wide[, 6] > 0, 1, 0)
+    } else {
+      total.rich <- vegan::specnumber(taxa.wide[, 6:ncol(taxa.wide)])
+    }
+  }
+  #============================================================================
+  final.vec <- total.rich - chiro_oligo.rich
+  
   return(final.vec)
 }
 
