@@ -159,16 +159,22 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   # added to the taxa attributes table
 
   if(taxa.rank %in% c("FAMILY", "GENUS")){
-    print("...Intolerant Richness")
-    metrics$RICH_INTOL <- rich_tolerance(taxa.rank.df, master.df, tv.col, 0, 3)
-    print("...Moderately-Tolerant Richness")
-    metrics$RICH_MODTOL <- rich_tolerance(taxa.rank.df, master.df, tv.col, 4, 6)
-    print("...Tolerant Richness")
-    metrics$RICH_TOL <- rich_tolerance(taxa.rank.df, master.df, tv.col, 7, 10)
+    print("...Intolerant Richness (0-3)")
+    metrics$RICH_INTOL_0_3 <- rich_tolerance(taxa.rank.df, master.df, tv.col, 0, 3)
+    print("...Intolerant Richness (0-4)")
+    metrics$RICH_INTOL_0_4 <- rich_tolerance(taxa.rank.df, master.df, tv.col, 0, 4)
+    print("...Moderately-Tolerant Richness (4-6)")
+    metrics$RICH_MODTOL_4_6 <- rich_tolerance(taxa.rank.df, master.df, tv.col, 4, 6)
+    print("...Tolerant Richness (7-10")
+    metrics$RICH_TOL_7_10 <- rich_tolerance(taxa.rank.df, master.df, tv.col, 7, 10)
+    print("...Tolerant Richness (5-10")
+    metrics$RICH_TOL_5_10 <- rich_tolerance(taxa.rank.df, master.df, tv.col, 5, 10)
     print("...Intolerant EPT Richness")
-    metrics$RICH_EPT_NO_TOL <- ept_rich_no_tol(long.df, "FAMILY", master.df)
+    metrics$RICH_EPT_NO_TOL <- ept_rich_no_tol(long.df, "FAMILY", master.df,
+                                               tolerance_value = tv.col)
     print("...Intolerant %EPT Richness")
-    metrics$PCT_EPT_RICH_NO_TOL <- pct_ept_rich_no_tol(long.df, "FAMILY", master.df)
+    metrics$PCT_EPT_RICH_NO_TOL <- pct_ept_rich_no_tol(long.df, "FAMILY", master.df,
+                                                       tolerance_value = tv.col)
   }
 
   if(taxa.rank %in% c("FAMILY")){
