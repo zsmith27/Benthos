@@ -1,5 +1,22 @@
 #==============================================================================
 # Diversity Metrics
+#============================================================================
+#'Taxon Richness
+#'
+#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'row represents a unique sample and taxon).
+#'@param rank = The taxonomic rank used to perform the analysis. This
+#'function requires a rank below the Order level taxonomic classification.
+#'@return The number of taxa identified as ephemeropterans (Order: Ephemeroptera).
+#'@export
+
+taxon_richness <- function(long, taxon, low.res.rank, high.res.rank){
+  taxa.split <- split(long[, high.res.rank], long[, low.res.rank])
+  taxa.list <- unique(unlist(taxa.split[taxon]))
+  taxa.wide <- wide(long, high.res.rank)
+  final.vec <- group_rich(taxa.list, taxa.wide)
+  return(final.vec)
+}
 #==============================================================================
 #'Margalef's Index
 #'
@@ -314,25 +331,6 @@ pct_ept_rich_no_tol <- function (long, rank, master, tolerance_value = "BIBI_TV"
   final.vec <- (ept.rich / total.rich) * 100
   return(final.vec)
 }
-
-#============================================================================
-#'Taxon Richness
-#'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
-#'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. This
-#'function requires a rank below the Order level taxonomic classification.
-#'@return The number of taxa identified as ephemeropterans (Order: Ephemeroptera).
-#'@export
-
-taxon_richness <- function(long, taxon, low.res.rank, high.res.rank){
-  taxa.split <- split(long[, high.res.rank], long[, low.res.rank])
-  taxa.list <- unique(unlist(taxa.split[taxon]))
-  taxa.wide <- wide(long, high.res.rank)
-  final.vec <- group_rich(taxa.list, taxa.wide)
-  return(final.vec)
-}
-
 
 #==============================================================================
 #'Non-Chironomid and Oligochaet Taxa Richness
