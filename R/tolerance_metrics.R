@@ -9,7 +9,7 @@
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
-#'the following script: master.df <- BIBI::master
+#'the following script: master.df <- data(master)
 #'@param tolerance.value = The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.
@@ -33,7 +33,7 @@
 #'through the BIBI package please email Zachary M. Smith (zsmith@icprb.org).
 #'@export
 
-tol_index <- function(long.df, master.df = BIBI::master, tolerance.value = "BIBI_TV",
+tol_index <- function(long.df, master.df, tolerance.value = "BIBI_TV",
                       taxa.rank = "FAMILY", remove_na = TRUE) {
   keep.cols <- c("EVENT_ID", "STATION_ID", "DATE", "AGENCY_CODE",
                  "SAMPLE_NUMBER", taxa.rank, "REPORTING_VALUE")
@@ -132,7 +132,7 @@ tol_index <- function(long.df, master.df = BIBI::master, tolerance.value = "BIBI
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
-#'the following script: master.df <- BIBI::master
+#'the following script: master.df <- data(master)
 #'@param tolerance.value = The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.
@@ -153,7 +153,7 @@ tol_index <- function(long.df, master.df = BIBI::master, tolerance.value = "BIBI
 #'through the BIBI package please email Zachary M. Smith (zsmith@icprb.org).
 #'@export
 
-tol_pres_abs <- function(long.df, taxa.rank = "FAMILY", master.df = BIBI::master, tolerance.value = "BIBI_TV") {
+tol_pres_abs <- function(long.df, taxa.rank = "FAMILY", master.df, tolerance.value = "BIBI_TV") {
   
   tol_am <- aggregate(master.df[, tolerance.value] ~ master.df[, colnames(master.df) == taxa.rank],
                       FUN = mean, na.rm = TRUE)
@@ -191,7 +191,7 @@ tol_pres_abs <- function(long.df, taxa.rank = "FAMILY", master.df = BIBI::master
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
-#'the following script: master.df <- BIBI::master
+#'the following script: master.df <- data(master)
 #'@param tolerance.value = The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.
@@ -204,7 +204,7 @@ tol_pres_abs <- function(long.df, taxa.rank = "FAMILY", master.df = BIBI::master
 #' (lower.value = 7, upper.value = 10).
 #'@export
 
-pct_tol_val <- function(taxa.wide, master.df = BIBI::master, tolerance.value = "BIBI_TV",
+pct_tol_val <- function(taxa.wide, master.df, tolerance.value = "BIBI_TV",
                         lower.value = 0, upper.value = 3) {
   master.df$TOLERANCE <- ifelse(master.df[, tolerance.value] >= lower.value &
                                master.df[, tolerance.value] <= upper.value,
@@ -227,7 +227,7 @@ pct_tol_val <- function(taxa.wide, master.df = BIBI::master, tolerance.value = "
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
-#'the following script: master.df <- BIBI::master
+#'the following script: master.df <- data(master)
 #'@param tolerance.value = The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.
@@ -272,7 +272,7 @@ rich_tolerance <- function(taxa.wide, master.df, tolerance.value = "BIBI_TV",
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
-#'the following script: master.df <- BIBI::master
+#'the following script: master.df <- data(master)
 #'@return The percentage of indviduals that are classified as urban intolerant
 #'by... (Where did this come from? Was in the 2011 BIBI.).  Only available
 #'at the family level.
@@ -300,7 +300,7 @@ pct_urban_intol <- function(long.df, master.df) {
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
-#'the following script: master.df <- BIBI::master
+#'the following script: master.df <- data(master)
 #'@param beck.version = The version of Beck's Index specified as 1 or 3.  The
 #'defualt is 1, the orginal Beck's Index:
 #'2(S1) + 1(S2) + 3(S3)
@@ -315,7 +315,7 @@ pct_urban_intol <- function(long.df, master.df) {
 #'organisms sensitive to degradation (Beck Classes 0 and 1).
 #'@export
 
-becks <- function(taxa.wide, taxa.rank,  master.df = BIBI::master, beck.version = 1) {
+becks <- function(taxa.wide, taxa.rank,  master.df, beck.version = 1) {
   
   split.beck <- split(master.df[, taxa.rank], master.df$BECK_CLASS)
   name.list.1 <- list(split.beck$`1`)

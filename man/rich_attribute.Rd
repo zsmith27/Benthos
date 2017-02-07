@@ -4,8 +4,8 @@
 \alias{rich_attribute}
 \title{The richness of a group}
 \usage{
-rich_attribute(taxa.wide, master.df = BIBI::master, attribute.column,
-  attribute.interest, rank = "FAMILY")
+rich_attribute(taxa.wide, master.df, attribute.column, attribute.interest,
+  rank = "FAMILY")
 }
 \arguments{
 \item{taxa.wide}{= Wide data frame format of taxonomic counts.}

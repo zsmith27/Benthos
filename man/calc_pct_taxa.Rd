@@ -4,7 +4,7 @@
 \alias{calc_pct_taxa}
 \title{The percentage each taxon makes up of a sample}
 \usage{
-calc_pct_taxa(wide.df, taxa.rank, master.df = BIBI::master)
+calc_pct_taxa(wide.df, taxa.rank, master.df)
 }
 \arguments{
 \item{wide.df}{= Data in a wide data format.}

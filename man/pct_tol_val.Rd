@@ -4,8 +4,8 @@
 \alias{pct_tol_val}
 \title{Percentage of Intolerant Individuals}
 \usage{
-pct_tol_val(taxa.wide, master.df = BIBI::master,
-  tolerance.value = "BIBI_TV", lower.value = 0, upper.value = 3)
+pct_tol_val(taxa.wide, master.df, tolerance.value = "BIBI_TV",
+  lower.value = 0, upper.value = 3)
 }
 \arguments{
 \item{taxa.wide}{= Taxonomic counts aggregated at the specific taxonomic
@@ -16,7 +16,7 @@ classification (e.g., Order, Family, or Genus) in a wide data format.
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with
-the following script: master.df <- BIBI::master}
+the following script: master.df <- data(master)}
 
 \item{tolerance.value}{= The name of the column in the master taxon list
 (specified using the master variable) that contains tolerance values on

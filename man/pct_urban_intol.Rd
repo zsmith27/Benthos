@@ -14,7 +14,7 @@ row represents a unique sample and taxon).}
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with
-the following script: master.df <- BIBI::master}
+the following script: master.df <- data(master)}
 }
 \value{
 The percentage of indviduals that are classified as urban intolerant

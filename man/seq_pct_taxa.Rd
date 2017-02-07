@@ -4,7 +4,7 @@
 \alias{seq_pct_taxa}
 \title{The percentage each taxon makes up of a sample}
 \usage{
-seq_pct_taxa(long.df, master.df = BIBI::master)
+seq_pct_taxa(long.df, master.df)
 }
 \arguments{
 \item{long.df}{= Data in a long data format}

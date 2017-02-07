@@ -4,8 +4,7 @@
 \alias{pct_trichoptera_no_tolerant}
 \title{Percentage of EPT Taxa Excluding Tolerant Taxa}
 \usage{
-pct_trichoptera_no_tolerant(long, rank, master = BIBI:master,
-  tolerance_value = "BIBI_TV")
+pct_trichoptera_no_tolerant(long, rank, master, tolerance_value = "BIBI_TV")
 }
 \arguments{
 \item{long}{= Taxonomic counts arrange in a long data format (i.e., each
@@ -18,7 +17,7 @@ sepecify either 'FAMILY' or "GENUS.'}
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with
-the following script: master.df <- BIBI::master}
+the following script: data(master)}
 
 \item{tolerance_value}{= The name of the column in the master taxon list
 (specified using the master variable) that contains tolerance values on

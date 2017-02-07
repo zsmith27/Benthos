@@ -4,7 +4,7 @@
 \alias{tol_index}
 \title{Compute Tolerance Indices}
 \usage{
-tol_index(long.df, master.df = BIBI::master, tolerance.value = "BIBI_TV",
+tol_index(long.df, master.df, tolerance.value = "BIBI_TV",
   taxa.rank = "FAMILY", remove_na = TRUE)
 }
 \arguments{
@@ -15,7 +15,7 @@ row represents a unique sample and taxon).}
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with
-the following script: master.df <- BIBI::master}
+the following script: master.df <- data(master)}
 
 \item{tolerance.value}{= The name of the column in the master taxon list
 (specified using the master variable) that contains tolerance values on

@@ -4,7 +4,7 @@
 \alias{becks}
 \title{Beck's Index}
 \usage{
-becks(taxa.wide, taxa.rank, master.df = BIBI::master, beck.version = 1)
+becks(taxa.wide, taxa.rank, master.df, beck.version = 1)
 }
 \arguments{
 \item{taxa.wide}{= Taxonomic counts aggregated at the specific taxonomic
@@ -18,7 +18,7 @@ sepecify either "FAMILY" or "GENUS" (Defualt = "FAMILY").}
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with
-the following script: master.df <- BIBI::master}
+the following script: master.df <- data(master)}
 
 \item{beck.version}{= The version of Beck's Index specified as 1 or 3.  The
 defualt is 1, the orginal Beck's Index:

@@ -334,7 +334,7 @@ pct_unidentified <- function(taxa.wide) {
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
-#'the following script: master.df <- BIBI::master
+#'the following script: data(master)
 #'@param tolerance_value = The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.  Tolerant organisms are classified as organisms with a
@@ -344,7 +344,7 @@ pct_unidentified <- function(taxa.wide) {
 #' excluding tolerant Trichoptera taxa.
 #'@export
 
-pct_trichoptera_no_tolerant <- function (long, rank, master = BIBI:master, tolerance_value = "BIBI_TV") {
+pct_trichoptera_no_tolerant <- function (long, rank, master, tolerance_value = "BIBI_TV") {
   
   wide.df <- wide(long, rank)
   Order <- split(long[, rank], long$ORDER)

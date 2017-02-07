@@ -16,7 +16,7 @@ classification (e.g., Order, Family, or Genus) in a wide data format.
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with
-the following script: master.df <- BIBI::master}
+the following script: master.df <- data(master)}
 
 \item{tolerance.value}{= The name of the column in the master taxon list
 (specified using the master variable) that contains tolerance values on

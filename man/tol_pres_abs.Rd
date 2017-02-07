@@ -4,7 +4,7 @@
 \alias{tol_pres_abs}
 \title{Tolerance Index for Presence/Absence}
 \usage{
-tol_pres_abs(long.df, taxa.rank = "FAMILY", master.df = BIBI::master,
+tol_pres_abs(long.df, taxa.rank = "FAMILY", master.df,
   tolerance.value = "BIBI_TV")
 }
 \arguments{
@@ -18,7 +18,7 @@ sepecify either "FAMILY" or "GENUS" (Defualt = "FAMILY").}
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with
-the following script: master.df <- BIBI::master}
+the following script: master.df <- data(master)}
 
 \item{tolerance.value}{= The name of the column in the master taxon list
 (specified using the master variable) that contains tolerance values on
