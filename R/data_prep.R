@@ -181,7 +181,7 @@ long <- function (wide.df, taxa.rank = "FAMILY") {
 #'@export
 
 wide <- function (long.df, taxa.rank, pct.unid = NULL) {
-  print("[1/2] Aggregating data for transformation")
+  #print("[1/2] Aggregating data for transformation")
   # Use data.table to speed up the aggregation process.
   #long.dt <- data.table::data.table(long.df)
   # List of columns to aggregate by.
@@ -201,7 +201,7 @@ wide <- function (long.df, taxa.rank, pct.unid = NULL) {
   #                   "AGENCY_CODE", taxa.rank, "REPORTING_VALUE")
 
   #============================================================================
-  print("[2/2] Transforming from long.df data format to wide data format.")
+  #print("[2/2] Transforming from long.df data format to wide data format.")
   wide.df <- tidyr::spread_(agg, key = taxa.rank, "REPORTING_VALUE" )
   if(nrow(long.df[!long.df$EVENT_ID %in% wide.df$EVENT_ID, ]) > 0){
     missing.long <- unique(long.df[!long.df$EVENT_ID %in% wide.df$EVENT_ID, 1:5])
