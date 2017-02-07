@@ -31,7 +31,7 @@ nysdec_data_prep <- function(taxa.df, master.df){
   # Make sure the STATION_ID column is numeric.
   taxa.df$STATION_ID <- as.character(taxa.df$STATION_ID)
   # Column GENSPECIES to uppercase.
-  taxa.df$GENSPECIES <- toupper(as.character(taxa.df$GENSPECIES))
+  taxa.df$GENSPECIES <- trimws(toupper(as.character(taxa.df$GENSPECIES)))
   # Change column name INDIV to REPORTING_VALUE.
   names(taxa.df)[names(taxa.df) %in% "INDIV"] <- "REPORTING_VALUE"
   taxa.df$REPORTING_VALUE <- as.numeric(as.character(taxa.df$REPORTING_VALUE))
