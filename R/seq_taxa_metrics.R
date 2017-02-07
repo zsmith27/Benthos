@@ -77,17 +77,17 @@ seq_pct_taxa <- function(long.df, master.df){
   print("...Species Wide")
   species <- if("SPECIES" %in% names(long.df)) wide(long.df, "SPECIES")
   
-  pct_phylum <- if(length(phylum) > 0) calc_pct_taxa(phylum, taxa.rank = "PHYLUM")
-  pct_subphylum <- if(length(subphylum) > 0) calc_pct_taxa(subphylum, "SUBPHYLUM")
-  pct_class <- if(length(class) > 0) calc_pct_taxa(class, "CLASS")
-  pct_subclass <- if(length(subclass) > 0) calc_pct_taxa(subclass, "SUBCLASS")
-  pct_order <- if(length(order) > 0) calc_pct_taxa(order, "ORDER")
-  pct_suborder <- if(length(suborder) > 0) calc_pct_taxa(suborder, "SUBORDER")
-  pct_family <- if(length(family) > 0) calc_pct_taxa(family, "FAMILY")
-  pct_subfamily <- if(length(subfamily) > 0) calc_pct_taxa(subfamily, "SUBFAMILY")
-  pct_tribe <- if(length(tribe) > 0) calc_pct_taxa(tribe, "TRIBE")
-  pct_genus <- if(length(genus) > 0) calc_pct_taxa(genus, "GENUS")
-  pct_species <- if(length(species) > 0) calc_pct_taxa(species, "SPECIES")
+  pct_phylum <- if(length(phylum) > 0) calc_pct_taxa(phylum, taxa.rank = "PHYLUM", master.df)
+  pct_subphylum <- if(length(subphylum) > 0) calc_pct_taxa(subphylum, "SUBPHYLUM", master.df)
+  pct_class <- if(length(class) > 0) calc_pct_taxa(class, "CLASS", master.df)
+  pct_subclass <- if(length(subclass) > 0) calc_pct_taxa(subclass, "SUBCLASS", master.df)
+  pct_order <- if(length(order) > 0) calc_pct_taxa(order, "ORDER", master.df)
+  pct_suborder <- if(length(suborder) > 0) calc_pct_taxa(suborder, "SUBORDER", master.df)
+  pct_family <- if(length(family) > 0) calc_pct_taxa(family, "FAMILY", master.df)
+  pct_subfamily <- if(length(subfamily) > 0) calc_pct_taxa(subfamily, "SUBFAMILY", master.df)
+  pct_tribe <- if(length(tribe) > 0) calc_pct_taxa(tribe, "TRIBE", master.df)
+  pct_genus <- if(length(genus) > 0) calc_pct_taxa(genus, "GENUS", master.df)
+  pct_species <- if(length(species) > 0) calc_pct_taxa(species, "SPECIES", master.df)
   
   check_exists <- function(pct_taxa){
     pct_taxa <- if(length(pct_taxa) > 0){
