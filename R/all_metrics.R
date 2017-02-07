@@ -87,12 +87,12 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   metrics$PIELOU <-  pielou(taxa.rank.df)
 
   if(taxa.rank %in% c("FAMILY", "GENUS")){
-    print("...Ephemeroptera Richness")
-    metrics$RICH_EPHEMEROPTERA <- rich_ephemeroptera(long.df, taxa.rank)
-    print("...Plecoptera Richness")
-    metrics$RICH_PLECOPTERA <- rich_plecoptera(long.df, taxa.rank)
-    print("...Trichoptera Richness")
-    metrics$RICH_TRICHOPTERA <- rich_trichoptera(long.df, taxa.rank)
+    #print("...Ephemeroptera Richness")
+    #metrics$RICH_EPHEMEROPTERA <- rich_ephemeroptera(long.df, taxa.rank)
+    #print("...Plecoptera Richness")
+    #metrics$RICH_PLECOPTERA <- rich_plecoptera(long.df, taxa.rank)
+    #print("...Trichoptera Richness")
+    #metrics$RICH_TRICHOPTERA <- rich_trichoptera(long.df, taxa.rank)
     print("...EPT Richness")
     metrics$RICH_EPT <- rich_ept(long.df, taxa.rank)
     print("...%EPT Richness")
@@ -184,10 +184,10 @@ all_metrics <- function(long.df, master.df, taxa.rank,
     metrics$BECKS_V3 <- becks(taxa.rank.df, taxa.rank, master.df, beck.version = 3)
   }
 
-  if(taxa.rank %in% c("GENUS", "SPECIES")){
-    print("...Epeorus Richness")
-    metrics$RICH_EPHEM_EPEORUS <- rich_ephem_epeorus(long.df, genus.wide)
-  }
+  #if(taxa.rank %in% c("GENUS", "SPECIES")){
+  #  print("...Epeorus Richness")
+  #  metrics$RICH_EPHEM_EPEORUS <- rich_ephem_epeorus(long.df, genus.wide)
+  #}
 
   taxa <- c("PHYLUM", "SUBPHYLUM", "CLASS",
             "SUBCLASS", "ORDER", "SUBORDER",
@@ -374,13 +374,16 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   #print("...%Unidentified Taxa")
   #metrics$PCT_UNIDENTIFIED <- pct_unidentified(taxa.rank.df)
   #============================================================================
-  print("...Sequence % Taxa")
+  print("Sequence % Taxa")
   last.col <- which(names(long.df) %in% taxa.rank)
   long.sub <- long.df[, 1:last.col]
   seq.pct <- seq_pct_taxa(long.sub, master.df)
   merge.cols <- c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE", "SAMPLE_NUMBER")
-  final.df <- merge(metrics, seq.pct, by = merge.cols)
-  
+  almost_final.df <- merge(metrics, seq.pct, by = merge.cols)
+  #============================================================================
+  print("Sequence Taxa Richness")
+  seq.rich <- seq_taxa_rich(long.sub, taxa.rank, master.df)
+  final.df <- cbind(almost_final.df, seq.rich)
   return(final.df)
 
 }
