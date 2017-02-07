@@ -44,6 +44,11 @@ nysdec_data_prep <- function(taxa.df, master.df){
   agency.df <- taxa.df[, c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE",
                           "SAMPLE_NUMBER", "GENSPECIES", "REPORTING_VALUE")]
   agency.df$GENUS <- agency.df$GENSPECIES
+  # Replace "Undet. Tubificidae w/ cap. setae" with Tubificidae.
+  tubificidae.cols <- c("UNDET. TUBIFICIDAE W/O CAP. SETAE",
+                        "UNDET. TUBIFICIDAE W/ CAP. SETAE")
+  agency.df$GENUS <- ifelse(agency.df$GENUS %in% tubificidae.cols,
+                            "TUBIFICIDAE", agency.df$GENUS)
   # Remove any UNDETERMINED
   agency.df$GENUS <- gsub("UNDETERMINED ","", agency.df$GENUS)
   # Remove any text contained within parentheses
