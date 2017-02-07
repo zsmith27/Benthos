@@ -275,3 +275,70 @@ pct_simuliidae <- function(family.wide) {
 }
 
 
+#============================================================================
+#'Ephemeropteran Richness
+#'
+#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'row represents a unique sample and taxon).
+#'@param rank = The taxonomic rank used to perform the analysis. This
+#'function requires a rank below the Order level taxonomic classification.
+#'@return The number of taxa identified as ephemeropterans (Order: Ephemeroptera).
+#'@export
+
+rich_ephemeroptera <- function(long, rank = "FAMILY"){
+  Order <- split(long[, rank], long$ORDER)
+  taxa.list <- unique(Order$EPHEMEROPTERA)
+  taxa.wide <- wide(long, rank)
+  final.vec <- group_rich(taxa.list, taxa.wide)
+  return(final.vec)
+}
+
+#============================================================================
+#'Plecopteran Richness
+#'
+#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'row represents a unique sample and taxon).
+#'@param rank = The taxonomic rank used to perform the analysis. This
+#'function requires a rank below the Order level taxonomic classification.
+#'@return The number of taxa identified as plecopterans (Order: Plecoptera).
+#'@export
+
+rich_plecoptera <- function(long, rank = "FAMILY"){
+  Order <- split(long[, rank], long$ORDER)
+  taxa.list <- unique(Order$PLECOPTERA)
+  taxa.wide <- wide(long, rank)
+  final.vec <- group_rich(taxa.list, taxa.wide)
+  return(final.vec)
+}
+
+#============================================================================
+#'Trichopteran Richness
+#'
+#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'row represents a unique sample and taxon).
+#'@param rank = The taxonomic rank used to perform the analysis. This
+#'function requires a rank below the Order level taxonomic classification.
+#'@return The number of taxa identified as tichopterans (Order: Trichoptera).
+#'@export
+
+rich_trichoptera <- function(long, rank = "FAMILY"){
+  Order <- split(long[, rank], long$ORDER)
+  taxa.list <- unique(Order$TRICHOPTERA)
+  taxa.wide <- wide(long, rank)
+  final.vec <- group_rich(taxa.list, taxa.wide)
+  return(final.vec)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
