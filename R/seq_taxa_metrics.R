@@ -133,20 +133,41 @@ seq_pct_taxa <- function(long.df, master.df){
 }
 
 #==============================================================================
-rich_by_rank <- function(long.df, low.res.rank, high.res.rank) {
-  rich.list <- lapply(unique(long[, low.res.rank]), function(x){
+#'Richness of All Taxon
+#'
+#'@param long.df = Data in a long data format
+#'@param low.res.rank = Lower resolution taxonomic rank.
+#'@param high.res.rank = Higher resolution taxonomic rank.
+#'@param master.df = Master Taxa List.
+#'@return Sequences through each taxon at level of the specified low.res.rank
+#'and calculates richness based on the observations at the specified
+#' high.res.rank.
+#'@export
+#'
+rich_by_rank <- function(long.df, low.res.rank, high.res.rank, master.df) {
+  taxa.org <- unique(long.df[, low.res.rank])
+  taxa.vec <- taxa.org[taxa.org %in% unique(master.df[, low.res.rank])]
+  rich.list <- lapply(taxa.vec, function(x){
     print(paste("...RICH", x, sep = "_"))
     final.list <- taxon_richness(long.df, x, low.res.rank, high.res.rank)
   return(final.list)
   } )
   final.df <- data.frame(do.call(cbind, rich.list))
-  names(final.df) <- paste("RICH", unique(long.df[, low.res.rank]), sep = "_")
+  names(final.df) <- paste("RICH", taxa.vec, sep = "_")
   return(final.df)
 }
+#==============================================================================
+#'Sequence Through and Calculate the Richness of All Taxon
+#'
+#'@param long.df = Data in a long data format
+#'@param rank = The taxonomic resolution of your dataset.
+#'@param master.df = Master Taxa List.
+#'@return Sequences through each taxonomic hierarchy and taxon, calculating the
+#' richness of tax at the specified taxonomic rank ('''rank''').
+#'@export
+#'
+seq_taxa_rich <- function(long.df, rank = "GENUS", master.df){
 
-seq_taxa_rich <- function(long.df, rank = "GENUS"){
-  print("Sequence Taxa Richness")
-  
   taxa.cols <- c("PHYLUM", "SUBPHYLUM", "CLASS", "SUBCLASS",
                  "ORDER", "SUBORDER", "FAMILY", "SUBFAMILY",
                  "TRIBE", "GENUS", "SPECIES")
@@ -156,49 +177,47 @@ seq_taxa_rich <- function(long.df, rank = "GENUS"){
   #============================================================================
   
   
-  phylum.df <- if("PHYLUM" %in% names(long.df)){
+  phylum.df <- if("PHYLUM" %in% taxa.final){
     print("...Phylum Richness")
-    rich_by_rank(long, "PHYLUM", rank)
+    rich_by_rank(long.df, "PHYLUM", rank, master.df)
   } 
-  subphylum.df <- if("SUBPHYLUM" %in% names(long.df)){
+  subphylum.df <- if("SUBPHYLUM" %in% taxa.final){
     print("...Subphylum Richness")
-    rich_by_rank(long, "SUBPHYLUM", rank)
+    rich_by_rank(long.df, "SUBPHYLUM", rank, master.df)
   } 
-  class.df <- if("CLASS" %in% names(long.df)){
+  class.df <- if("CLASS" %in% taxa.final){
     print("...Class Richness")
-    rich_by_rank(long, "CLASS", rank)
+    rich_by_rank(long.df, "CLASS", rank, master.df)
   } 
-  subclass.df <- if("SUBCLASS" %in% names(long.df)){
+  subclass.df <- if("SUBCLASS" %in% taxa.final){
     print("...Subclass Richness")
-    rich_by_rank(long, "SUBCLASS", rank)
+    rich_by_rank(long.df, "SUBCLASS", rank, master.df)
   } 
-  order.df <- if("ORDER" %in% names(long.df)){
+  order.df <- if("ORDER" %in% taxa.final){
     print("...Order Richness")
-    rich_by_rank(long, "ORDER", rank)
+    rich_by_rank(long.df, "ORDER", rank, master.df)
   } 
-  suborder.df <- if("SUBORDER" %in% names(long.df)){
+  suborder.df <- if("SUBORDER" %in% taxa.final){
     print("...Suborder Richness")
-    rich_by_rank(long, "SUBORDER", rank)
+    rich_by_rank(long.df, "SUBORDER", rank, master.df)
   } 
-  family.df <- if("FAMILY" %in% names(long.df)){
+  family.df <- if("FAMILY" %in% taxa.final){
     print("...Family Richness")
-    rich_by_rank(long, "FAMILY", rank)
+    rich_by_rank(long.df, "FAMILY", rank, master.df)
   } 
-  subfamily.df <- if("SUBFAMILY" %in% names(long.df)){
+  subfamily.df <- if("SUBFAMILY" %in% taxa.final){
     print("...Subfamily Richness")
-    rich_by_rank(long, "SUBFAMILY", rank)
+    rich_by_rank(long.df, "SUBFAMILY", rank, master.df)
   } 
-  tribe.df <- if("TRIBE" %in% names(long.df)){
+  tribe.df <- if("TRIBE" %in% taxa.final){
     print("...Tribe Richness")
-    rich_by_rank(long, "TRIBE", rank)
+    rich_by_rank(long.df, "TRIBE", rank, master.df)
   } 
-  genus.df <- if("GENUS" %in% names(long.df)){
+  genus.df <- if("GENUS" %in% taxa.final){
     print("...Genus Richness")
-    rich_by_rank(long, "GENUS", rank)
+    rich_by_rank(long.df, "GENUS", rank, master.df)
   } 
 
-  taxa.dfs <- taxa.cols[taxa.cols %in% names(long.df)]
-  paste0(tolower(taxa.dfs), ".df", collapse = ", ")
   #============================================================================
   # Bind columnes together for the data frames that exist. Data frames that
   # do not exist are first filled with zeros and recieve a name "if "...
@@ -215,6 +234,7 @@ seq_taxa_rich <- function(long.df, rank = "GENUS"){
                     if(exists("tribe.df")) tribe.df else 0,
                     if(exists("genus.df")) genus.df else 0,
                     if(exists("species.df")) species.df else 0)
-  final.df <- final.df[,!grepl("if ", names(final.df))]
+  final.df <- final.df[, !grepl("if ", names(final.df))]
+  #final.df <- final.df[, !grepl("\\.", names(final.df))]
   return(final.df)
 }
