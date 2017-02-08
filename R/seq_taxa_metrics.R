@@ -10,38 +10,40 @@
 #'@export
 #==============================================================================
 calc_pct_taxa <- function(wide.df, taxa.rank, master.df){
-  if(any(rowSums(wide.df[, 6:ncol(wide.df)]) == 0)) {
-    with.counts <- wide.df[rowSums(wide.df[, 6:ncol(wide.df)]) != 0, ]
-    with.counts[, 6:ncol(with.counts)] <- (with.counts[, 6:ncol(with.counts)] /
-                                     rowSums(with.counts[, 6:ncol(with.counts)])) * 100
-    without.counts <- wide.df[rowSums(wide.df[, 6:ncol(wide.df)]) == 0, ]
+  if(any(rowSums(wide.df[, 7:ncol(wide.df)]) == 0)) {
+    with.counts <- wide.df[rowSums(wide.df[, 7:ncol(wide.df)]) != 0, ]
+    with.counts[, 7:ncol(with.counts)] <- (with.counts[, 7:ncol(with.counts)] /
+                                     rowSums(with.counts[, 7:ncol(with.counts)])) * 100
+    without.counts <- wide.df[rowSums(wide.df[, 7:ncol(wide.df)]) == 0, ]
     
     wide.df <- rbind(with.counts, without.counts)
     
   } else {
-    wide.df[, 6:ncol(wide.df)] <- (wide.df[, 6:ncol(wide.df)] /
-                                     rowSums(wide.df[, 6:ncol(wide.df)])) * 100
+    wide.df[, 7:ncol(wide.df)] <- (wide.df[, 7:ncol(wide.df)] /
+                                     rowSums(wide.df[, 7:ncol(wide.df)])) * 100
   }
   
   t_list <- unique(toupper(master.df[, taxa.rank]))
   shorten <- wide.df[, colnames(wide.df) %in% t_list]
   cn <- colnames(shorten)
   list_taxa.df <- if(length(cn) == 0){
-    list_taxa.df <- data.frame(wide.df[, c("EVENT_ID", "STATION_ID",
-                                           "DATE", "SAMPLE_NUMBER",
-                                           "AGENCY_CODE")])
+    list_taxa.df <- data.frame(wide.df[, c("UNIQUE_ID", "STATION_ID",
+                                           "AGENCY_CODE", "DATE",
+                                           "METHOD", "SAMPLE_NUMBER")])
     list_taxa.df$NO_MATCH <- 0
-    colnames(list_taxa.df) <- c("EVENT_ID", "STATION_ID", "DATE", "SAMPLE_NUMBER",
-                                "AGENCY_CODE", "NO_MATCH")
+    colnames(list_taxa.df) <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE",
+                                "DATE", "METHOD", "SAMPLE_NUMBER",
+                                "NO_MATCH")
     list_taxa.df
   }else{
-    list_taxa.df <- data.frame(cbind(wide.df[, 1:5], shorten))
-    colnames(list_taxa.df) <- c("EVENT_ID", "STATION_ID", "DATE", "SAMPLE_NUMBER",
-                                "AGENCY_CODE", paste("PCT", cn, sep = "_"))
+    list_taxa.df <- data.frame(cbind(wide.df[, 1:6], shorten))
+    colnames(list_taxa.df) <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE",
+                                "DATE", "METHOD", "SAMPLE_NUMBER",
+                                 paste("PCT", cn, sep = "_"))
     list_taxa.df
   }
   final.df <- data.frame(list_taxa.df)
-  return(data.frame(list_taxa.df[order(list_taxa.df$EVENT_ID),]))
+  return(data.frame(list_taxa.df[order(list_taxa.df$UNIQUE_ID),]))
 }
 #==============================================================================
 #'The percentage each taxon makes up of a sample
@@ -93,7 +95,7 @@ seq_pct_taxa <- function(long.df, master.df){
     pct_taxa <- if(length(pct_taxa) > 0){
       pct_taxa <- pct_taxa
     } else{
-      pct_taxa <- pct_taxa[, 1:5]
+      pct_taxa <- pct_taxa[, 1:6]
     }
   }
   
@@ -121,11 +123,11 @@ seq_pct_taxa <- function(long.df, master.df){
                                   checked_pct_order, checked_pct_suborder,
                                   checked_pct_family, checked_pct_subfamily,
                                   checked_pct_tribe, checked_pct_genus,
-                                  checked_pct_species), by =  c("EVENT_ID", "STATION_ID",
-                                                                "DATE", "SAMPLE_NUMBER",
-                                                                "AGENCY_CODE"),
+                                  checked_pct_species), by =  c("UNIQUE_ID", "STATION_ID",
+                                                                "AGENCY_CODE","DATE",
+                                                                "METHOD", "SAMPLE_NUMBER"),
                              type = "full")
-  comb_taxa <- comb_all[, 6:ncol(comb_all)]
+  comb_taxa <- comb_all[, 7:ncol(comb_all)]
   rm.cols <- names(comb_taxa[, colSums(comb_taxa) == 0])
   final.df <- comb_all[, !(names(comb_all) %in% rm.cols)]
   

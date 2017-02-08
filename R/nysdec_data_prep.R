@@ -35,14 +35,15 @@ nysdec_data_prep <- function(taxa.df, master.df){
   # Change column name INDIV to REPORTING_VALUE.
   names(taxa.df)[names(taxa.df) %in% "INDIV"] <- "REPORTING_VALUE"
   taxa.df$REPORTING_VALUE <- as.numeric(as.character(taxa.df$REPORTING_VALUE))
-  # Check for EVENT_ID column. If absent, create one.
-  if(!"EVENT_ID" %in% names(taxa.df)) {
-    taxa.df$EVENT_ID <- with(taxa.df, paste(STATION_ID, DATE, SAMPLE_NUMBER, METHOD, sep = "_"))
+  # Check for UNIQUE_ID column. If absent, create one.
+  if(!"UNIQUE_ID" %in% names(taxa.df)) {
+    taxa.df$UNIQUE_ID <- with(taxa.df, paste(STATION_ID, DATE, SAMPLE_NUMBER, METHOD, sep = "_"))
   }
   
   
-  agency.df <- taxa.df[, c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE",
-                          "SAMPLE_NUMBER", "GENSPECIES", "REPORTING_VALUE")]
+  agency.df <- taxa.df[, c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
+                          "METHOD", "SAMPLE_NUMBER", "GENSPECIES",
+                          "REPORTING_VALUE")]
   agency.df$GENUS <- agency.df$GENSPECIES
   # Replace "Undet. Tubificidae w/ cap. setae" with Tubificidae.
   tubificidae.cols <- c("UNDET. TUBIFICIDAE W/O CAP. SETAE",
@@ -88,8 +89,9 @@ nysdec_data_prep <- function(taxa.df, master.df){
   agency.df$FINAL_ID <- sub("^$", NA, agency.df$FINAL_ID)
   #============================================================================
   agency.df[, c("GENUS", "FINAL_ID")] <- t(apply(agency.df[, c("GENUS", "FINAL_ID")], 1, zoo::na.locf))
-  agency.df <- agency.df[c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE",
-                         "SAMPLE_NUMBER", "FINAL_ID", "REPORTING_VALUE")]
+  agency.df <- agency.df[c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
+                           "METHOD","SAMPLE_NUMBER", "FINAL_ID",
+                           "REPORTING_VALUE")]
   #============================================================================
   # Use the generic data_prep function to merge the taxonomic counts with the
   # Master Taxa List (master.df).

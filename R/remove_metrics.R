@@ -10,7 +10,7 @@
 
 pct_amphipoda <- function(order.wide) {
   final.vec <- blank_col("AMPHIPODA", order.wide) /
-    rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+    rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -27,7 +27,7 @@ pct_amphipoda <- function(order.wide) {
 
 pct_chironomidae <- function(family.wide) {
   final.vec <- blank_col("CHIRONOMIDAE", family.wide) /
-    rowSums(family.wide[, 6:ncol(family.wide)]) * 100
+    rowSums(family.wide[, 7:ncol(family.wide)]) * 100
   return(final.vec)
 }
 
@@ -43,7 +43,7 @@ pct_chironomidae <- function(family.wide) {
 
 pct_corbiculidae <- function(family.wide) {
   final.vec <- blank_col("CORBICULIDAE", family.wide) /
-    rowSums(family.wide[, 6:ncol(family.wide)]) * 100
+    rowSums(family.wide[, 7:ncol(family.wide)]) * 100
   return(final.vec)
 }
 
@@ -59,7 +59,7 @@ pct_corbiculidae <- function(family.wide) {
 
 pct_bivalvia <- function(class.wide) {
   final.vec <- blank_col("BIVALVIA", class.wide) /
-    rowSums(class.wide[, 6:ncol(class.wide)]) * 100
+    rowSums(class.wide[, 7:ncol(class.wide)]) * 100
   return(final.vec)
 }
 
@@ -75,7 +75,7 @@ pct_bivalvia <- function(class.wide) {
 
 pct_unionoida <- function(order.wide) {
   final.vec <- blank_col("UNIONOIDA", order.wide) /
-    rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+    rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -91,7 +91,7 @@ pct_unionoida <- function(order.wide) {
 
 pct_diptera <- function(order.wide) {
   final.vec <- blank_col("DIPTERA", order.wide) /
-    rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+    rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -107,7 +107,7 @@ pct_diptera <- function(order.wide) {
 
 pct_coleoptera <- function(order.wide) {
   final.vec <- blank_col("COLEOPTERA", order.wide) /
-    rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+    rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -122,7 +122,7 @@ pct_coleoptera <- function(order.wide) {
 
 pct_odonata <- function(order.wide) {
   final.vec <- blank_col("ODONATA", order.wide) /
-    rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+    rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -138,7 +138,7 @@ pct_odonata <- function(order.wide) {
 #'@export
 pct_ephemeroptera <- function(order.wide) {
   final.vec <- blank_col("EPHEMEROPTERA", order.wide) /
-    rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+    rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -153,7 +153,7 @@ pct_ephemeroptera <- function(order.wide) {
 pct_retreat_trichoptera <- function(long) {
   sub.ord <- wide(long, "SUBORDER")
   final.vec <- blank_col("ANNULIPALPIA", sub.ord) /
-    rowSums(sub.ord[, 6:ncol(sub.ord)]) * 100
+    rowSums(sub.ord[, 7:ncol(sub.ord)]) * 100
   return(final.vec)
 }
 
@@ -169,7 +169,7 @@ pct_retreat_trichoptera <- function(long) {
 
 pct_hydropsychidae <- function(family.wide) {
   final.vec <- blank_col("HYDROPSYCHIDAE", family.wide) /
-    rowSums(family.wide[, 6:ncol(family.wide)]) * 100
+    rowSums(family.wide[, 7:ncol(family.wide)]) * 100
   return(final.vec)
 }
 
@@ -184,9 +184,9 @@ pct_hydropsychidae <- function(family.wide) {
 #'@export
 
 pct_non_insect <- function(class.wide){
-  Non_Insect <- rowSums(class.wide[, 6:ncol(class.wide)]) -
+  Non_Insect <- rowSums(class.wide[, 7:ncol(class.wide)]) -
     blank_col("INSECTA", class.wide)
-  final.vec <- Non_Insect / rowSums(class.wide[, 6:ncol(class.wide)]) * 100
+  final.vec <- Non_Insect / rowSums(class.wide[, 7:ncol(class.wide)]) * 100
   return(final.vec)
 }
 
@@ -202,7 +202,7 @@ pct_non_insect <- function(class.wide){
 
 pct_oligochaeta <- function(class.wide){
   final.vec <- blank_col("OLIGOCHAETA", class.wide) /
-    rowSums(class.wide[, 6:ncol(class.wide)]) * 100
+    rowSums(class.wide[, 7:ncol(class.wide)]) * 100
   return(final.vec)
 }
 
@@ -218,7 +218,7 @@ pct_oligochaeta <- function(class.wide){
 
 pct_plecoptera <- function(order.wide) {
   final.vec <- blank_col("PLECOPTERA", order.wide) /
-    rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+    rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -234,7 +234,7 @@ pct_plecoptera <- function(order.wide) {
 
 pct_trichoptera <- function(order.wide) {
   final.vec <- blank_col("TRICHOPTERA", order.wide) /
-    rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+    rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -270,7 +270,7 @@ pct_non_hydrop_trichoptera <- function(order.wide, family.wide) {
 
 pct_simuliidae <- function(family.wide) {
   final.vec <- blank_col("SIMULIIDAE", family.wide) /
-    rowSums(family.wide[, 6:ncol(family.wide)]) * 100
+    rowSums(family.wide[, 7:ncol(family.wide)]) * 100
   return(final.vec)
 }
 

@@ -89,7 +89,7 @@ rich_ephem_epeorus <- function(long, genus.wide){
 
 pct_ept_cheumatopsyche <- function(order.wide, genus.wide){
   pct_cheumatopsyche <- (blank_col("CHEUMATOPSYCHE", genus.wide) /
-                           rowSums(genus.wide[, 6:ncol(genus.wide)])) * 100
+                           rowSums(genus.wide[, 7:ncol(genus.wide)])) * 100
   final.vec <- pct_ept(order.wide) - pct_cheumatopsyche
   return(final.vec)
 }
@@ -110,7 +110,7 @@ pct_ept_cheumatopsyche <- function(order.wide, genus.wide){
 
 pct_ept_hydropsyche <- function(order.wide, genus.wide){
   pct_hydropsyche <- (blank_col("HYDROPSYCHE", genus.wide) /
-                        rowSums(genus.wide[, 6:ncol(genus.wide)])) * 100
+                        rowSums(genus.wide[, 7:ncol(genus.wide)])) * 100
   final.df <- pct_ept(order.wide) - pct_hydropsyche
   return(final.df)
 }
@@ -128,7 +128,7 @@ pct_ept_hydropsyche <- function(order.wide, genus.wide){
 
 pct_tanytarsini <- function(tribe.wide){
   return((blank_col("TANYTARSINI", tribe.wide) /
-            rowSums(tribe.wide[, 6:ncol(tribe.wide)])) * 100)
+            rowSums(tribe.wide[, 7:ncol(tribe.wide)])) * 100)
   
 }
 
@@ -144,6 +144,6 @@ pct_tanytarsini <- function(tribe.wide){
 pct_orthocladiinae <- function(long){
   subfam.wide <- wide(long, "SUBFAMILY")
   final.vec <- (blank_col("ORTHOCLADIINAE", subfam.wide) /
-                  rowSums(subfam.wide[, 6:ncol(subfam.wide)])) * 100
+                  rowSums(subfam.wide[, 7:ncol(subfam.wide)])) * 100
   return(final.vec)
 }

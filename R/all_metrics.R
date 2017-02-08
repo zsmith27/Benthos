@@ -58,17 +58,17 @@ all_metrics <- function(long.df, master.df, taxa.rank,
 
   #============================================================================
 
-  metrics <- data.frame(taxa.rank.df[, c("EVENT_ID", "STATION_ID", "DATE",
-                                         "SAMPLE_NUMBER", "AGENCY_CODE")])
-  colnames(metrics) <- c("EVENT_ID", "STATION_ID", "DATE",
-                         "SAMPLE_NUMBER", "AGENCY_CODE")
-  metrics <- metrics[order(metrics$EVENT_ID), ]
+  metrics <- data.frame(taxa.rank.df[, c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE",
+                                         "DATE", "METHOD", "SAMPLE_NUMBER")])
+  colnames(metrics) <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
+                         "METHOD", "SAMPLE_NUMBER")
+  metrics <- metrics[order(metrics$UNIQUE_ID), ]
   #============================================================================
 
   # Calculate diversity metrics
   print("Calculating Diversity Metrics:")
   print("...Richness")
-  metrics$RICH <- vegan::specnumber(taxa.rank.df[, 6:ncol(taxa.rank.df)])
+  metrics$RICH <- vegan::specnumber(taxa.rank.df[, 7:ncol(taxa.rank.df)])
   print("...Shannon Diversity")
   metrics$SHANNON <- shannon(taxa.rank.df)
   #print("  Effecitiv Richness (Shannon)")
@@ -265,18 +265,7 @@ all_metrics <- function(long.df, master.df, taxa.rank,
     metrics$PCT_EPHEMEROPTERA_NO_BAETID <- pct_epmeroptera_no_baetid(order.wide, family.wide)
     print("...%EPT Composed of Hydropsychidae")
     metrics$PCT_HYDRO_EPT <- pct_hydro_ept(order.wide, family.wide)
-    #print("...%Retreat Caddisfly")
     suborder.wide <- wide(long.df, "SUBORDER")
-    #metrics$PCT_RETREAT_CADDISFLY <- pct_taxon(suborder.wide, "ANNULIPALPIA")
-    #print("...%Corbiculidae")
-    #metrics$PCT_CORBICULIDAE <- pct_corbiculidae(family.wide)
-    #metrics$PCT_CORBICULIDA_TEST <- pct_taxon(family.wide, "CORBICULIDAE")
-    #print("...%Simuliidae")
-    #metrics$PCT_SIMULIIDAE <- pct_simuliidae(family.wide)
-    #metrics$PCT_SIMULIIDAE_TEST <- pct_taxon(family.wide, "SIMULIIDAE")
-    #print("...%Chironomidae")
-    #metrics$PCT_CHIRONOMIDAE <- pct_chironomidae(family.wide)
-    #metrics$PCT_CHIRONOMIDAE_TEST <- pct_taxon(family.wide, "CHIRONOMIDAE")
     print("...%Oligochaeta and Chironomidae")
     metrics$PCT_OLIGO_CHIRO <- pct_oligo_chiro(class.wide, family.wide)
     phylum.wide <- wide(long.df, "PHYLUM")
@@ -294,43 +283,15 @@ all_metrics <- function(long.df, master.df, taxa.rank,
     print("...%EPT Composed of Hydropsyche")
     metrics$PCT_EPT_HYDROPSYCHE <- pct_ept_hydropsyche(order.wide, genus.wide)
     tribe.wide <- wide(long.df, "TRIBE")
-    #print("...%Tanytarsini")
-    #metrics$PCT_TANYTARSINI <- pct_tanytarsini(tribe.wide)
-    #print("...%Orthocladiinae")
-    #metrics$PCT_ORTHOCLADIINAE <- pct_orthocladiinae(long.df)
   }
   print("...%EPT")
   metrics$PCT_EPT <- pct_ept(order.wide)
-  #print("...%Ephemeroptera")
-  #metrics$PCT_EPHEMEROPTERA <- pct_ephemeroptera(order.wide)
-  #print("...%Plecoptera")
-  #metrics$PCT_PLECOPTERA <- pct_plecoptera(order.wide)
-  #print("...%Trichoptera")
-  #metrics$PCT_TRICHOPTERA <- pct_trichoptera(order.wide)
-
-  #print("...%Coleoptera")
-  #metrics$PCT_COLEOPTERA <- pct_coleoptera(order.wide)
-  #print("...%Odonata")
-  #metrics$PCT_ODONATA <- pct_odonata(order.wide)
   print("...%COTE")
   metrics$PCT_COTE <- pct_cote(order.wide)
   print("...%POTEC")
   metrics$PCT_POTEC <- pct_potec(order.wide)
-  #print("...%Amphipoda")
-  #metrics$PCT_AMPHIPODA <- pct_amphipoda(order.wide)
-  #print("...%Bivalvia")
-  #metrics$PCT_BIVALVIA <- pct_bivalvia(class.wide)
-  #print("...%Unionoida")
-  #metrics$PCT_UNIONOIDA <- pct_unionoida(order.wide)
-  #print("...%Diptera")
-  #metrics$PCT_DIPTERA <- pct_diptera(order.wide)
   print("...GOLD")
   metrics$GOLD <- gold(class.wide, order.wide)
-  #print("...%Oligochaeta")
-  #metrics$PCT_OLIGOCHAETA <- pct_oligochaeta(class.wide)
-  #print("...%Non-Insect")
-  #metrics$PCT_NON_INSECT <- pct_non_insect(class.wide)
-
 
   #Functional Feeding Group (FFG) Metrics========================================
   print("Calculating FFG Metrics:")
@@ -378,7 +339,8 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   last.col <- which(names(long.df) %in% taxa.rank)
   long.sub <- long.df[, 1:last.col]
   seq.pct <- seq_pct_taxa(long.sub, master.df)
-  merge.cols <- c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE", "SAMPLE_NUMBER")
+  merge.cols <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
+                  "METHOD", "SAMPLE_NUMBER")
   almost_final.df <- merge(metrics, seq.pct, by = merge.cols)
   #============================================================================
   print("Sequence Taxa Richness")

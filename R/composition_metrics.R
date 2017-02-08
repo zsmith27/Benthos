@@ -11,7 +11,7 @@
 
 pct_taxon <- function(wide.df, taxon) {
   final.vec <- blank_col(taxon, wide.df) /
-    rowSums(wide.df[, 6:ncol(wide.df)]) * 100
+    rowSums(wide.df[, 7:ncol(wide.df)]) * 100
   return(final.vec)
 }
 
@@ -33,7 +33,7 @@ gold <- function(class.wide, order.wide) {
   god <- blank_col("GASTROPODA", class.wide) +
     blank_col("OLIGOCHAETA", class.wide) +
     blank_col("DIPTERA", order.wide)
-  final.vec <- (1 - (god / rowSums(order.wide[, 6:ncol(order.wide)]))) * 100
+  final.vec <- (1 - (god / rowSums(order.wide[, 7:ncol(order.wide)]))) * 100
   return(final.vec)
 }
 
@@ -53,7 +53,7 @@ pct_epmeroptera_no_baetid <- function(order.wide, family.wide) {
   ephem <- (blank_col("EPHEMEROPTERA", order.wide))
   
   final.vec <- ((ephem - baetid) / 
-                  rowSums(order.wide[, 6:ncol(order.wide)])) * 100
+                  rowSums(order.wide[, 7:ncol(order.wide)])) * 100
   
   return(final.vec)
 }
@@ -74,7 +74,7 @@ pct_ept <- function(order.wide) {
   EPT <- blank_col("EPHEMEROPTERA", order.wide) +
     blank_col("PLECOPTERA", order.wide) +
     blank_col("TRICHOPTERA", order.wide)
-  final.vec <- EPT / rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+  final.vec <- EPT / rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -204,7 +204,7 @@ pct_cote <- function(order.wide) {
     blank_col("TRICHOPTERA", order.wide) +
     blank_col("EPHEMEROPTERA", order.wide)
   
-  final.vec <- COTE / rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+  final.vec <- COTE / rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -238,7 +238,7 @@ pct_potec <- function(order.wide) {
     blank_col("TRICHOPTERA", order.wide) +
     blank_col("EPHEMEROPTERA", order.wide) +
     blank_col("COLEOPTERA", order.wide)
-  final.vec <- POTEC / rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+  final.vec <- POTEC / rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -259,7 +259,7 @@ pct_limestone <- function(order.wide, family.wide) {
   IAE <- blank_col("ISOPODA", order.wide) +
     blank_col("AMPHIPODA", order.wide) +
     blank_col("EPHEMERELLIDAE", family.wide)
-  final.vec <- IAE / rowSums(order.wide[, 6:ncol(order.wide)]) * 100
+  final.vec <- IAE / rowSums(order.wide[, 7:ncol(order.wide)]) * 100
   return(final.vec)
 }
 
@@ -281,7 +281,7 @@ pct_limestone <- function(order.wide, family.wide) {
 pct_oligo_chiro <- function(class.wide, family.wide){
   chiro <- blank_col("CHIRONOMIDAE", family.wide)
   oligo <- blank_col("OLIGOCHAETA", class.wide)
-  final.vec <- ((chiro + oligo) / rowSums(family.wide[, 6:ncol(family.wide)])) * 100
+  final.vec <- ((chiro + oligo) / rowSums(family.wide[, 7:ncol(family.wide)])) * 100
   return(final.vec)
 }
 
@@ -303,7 +303,7 @@ pct_annelid_chiro <- function(phylum.wide, family.wide){
   chiro <- blank_col("CHIRONOMIDAE", family.wide)
   annelid <- blank_col("ANNELIDA", phylum.wide)
   final.vec <- ((chiro + annelid) /
-                  rowSums(family.wide[, 6:ncol(family.wide)])) * 100
+                  rowSums(family.wide[, 7:ncol(family.wide)])) * 100
   return(final.vec)
 }
 
@@ -319,7 +319,7 @@ pct_annelid_chiro <- function(phylum.wide, family.wide){
 
 pct_unidentified <- function(taxa.wide) {
   final.vec <- blank_col("UNIDENTIFIED", taxa.wide) /
-    rowSums(taxa.wide[, 6:ncol(taxa.wide)]) * 100
+    rowSums(taxa.wide[, 7:ncol(taxa.wide)]) * 100
   return(final.vec)
 }
 
@@ -361,10 +361,10 @@ pct_trichoptera_no_tolerant <- function (long, rank, master, tolerance_value = "
   no.tol.trichop <- data.frame(new.df[, !(names(new.df) %in% name.list)])
   
   # Caculate richness values using vegan
-  sum.no.tol.trichop <- apply(no.tol.trichop[, 6:ncol(no.tol.trichop)], 1, sum)
-  total.sum <- apply(new.df[, 6:ncol(new.df)], 1, sum)
-  #sum.no.tol.trichop <- rowsum(no.tol.trichop[, 6:ncol(no.tol.trichop)])
-  #total.sum <- rowsum(new.df[, 6:ncol(new.df)])
+  sum.no.tol.trichop <- apply(no.tol.trichop[, 7:ncol(no.tol.trichop)], 1, sum)
+  total.sum <- apply(new.df[, 7:ncol(new.df)], 1, sum)
+  #sum.no.tol.trichop <- rowsum(no.tol.trichop[, 7:ncol(no.tol.trichop)])
+  #total.sum <- rowsum(new.df[, 7:ncol(new.df)])
   final.vec <- ifelse(sum.no.tol.trichop == 0, 0, (sum.no.tol.trichop / total.sum) * 100)
   return(final.vec)
 }

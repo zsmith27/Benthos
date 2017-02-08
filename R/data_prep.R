@@ -20,7 +20,7 @@ data_prep <- function(long.df, master.df){
   names(long.df) <- toupper(names(long.df))
   #============================================================================
   # Necessary column names.
-  benthos.cols <- c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE",
+  benthos.cols <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE", "METHOD",
                     "SAMPLE_NUMBER", "FINAL_ID", "REPORTING_VALUE")
   # Check if any of the necessary columns are missing.
   if(any((benthos.cols %in% names(long.df)) == FALSE)){
@@ -79,8 +79,9 @@ data_prep <- function(long.df, master.df){
               "\n", "in the Master Taxa List (master.df)."))
   }
   #============================================================================
-  keep.cols <- c("EVENT_ID", "STATION_ID", "AGENCY_CODE", "DATE", "SAMPLE_NUMBER",
-                 "ISSUE", "WARNING", "FINAL_ID", "AGENCY_ID", "REPORTING_VALUE",
+  keep.cols <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE", "METHOD",
+                 "SAMPLE_NUMBER", "ISSUE", "WARNING", "FINAL_ID", "AGENCY_ID",
+                 "REPORTING_VALUE",
                  "PHYLUM", "SUBPHYLUM", "CLASS", "SUBCLASS", 
                  "ORDER", "SUBORDER", "FAMILY", "SUBFAMILY",
                  "TRIBE", "GENUS", "SPECIES") 
@@ -92,7 +93,7 @@ data_prep <- function(long.df, master.df){
 
 
 
-#if((!class(long.df[, c("EVENT_ID", "STATION_ID", "FINAL_ID")]) %in% c("character", "factor")) == FALSE){}
+#if((!class(long.df[, c("UNIQUE_ID", "STATION_ID", "FINAL_ID")]) %in% c("character", "factor")) == FALSE){}
 
 #If(length(long.df[!long.df$FINAL_ID %in% master.df$FINAL_ID, ]) > 0) {
 #  missing.taxa <- sort(unique(long.df[!long.df$FINAL_ID %in% master.df$FINAL_ID, "FINAL_ID"]))
@@ -135,17 +136,7 @@ fill_taxa <- function(Taxon_List){
   final.df[, taxa] <- data.frame(t(apply(final.df[, taxa], 1, zoo::na.locf)))
   names(final.df) <- toupper(colnames(final.df))
   final.df[, taxa] <- lapply(final.df[, taxa], toupper)
-  #final.df[,"PHYLUM"] <- toupper(final.df[,"PHYLUM"])
-  #final.df[,"SUBPHYLUM"] <- toupper(final.df[,"SUBPHYLUM"])
-  #final.df[,"CLASS"] <- toupper(final.df[,"CLASS"])
-  #final.df[,"SUBCLASS"] <- toupper(final.df[,"SUBCLASS"])
-  #final.df[,"ORDER"] <- toupper(final.df[,"ORDER"])
-  #final.df[,"SUBORDER"] <- toupper(final.df[,"SUBORDER"])
-  #final.df[,"FAMILY"] <- toupper(final.df[,"FAMILY"])
-  #final.df[,"SUBFAMILY"] <- toupper(final.df[,"SUBFAMILY"])
-  #final.df[,"TRIBE"] <- toupper(final.df[,"TRIBE"])
-  #final.df[,"GENUS"] <- toupper(final.df[,"GENUS"])
-  #final.df[,"SPECIES"] <- toupper(final.df[,"SPECIES"])
+  
   return(final.df)
 }
 
@@ -157,11 +148,13 @@ fill_taxa <- function(Taxon_List){
 #'@param Level = Taxonomic Level (PHYLUM, CLASS, ORDER, FAMILY, GENUS)
 #'@return Taxa counts in a long data format.
 #'@export
+#'
 long <- function (wide.df, taxa.rank = "FAMILY") {
   
   wide.df <- clean_up(wide.df)
   
-  long <- tidyr::gather_(wide.df, taxa.rank, "REPORTING_VALUE", names(wide.df[, 6:ncol(wide.df)]))
+  long <- tidyr::gather_(wide.df, taxa.rank, "REPORTING_VALUE",
+                         names(wide.df[, 7:ncol(wide.df)]))
   
 
   return(wide)
@@ -185,8 +178,9 @@ wide <- function (long.df, taxa.rank, pct.unid = NULL) {
   # Use data.table to speed up the aggregation process.
   #long.dt <- data.table::data.table(long.df)
   # List of columns to aggregate by.
-  agg.list <- c("EVENT_ID", "STATION_ID", "DATE", "SAMPLE_NUMBER",
-                "AGENCY_CODE", taxa.rank, "REPORTING_VALUE")
+  agg.list <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
+                "METHOD", "SAMPLE_NUMBER",
+                 taxa.rank, "REPORTING_VALUE")
   # Aggregate the taxonomic counts.
   #agg <- long.dt[, sum(REPORTING_VALUE), by = agg.list]
   sub.df <- long.df[, agg.list]
@@ -197,25 +191,26 @@ wide <- function (long.df, taxa.rank, pct.unid = NULL) {
   
   
   # Update column names.
-  #names(agg) <- c("EVENT_ID", "STATION_ID", "DATE", "SAMPLE_NUMBER",
+  #names(agg) <- c("UNIQUE_ID", "STATION_ID", "DATE", "SAMPLE_NUMBER",
   #                   "AGENCY_CODE", taxa.rank, "REPORTING_VALUE")
 
   #============================================================================
   #print("[2/2] Transforming from long.df data format to wide data format.")
   wide.df <- tidyr::spread_(agg, key = taxa.rank, "REPORTING_VALUE" )
-  if(nrow(long.df[!long.df$EVENT_ID %in% wide.df$EVENT_ID, ]) > 0){
-    missing.long <- unique(long.df[!long.df$EVENT_ID %in% wide.df$EVENT_ID, 1:5])
-    missing.wide <- cbind(missing.long, wide.df[1, 6:ncol(wide.df)])
-    missing.wide[, 6:ncol(missing.wide)] <- NA
+  if(nrow(long.df[!long.df$UNIQUE_ID %in% wide.df$UNIQUE_ID, ]) > 0){
+    missing.long <- unique(long.df[!long.df$UNIQUE_ID %in% wide.df$UNIQUE_ID, 1:6])
+    missing.wide <- cbind(missing.long, wide.df[1, 7:ncol(wide.df)])
+    missing.wide[, 7:ncol(missing.wide)] <- NA
     wide.df <- rbind(wide.df, missing.wide)
   }
 
   # Fill all NA's with zeros.
   wide.df[is.na(wide.df)] <- 0 #NA = zero
   # Sort the dataframe.
-  wide.df <- wide.df[order(wide.df$EVENT_ID, wide.df$STATION_ID,
-                           wide.df$DATE, wide.df$SAMPLE_NUMBER,
-                           wide.df$AGENCY_CODE), ]
+  wide.df <- wide.df[order(wide.df$UNIQUE_ID, wide.df$STATION_ID,
+                           wide.df$AGENCY_CODE,
+                           wide.df$DATE, wide.df$METHOD,
+                           wide.df$SAMPLE_NUMBER), ]
   # All columns to uppercase. Easier for specification latter.
   names(wide.df) <- toupper(colnames(wide.df))
   #============================================================================
@@ -225,15 +220,15 @@ wide <- function (long.df, taxa.rank, pct.unid = NULL) {
     cat("Samples with >=", pct.unid, "% taxa unidentified at the specified 
         taxonomic level were excluded from the data set (N = ",
         nrow(wide.df) - sum((wide.df$UNIDENTIFIED / 
-                               rowSums(wide.df[, 6:ncol(wide.df)]) * 100 >= pct.unid)),
+                               rowSums(wide.df[, 7:ncol(wide.df)]) * 100 >= pct.unid)),
         "). \n The number of samples with >= ", pct.unid, "% unidentified taxa: ",
-        sum((wide.df$UNIDENTIFIED / rowSums(wide.df[, 6:ncol(wide.df)]) *
+        sum((wide.df$UNIDENTIFIED / rowSums(wide.df[, 7:ncol(wide.df)]) *
                100 >= pct.unid)), " (N = ", nrow(wide.df), "; ",
-        round((sum((wide.df$UNIDENTIFIED / rowSums(wide.df[, 6:ncol(wide.df)]) * 
+        round((sum((wide.df$UNIDENTIFIED / rowSums(wide.df[, 7:ncol(wide.df)]) * 
                       100 >= pct.unid)) / nrow(wide.df)) * 100, 2), "%)", sep ="")
     
     wide.df <- wide.df[!((wide.df$UNIDENTIFIED /
-                            rowSums(wide.df[, 6:ncol(wide.df)])) * 100 >= pct.unid), ]
+                            rowSums(wide.df[, 7:ncol(wide.df)])) * 100 >= pct.unid), ]
   }
   
   if("UNIDENTIFIED" %in% names(wide.df)) {

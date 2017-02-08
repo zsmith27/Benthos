@@ -35,8 +35,9 @@
 
 tol_index <- function(long.df, master.df, tolerance.value = "BIBI_TV",
                       taxa.rank = "FAMILY", remove_na = TRUE) {
-  keep.cols <- c("EVENT_ID", "STATION_ID", "DATE", "AGENCY_CODE",
-                 "SAMPLE_NUMBER", taxa.rank, "REPORTING_VALUE")
+  keep.cols <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", 
+                 "DATE", "METHOD", "SAMPLE_NUMBER", taxa.rank,
+                 "REPORTING_VALUE")
   #keep.cols[!keep.cols %in% names(long.df)]
   long.df <- long.df[, keep.cols]
   
@@ -48,28 +49,29 @@ tol_index <- function(long.df, master.df, tolerance.value = "BIBI_TV",
   if(nrow(test3) > 0) stop("FINAL_ID duplicated for tolerance.value")
   merged <- merge(long.df, sub.master, by.x = taxa.rank, by.y = "FINAL_ID", all.x = TRUE)
   merged$MULT <- merged$REPORTING_VALUE * merged[, tolerance.value]
-  merged$E2 <- apply(merged[, c("EVENT_ID", "SAMPLE_NUMBER")], 1, function(x) paste0(x, collapse = "_"))
+  merged$E2 <- apply(merged[, c("UNIQUE_ID", "SAMPLE_NUMBER")], 1, function(x) paste0(x, collapse = "_"))
   
   if(remove_na == TRUE){
     na.check <- by(merged[, tolerance.value], merged$E2, function(x){
       all(is.na(x))
     })
-    long.unique <- unique(long.df[, c("EVENT_ID", "SAMPLE_NUMBER")])
-    long.unique <- long.unique[order(long.unique$EVENT_ID, long.unique$SAMPLE_NUMBER),]
+    long.unique <- unique(long.df[, c("UNIQUE_ID", "SAMPLE_NUMBER")])
+    long.unique <- long.unique[order(long.unique$UNIQUE_ID, long.unique$SAMPLE_NUMBER),]
     
     all.na <- long.unique[na.check, ]
     
     if(nrow(long.unique[na.check, ]) > 0){
       
       
-      all.na$E2 <- apply(all.na[, c("EVENT_ID", "SAMPLE_NUMBER")], 1, function(x) paste0(x, collapse = "_"))
+      all.na$E2 <- apply(all.na[, c("UNIQUE_ID", "SAMPLE_NUMBER")], 1, function(x) paste0(x, collapse = "_"))
       
       just.na <- merged[merged$E2 %in% all.na$E2, ]
       just.na <- just.na[, !names(just.na) %in% "E2"]
       just.na$FINAL <- NA
       just.na[, c("MULT", "REPORTING_VALUE")] <- NA
-      final.just.na <- unique(just.na[, c("EVENT_ID", "STATION_ID", "DATE",
-                                          "AGENCY_CODE","SAMPLE_NUMBER", "MULT", "REPORTING_VALUE", "FINAL")])
+      final.just.na <- unique(just.na[, c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE",
+                                          "DATE", "METHOD", "SAMPLE_NUMBER", 
+                                          "MULT", "REPORTING_VALUE", "FINAL")])
     }
     
     if(nrow(merged[!merged$E2 %in% all.na$E2, ]) > 0){
@@ -79,14 +81,17 @@ tol_index <- function(long.df, master.df, tolerance.value = "BIBI_TV",
       
       non.na <- non.na[!is.na(non.na$MULT), ]
       
-      agg.mult <- aggregate(MULT ~ EVENT_ID + STATION_ID + DATE + AGENCY_CODE +
-                              SAMPLE_NUMBER, data = non.na, FUN = sum,
+      agg.mult <- aggregate(MULT ~ UNIQUE_ID + STATION_ID + AGENCY_CODE + 
+                              DATE + METHOD + SAMPLE_NUMBER,
+                            data = non.na, FUN = sum,
                             na.rm = TRUE, na.action = NULL)
-      agg.total <- aggregate(REPORTING_VALUE ~ EVENT_ID + STATION_ID + DATE +
-                               AGENCY_CODE + SAMPLE_NUMBER, data = non.na, FUN = sum,
+      agg.total <- aggregate(REPORTING_VALUE ~ UNIQUE_ID + STATION_ID + AGENCY_CODE +
+                               DATE + METHOD + SAMPLE_NUMBER, data = non.na, FUN = sum,
                              na.rm = TRUE, na.action = NULL)
-      final.non.na <- merge(agg.mult, agg.total, by = c("EVENT_ID", "STATION_ID", "DATE",
-                                                        "AGENCY_CODE","SAMPLE_NUMBER"))
+      final.non.na <- merge(agg.mult, agg.total, by = c("UNIQUE_ID", "STATION_ID", 
+                                                        "AGENCY_CODE", "DATE",
+                                                        "METHOD",
+                                                        "SAMPLE_NUMBER"))
       final.non.na$FINAL <- final.non.na$MULT / final.non.na$REPORTING_VALUE
     }
     
@@ -105,14 +110,14 @@ tol_index <- function(long.df, master.df, tolerance.value = "BIBI_TV",
     
     
   }else{
-    agg.mult <- aggregate(MULT ~ EVENT_ID + STATION_ID + DATE + AGENCY_CODE +
-                            SAMPLE_NUMBER, data = merged, FUN = sum,
+    agg.mult <- aggregate(MULT ~ UNIQUE_ID + STATION_ID + AGENCY_CODE + 
+                            DATE + METHOD + SAMPLE_NUMBER, data = merged, FUN = sum,
                           na.rm = TRUE, na.action = NULL)
-    agg.total <- aggregate(REPORTING_VALUE ~ EVENT_ID + STATION_ID + DATE +
-                             AGENCY_CODE + SAMPLE_NUMBER, data = merged, FUN = sum,
+    agg.total <- aggregate(REPORTING_VALUE ~ UNIQUE_ID + STATION_ID + AGENCY_CODE +
+                             DATE + METHOD + SAMPLE_NUMBER, data = merged, FUN = sum,
                            na.rm = TRUE, na.action = NULL)
-    final.df <- merge(agg.mult, agg.total, by = c("EVENT_ID", "STATION_ID", "DATE",
-                                                  "AGENCY_CODE","SAMPLE_NUMBER"))
+    final.df <- merge(agg.mult, agg.total, by = c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE",
+                                                  "DATE", "METHOD", "SAMPLE_NUMBER"))
     final.df$FINAL <- final.df$MULT / final.df$REPORTING_VALUE
     final.vec <- final.df$FINAL
   }
@@ -161,22 +166,22 @@ tol_pres_abs <- function(long.df, taxa.rank = "FAMILY", master.df, tolerance.val
   
   merge_am1 <- merge(tol_am, long.df, by.x = taxa.rank, by.y = taxa.rank, all.y = TRUE)
   
-  frame <- unique(merge_am1[, c("EVENT_ID", "STATION_ID")])
-  merge_am2 <- merge(frame, merge_am1, by.x = "EVENT_ID",
-                     by.y = "EVENT_ID", all.x = TRUE)
+  frame <- unique(merge_am1[, c("UNIQUE_ID", "STATION_ID")])
+  merge_am2 <- merge(frame, merge_am1, by.x = "UNIQUE_ID",
+                     by.y = "UNIQUE_ID", all.x = TRUE)
   
-  merge_am3 <- with(merge_am2, merge_am2[order(EVENT_ID), ])
-  merge_am3 <- merge_am3[,c("EVENT_ID", "STATION_ID.x", taxa.rank, "TolVal")]
-  agg_am <- aggregate(merge_am3$TolVal ~ merge_am3$EVENT_ID +
+  merge_am3 <- with(merge_am2, merge_am2[order(UNIQUE_ID), ])
+  merge_am3 <- merge_am3[,c("UNIQUE_ID", "STATION_ID.x", taxa.rank, "TolVal")]
+  agg_am <- aggregate(merge_am3$TolVal ~ merge_am3$UNIQUE_ID +
                         merge_am3$STATION_ID.x + merge_am3[, taxa.rank], FUN = mean)
-  colnames(agg_am) <- c("EVENT_ID", "STATION_ID", taxa.rank, "TOLVAL")
+  colnames(agg_am) <- c("UNIQUE_ID", "STATION_ID", taxa.rank, "TOLVAL")
   
   sprd_am <- tidyr::spread(agg_am, taxa.rank, TOLVAL)
-  sprd_am[, 3:ncol(sprd_am)] <- sprd_am[, 6:ncol(sprd_am)] + 1
+  sprd_am[, 3:ncol(sprd_am)] <- sprd_am[, 7:ncol(sprd_am)] + 1
   sprd_am[is.na(sprd_am)] <- 0
   
-  sum_am <- rowSums(sprd_am[, 6:ncol(sprd_am)])
-  rich_am <- rowSums(ifelse(sprd_am[, 6:ncol(sprd_am)] > 0, 1, 0))
+  sum_am <- rowSums(sprd_am[, 7:ncol(sprd_am)])
+  rich_am <- rowSums(ifelse(sprd_am[, 7:ncol(sprd_am)] > 0, 1, 0))
   final.vec <- (sum_am / rich_am) - 1
   return(final.vec)
 }
@@ -213,7 +218,7 @@ pct_tol_val <- function(taxa.wide, master.df, tolerance.value = "BIBI_TV",
   
   name.list <- list(unique(tol$TOL_VAL))
   group.taxa <- group_taxa(name.list, taxa.wide)
-  final.vec <- (group.taxa / rowSums(taxa.wide[, 6:ncol(taxa.wide)])) * 100
+  final.vec <- (group.taxa / rowSums(taxa.wide[, 7:ncol(taxa.wide)])) * 100
   return(final.vec)
 }
 
@@ -250,14 +255,14 @@ rich_tolerance <- function(taxa.wide, master.df, tolerance.value = "BIBI_TV",
   
   name.list <- list(tol$`1`)
   
-  ID <- c("EVENT_ID", "STATION_ID", "DATE", "AGENCY_CODE", "SAMPLE_NUMBER")
+  ID <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE", "METHOD", "SAMPLE_NUMBER")
   taxa.list <- as.character(unlist(name.list))
   taxa_list.df <- data.frame(taxa.wide[, names(taxa.wide) %in% c(ID, taxa.list)])
   taxa_list.df[is.na(taxa_list.df)] <- 0 #NA = zero
-  if(ncol(taxa_list.df) < 6) {
+  if(ncol(taxa_list.df) < 7) {
     final.vec <- 0
   } else {
-    final.vec <- vegan::specnumber(taxa_list.df[, 6:ncol(taxa_list.df)])
+    final.vec <- vegan::specnumber(taxa_list.df[, 7:ncol(taxa_list.df)])
   }
   
   return(final.vec)
@@ -284,7 +289,7 @@ pct_urban_intol <- function(long.df, master.df) {
   
   name.list <- list(urban$'1')
   group.taxa <- group_taxa(name.list, fam.wide)
-  final.vec <- (group.taxa / rowSums(fam.wide[, 6:ncol(fam.wide)])) * 100
+  final.vec <- (group.taxa / rowSums(fam.wide[, 7:ncol(fam.wide)])) * 100
   return(final.vec)
 }
 
@@ -320,22 +325,22 @@ becks <- function(taxa.wide, taxa.rank,  master.df, beck.version = 1) {
   split.beck <- split(master.df[, taxa.rank], master.df$BECK_CLASS)
   name.list.1 <- list(split.beck$`1`)
   vec.1 <- unlist(unique(name.list.1))
-  beck.1 <- taxa.wide[, c(1:5, which(names(taxa.wide) %in% vec.1))]
-  rich.beck.1 <- vegan::specnumber(beck.1[, 6:ncol(beck.1)])
+  beck.1 <- taxa.wide[, c(1:6, which(names(taxa.wide) %in% vec.1))]
+  rich.beck.1 <- vegan::specnumber(beck.1[, 7:ncol(beck.1)])
   
   name.list.2 <- list(split.beck$`2`)
   vec.2 <- unlist(unique(name.list.2))
-  beck.2 <- taxa.wide[, c(1:5, which(names(taxa.wide) %in% vec.2))]
-  rich.beck.2 <- vegan::specnumber(beck.2[, 6:ncol(beck.2)])
+  beck.2 <- taxa.wide[, c(1:6, which(names(taxa.wide) %in% vec.2))]
+  rich.beck.2 <- vegan::specnumber(beck.2[, 7:ncol(beck.2)])
   
   if(beck.version == 3){
     name.list.0 <- list(split.beck$`0`)
     vec.0 <- unlist(unique(name.list.0))
-    beck.0 <- taxa.wide[, c(1:5, which(names(taxa.wide) %in% vec.0))]
-    if(ncol(beck.0) < 6){
+    beck.0 <- taxa.wide[, c(1:6, which(names(taxa.wide) %in% vec.0))]
+    if(ncol(beck.0) < 7){
       rich.beck.0 <- 0
     }else{
-      rich.beck.0 <- vegan::specnumber(beck.0[, 6:ncol(beck.0)])
+      rich.beck.0 <- vegan::specnumber(beck.0[, 7:ncol(beck.0)])
     }
     
     final.vec <- (3 * rich.beck.0) + (2 * rich.beck.1) + rich.beck.2
