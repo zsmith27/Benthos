@@ -1,9 +1,13 @@
+#Home
 #setwd("C:/Users/Owner/Desktop/Benthos/Benthos")
+#Work
+#setwd("C:/Users/zsmith/Desktop/Benthos_R/master")
 #data(master)
-#master <- read.csv("MTL.csv", stringsAsFactors = FALSE)
+#master <- read.csv("master_2_08_2017.csv", stringsAsFactors = FALSE)
 #master$AGENCY_ID <- trimws(master$AGENCY_ID)
 #master$AGENCY_ID <- gsub(" ","_", master$AGENCY_ID)
 #check.master <- master[, c("AGENCY_ID", "AGENCY_ID2")]
+#setwd("C:/Users/zsmith/Desktop/Benthos_R/Benthos")
 #devtools::use_data(master, overwrite = TRUE)
 
 
