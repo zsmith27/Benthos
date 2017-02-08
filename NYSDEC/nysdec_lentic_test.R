@@ -11,6 +11,7 @@
 #==============================================================================
 # Install the package devtools, which makes it easy to install the Benthos
 # package.
+install.packages(c("curl", "httr"))
 install.packages("devtools")
 devtools::install_github("zsmith27/Benthos")
 # Load the Benthos package.
@@ -22,20 +23,27 @@ data(master)
 # This is where your files are stored on your computer.
 setwd("C:/Users/Owner/Desktop/NYSDEC/NYSDEC_LAKE")
 # Import csv containing taxonomic counts.
-dec <- read.csv("Taxa Counts_Metric Dev_Lakes.csv", stringsAsFactors = FALSE)
+dec <- read.csv("MasterSpeciesTable.csv", stringsAsFactors = FALSE)
 #==============================================================================
 # Format data to meet the formating requirments of the Benthos package.
 long <- nysdec_data_prep(dec)
+# We need to updated the master taxa list to include the missing taxa indicated
+# by the ISSUE column.
+
+# For now remove the rows that are causing issues to test calculating metrics.
+long.sub <- long[long$ISSUE %in% "NO", ]
 # If you look at long you will see NAs in the taxonomic hierarchy.
 # These values are missing because the taxon was not identified beyond
 # a specific rank. For example, if the taxa was identified to the family-level
 # then it is not possible to assign a genus or species name.
 # The names might also be missing because they are not specified on ITIS.gov.
 # The fill_taxa function fills in the NAs with proceeding taxonomic level.
-long.fill <- fill_taxa(long)
+long.fill <- fill_taxa(long.sub)
 #==============================================================================
 # Calculate all of the available metrics.
-metrics.df <- all_metrics(long.fill, master, "FAMILY")
+metrics.df <- all_metrics(long.fill, master, "SPECIES", 
+                          tv.col = "NYSDEC_TV",
+                          ffg.col = "NYSDEC_FFG")
 #==============================================================================
 # Change your working directory if you want the calculated metrics to be
 # stored in a different file location then where the taxonomic count file
@@ -45,4 +53,13 @@ setwd("C:/Users/Owner/Desktop/NYSDEC/NYSDEC_LAKE")
 write.csv(metrics.df, "my_metrics.csv", row.names = FALSE)
 #==============================================================================
 #==============================================================================
+# Use the data frame below to compare to your master taxa list.
+master.check <- unique(master[c("FINAL_ID", "NYSDEC_TV", "NYSDEC_FFG", 
+                                "NYSDEC_NBI.P", "NYSDEC_NBI.N")])
+
+long.sub <- data.frame(unique(long[long$ISSUE %in% "YES", "AGENCY_ID"]))
+
+test <- seq_taxa_rich(long.fill, rank = "SPECIES", master)
+names(test)[grepl("\\.", names(test))]
+
 
