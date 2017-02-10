@@ -31,7 +31,7 @@ data_prep <- function(long.df, master.df){
   }
   #============================================================================
   # If the condition column does not exist, create it and fill it with none.
-  if(!"CONDITION" %in% names(taxa.df)) taxa.df$CONDITION <- "NONE"
+  if(!"CONDITION" %in% names(long.df)) long.df$CONDITION <- "NONE"
   #============================================================================
   # Subset the master taxa list to only include taxonomic hierarchy.
   sub.master <- unique(master[, c("FINAL_ID", "AGENCY_ID",
