@@ -79,37 +79,36 @@ seq_pct_taxa <- function(long.df, master.df){
   print("...Species Wide")
   species <- if("SPECIES" %in% names(long.df)) wide(long.df, "SPECIES")
   
-  pct_phylum <- if(length(phylum) > 0) calc_pct_taxa(phylum, taxa.rank = "PHYLUM", master.df)
-  pct_subphylum <- if(length(subphylum) > 0) calc_pct_taxa(subphylum, "SUBPHYLUM", master.df)
-  pct_class <- if(length(class) > 0) calc_pct_taxa(class, "CLASS", master.df)
-  pct_subclass <- if(length(subclass) > 0) calc_pct_taxa(subclass, "SUBCLASS", master.df)
-  pct_order <- if(length(order) > 0) calc_pct_taxa(order, "ORDER", master.df)
-  pct_suborder <- if(length(suborder) > 0) calc_pct_taxa(suborder, "SUBORDER", master.df)
-  pct_family <- if(length(family) > 0) calc_pct_taxa(family, "FAMILY", master.df)
-  pct_subfamily <- if(length(subfamily) > 0) calc_pct_taxa(subfamily, "SUBFAMILY", master.df)
-  pct_tribe <- if(length(tribe) > 0) calc_pct_taxa(tribe, "TRIBE", master.df)
-  pct_genus <- if(length(genus) > 0) calc_pct_taxa(genus, "GENUS", master.df)
-  pct_species <- if(length(species) > 0) calc_pct_taxa(species, "SPECIES", master.df)
+  pct_phylum <- if(length(phylum) > 7) calc_pct_taxa(phylum, taxa.rank = "PHYLUM", master.df)
+  pct_subphylum <- if(length(subphylum) > 7) calc_pct_taxa(subphylum, "SUBPHYLUM", master.df)
+  pct_class <- if(length(class) > 7) calc_pct_taxa(class, "CLASS", master.df)
+  pct_subclass <- if(length(subclass) > 7) calc_pct_taxa(subclass, "SUBCLASS", master.df)
+  pct_order <- if(length(order) > 7) calc_pct_taxa(order, "ORDER", master.df)
+  pct_suborder <- if(length(suborder) > 7) calc_pct_taxa(suborder, "SUBORDER", master.df)
+  pct_family <- if(length(family) > 7) calc_pct_taxa(family, "FAMILY", master.df)
+  pct_subfamily <- if(length(subfamily) > 7) calc_pct_taxa(subfamily, "SUBFAMILY", master.df)
+  pct_tribe <- if(length(tribe) > 7) calc_pct_taxa(tribe, "TRIBE", master.df)
+  pct_genus <- if(length(genus) > 7) calc_pct_taxa(genus, "GENUS", master.df)
+  pct_species <- if(length(species) > 7) calc_pct_taxa(species, "SPECIES", master.df)
   
-  check_exists <- function(pct_taxa){
-    pct_taxa <- if(length(pct_taxa) > 0){
-      pct_taxa <- pct_taxa
-    } else{
-      pct_taxa <- pct_taxa[, 1:6]
+  check_exists <- function(pct_taxa, long.df){
+    if(is.null(pct_taxa)){
+      pct_taxa <- unique(long.df[, 1:6])
     }
+    return(pct_taxa)
   }
   
-  checked_pct_phylum <- check_exists(pct_phylum)
-  checked_pct_subphylum <- check_exists(pct_subphylum)
-  checked_pct_class <- check_exists(pct_class)
-  checked_pct_subclass <- check_exists(pct_subclass)
-  checked_pct_order <- check_exists(pct_order)
-  checked_pct_suborder <- check_exists(pct_suborder)
-  checked_pct_family <- check_exists(pct_family)
-  checked_pct_subfamily <- check_exists(pct_subfamily)
-  checked_pct_tribe <- check_exists(pct_tribe)
-  checked_pct_genus <- check_exists(pct_genus)
-  checked_pct_species <- check_exists(pct_species)
+  checked_pct_phylum <- check_exists(pct_phylum, long.df)
+  checked_pct_subphylum <- check_exists(pct_subphylum, long.df)
+  checked_pct_class <- check_exists(pct_class, long.df)
+  checked_pct_subclass <- check_exists(pct_subclass, long.df)
+  checked_pct_order <- check_exists(pct_order, long.df)
+  checked_pct_suborder <- check_exists(pct_suborder, long.df)
+  checked_pct_family <- check_exists(pct_family, long.df)
+  checked_pct_subfamily <- check_exists(pct_subfamily, long.df)
+  checked_pct_tribe <- check_exists(pct_tribe, long.df)
+  checked_pct_genus <- check_exists(pct_genus, long.df)
+  checked_pct_species <- check_exists(pct_species, long.df)
   
   #comb_all <- cbind(checked_pct_phylum, checked_pct_subphylum,
   #                  checked_pct_class, checked_pct_subclass,
@@ -225,18 +224,19 @@ seq_taxa_rich <- function(long.df, rank = "GENUS", master.df){
   # do not exist are first filled with zeros and recieve a name "if "...
   # After the columns are appended, columns containing "if " are removed.
   # MORE ELEGANT WAY TO DO THIS?
-  final.df <- cbind(if(exists("phylum.df")) phylum.df else 0,
-                    if(exists("subphylum.df")) subphylum.df else 0,
-                    if(exists("class.df")) class.df else 0,
-                    if(exists("subclass.df")) subclass.df else 0,
-                    if(exists("order.df")) order.df else 0,
-                    if(exists("suborder.df")) suborder.df else 0,
-                    if(exists("family.df")) family.df else 0,
-                    if(exists("subfamily.df")) subfamily.df else 0,
-                    if(exists("tribe.df")) tribe.df else 0,
-                    if(exists("genus.df")) genus.df else 0,
-                    if(exists("species.df")) species.df else 0)
-  final.df <- final.df[, !grepl("if ", names(final.df))]
+  num.rows <- nrow(unique(long.df[, 1:6]))
+  final.df <- cbind(if(!is.null("phylum.df")) phylum.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null("subphylum.df")) subphylum.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null("class.df")) class.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null("subclass.df")) subclass.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null("order.df")) order.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null("suborder.df")) suborder.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null("family.df")) family.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null("subfamily.df")) subfamily.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null("tribe.df")) tribe.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null(genus.df)) genus.df else data.frame(rep(NA, num.rows)))
+  
+  final.df <- final.df[, !grepl("rep.NA", names(final.df))]
   #final.df <- final.df[, !grepl("\\.", names(final.df))]
   return(final.df)
 }
