@@ -15,3 +15,4 @@
 #devtools::use_package("vegan")
 #devtools::use_package("tidyr")
 #devtools::use_package("zoo")
+#devtools::use_package("plyr")
