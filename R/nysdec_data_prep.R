@@ -40,9 +40,11 @@ nysdec_data_prep <- function(taxa.df, master.df){
     taxa.df$UNIQUE_ID <- with(taxa.df, paste(STATION_ID, DATE, SAMPLE_NUMBER, METHOD, sep = "_"))
   }
   
+  if(!"CONDITION" %in% names(taxa.df)) taxa.df$CONDITION <- "NONE"
+  
   
   agency.df <- taxa.df[, c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
-                          "METHOD", "SAMPLE_NUMBER", "GENSPECIES",
+                          "METHOD", "SAMPLE_NUMBER", "CONDITION", "GENSPECIES",
                           "REPORTING_VALUE")]
   agency.df$GENUS <- agency.df$GENSPECIES
   # Replace "Undet. Tubificidae w/ cap. setae" with Tubificidae.
@@ -90,7 +92,7 @@ nysdec_data_prep <- function(taxa.df, master.df){
   #============================================================================
   agency.df[, c("GENUS", "FINAL_ID")] <- t(apply(agency.df[, c("GENUS", "FINAL_ID")], 1, zoo::na.locf))
   agency.df <- agency.df[c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
-                           "METHOD","SAMPLE_NUMBER", "FINAL_ID",
+                           "METHOD","SAMPLE_NUMBER", "CONDITION", "FINAL_ID",
                            "REPORTING_VALUE")]
   #============================================================================
   # Use the generic data_prep function to merge the taxonomic counts with the

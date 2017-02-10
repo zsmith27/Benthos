@@ -4,26 +4,27 @@
 # Author: Zachary M. Smith
 # Organization: ICPRB
 # Email: zsmith@icprb.org
-# Date: 2/06/2017
+# Date: 2/09/2017
 # Purpose: Script written to help E. Stieber calculate benthic
 # macroinvertebrate metrics for NYS lentic data.
 #==============================================================================
 #==============================================================================
 # Install the package devtools, which makes it easy to install the Benthos
 # package.
-install.packages(c("curl", "httr"))
-install.packages("devtools")
-devtools::install_github("zsmith27/Benthos")
+install.packages(c("devtools","curl", "httr"))
+# Install the Benthos package.
+devtools::install_github("zsmith27/Benthos", build_vignettes = TRUE, force = TRUE)
 # Load the Benthos package.
 library(Benthos)
 # Load the Master Taxa List contained within the Benthos package.
 data(master)
+vignette(package = "Benthos")
 #==============================================================================
 # Set your working directory.
 # This is where your files are stored on your computer.
-setwd("C:/Users/Owner/Desktop/NYSDEC/NYSDEC_LAKE")
+setwd("C:/Users/zsmith/Desktop/DEC_LAKE")
 # Import csv containing taxonomic counts.
-dec <- read.csv("MasterSpeciesTable.csv", stringsAsFactors = FALSE)
+dec <- read.csv("MasterSpeciesTable_R.csv", stringsAsFactors = FALSE)
 #==============================================================================
 # Format data to meet the formating requirments of the Benthos package.
 long <- nysdec_data_prep(dec)

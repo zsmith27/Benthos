@@ -32,13 +32,13 @@ taxon_richness <- function(long, taxon, low.res.rank, high.res.rank){
 #'@export
 
 margalefs <- function(taxa.wide) {
-  Rich <- vegan::specnumber(taxa.wide[, 7:ncol(taxa.wide)]) #Requires the Vegan Package
+  Rich <- vegan::specnumber(taxa.wide[, 8:ncol(taxa.wide)]) #Requires the Vegan Package
   Marg <- function(marg_rich.df, marg_fam.df){
     # (Richness - 1) / log(Total Count)
     return((marg_rich.df - 1) / log(rowSums(marg_fam.df)))
   }
-  final.vec <- ifelse(vegan::specnumber(taxa.wide[, 7:ncol(taxa.wide)]) > 1,
-                      Marg(Rich, taxa.wide[, 7:ncol(taxa.wide)]), 0)
+  final.vec <- ifelse(vegan::specnumber(taxa.wide[, 8:ncol(taxa.wide)]) > 1,
+                      Marg(Rich, taxa.wide[, 8:ncol(taxa.wide)]), 0)
   return(final.vec)
 }
 
@@ -58,9 +58,9 @@ margalefs <- function(taxa.wide) {
 
 menhinicks <- function(taxa.wide) {
   #Requires the Vegan Package
-  Rich <- vegan::specnumber(taxa.wide[, 7:ncol(taxa.wide)])
+  Rich <- vegan::specnumber(taxa.wide[, 8:ncol(taxa.wide)])
   # Richness / square root(Total Count)
-  final.vec <- Rich / sqrt(rowSums(taxa.wide[, 7:ncol(taxa.wide)]))
+  final.vec <- Rich / sqrt(rowSums(taxa.wide[, 8:ncol(taxa.wide)]))
   return(final.vec)
 }
 
@@ -83,7 +83,7 @@ menhinicks <- function(taxa.wide) {
 #'@export
 
 pct_dom <- function(taxa.wide, dom.level){
-  final.vec <- apply(taxa.wide[, 7:ncol(taxa.wide)], 1, function(x){
+  final.vec <- apply(taxa.wide[, 8:ncol(taxa.wide)], 1, function(x){
     sum(order(x, decreasing = TRUE)[1:dom.level])
   })
   return(final.vec)
@@ -105,7 +105,7 @@ pct_dom <- function(taxa.wide, dom.level){
 #'@export
 
 simpsons <- function(taxa.wide) {
-  final.vec <- vegan::diversity(taxa.wide[, 7:ncol(taxa.wide)], "simpson")
+  final.vec <- vegan::diversity(taxa.wide[, 8:ncol(taxa.wide)], "simpson")
   return(final.vec)
 }
 
@@ -124,7 +124,7 @@ simpsons <- function(taxa.wide) {
 #'diversity with the index set to "shannon".
 #'@export
 shannon <- function(taxa.wide) {
-  final.vec <- vegan::diversity(taxa.wide[, 7:ncol(taxa.wide)], "shannon")
+  final.vec <- vegan::diversity(taxa.wide[, 8:ncol(taxa.wide)], "shannon")
   return(final.vec)
 }
 
@@ -146,14 +146,14 @@ shannon <- function(taxa.wide) {
 
 hurlberts_pie <- function(taxa.wide){
   pie_formula <- function(taxon.df){
-    pie_part1 <- rowSums(taxon.df[, 7:ncol(taxa.wide)]) /
-      (rowSums(taxon.df[, 7:ncol(taxa.wide)]) - 1)
-    pie_part2 <- (taxon.df[, 7:ncol(taxa.wide)] /
-                    rowSums(taxon.df[, 7:ncol(taxa.wide)])) ^ 2
+    pie_part1 <- rowSums(taxon.df[, 8:ncol(taxa.wide)]) /
+      (rowSums(taxon.df[, 8:ncol(taxa.wide)]) - 1)
+    pie_part2 <- (taxon.df[, 8:ncol(taxa.wide)] /
+                    rowSums(taxon.df[, 8:ncol(taxa.wide)])) ^ 2
     pie_part3 <- 1 - rowSums(pie_part2)
     return(pie_part1 * pie_part3)
   }
-  final.vec <- ifelse(rowSums(taxa.wide[, 7:ncol(taxa.wide)]) > 1,
+  final.vec <- ifelse(rowSums(taxa.wide[, 8:ncol(taxa.wide)]) > 1,
                       pie_formula(taxa.wide), 0)
   return(final.vec)
 }
@@ -168,7 +168,7 @@ hurlberts_pie <- function(taxa.wide){
 #'@export
 
 abundance <- function(taxa.wide){
-  final.vec <- rowSums(taxa.wide[, 7:ncol(taxa.wide)])
+  final.vec <- rowSums(taxa.wide[, 8:ncol(taxa.wide)])
   return(final.vec)
 }
 
@@ -191,9 +191,9 @@ abundance <- function(taxa.wide){
 
 pielou <- function(taxa.wide){
   #Requires vegan package
-  richness <- vegan::specnumber(taxa.wide[, 7:ncol(taxa.wide)])
+  richness <- vegan::specnumber(taxa.wide[, 8:ncol(taxa.wide)])
   final.vec <- ifelse(richness > 1,
-                      vegan::diversity(taxa.wide[, 7:ncol(taxa.wide)]) /
+                      vegan::diversity(taxa.wide[, 8:ncol(taxa.wide)]) /
                         log(richness), 0)
   return(final.vec)
 }
@@ -237,7 +237,7 @@ ept_rich_no_tol <- function(long, rank = "FAMILY", master, tolerance_value = "BI
   no.tol.ept <- data.frame(new.df[, !(names(new.df) %in% name.list)])
   
   # Caculate richness values using vegan
-  final.vec <- vegan::specnumber(no.tol.ept[, 7:ncol(no.tol.ept)])
+  final.vec <- vegan::specnumber(no.tol.ept[, 8:ncol(no.tol.ept)])
   return(final.vec)
 }
 
@@ -277,12 +277,12 @@ pct_ept_rich <- function(long, rank){
   ephem <- unique(Order$EPHEMEROPTERA)
   plecop <- unique(Order$PLECOPTERA)
   trichop <- unique(Order$TRICHOPTERA)
-  sample.info <- names(wide.df[, 1:6])
+  sample.info <- names(wide.df[, 1:7])
   taxa.list <- c(sample.info, ephem, plecop, trichop)
   new.df <- wide.df[, names(wide.df) %in% taxa.list]
   new.df <- new.df[, !(names(new.df) %in% "UNIDENTIFIED")]
-  ept.rich <- vegan::specnumber(new.df[, 7:ncol(new.df)])
-  total.rich <- vegan::specnumber(wide.df[, 7:ncol(wide.df)])
+  ept.rich <- vegan::specnumber(new.df[, 8:ncol(new.df)])
+  total.rich <- vegan::specnumber(wide.df[, 8:ncol(wide.df)])
   final.vec <- (ept.rich / total.rich) * 100
   return(final.vec)
 }
@@ -326,8 +326,8 @@ pct_ept_rich_no_tol <- function (long, rank, master, tolerance_value = "BIBI_TV"
   no.tol.ept <- data.frame(new.df[, !(names(new.df) %in% name.list)])
   
   # Caculate richness values using vegan
-  ept.rich <- vegan::specnumber(no.tol.ept[, 7:ncol(no.tol.ept)])
-  total.rich <- vegan::specnumber(wide.df[, 7:ncol(wide.df)])
+  ept.rich <- vegan::specnumber(no.tol.ept[, 8:ncol(no.tol.ept)])
+  total.rich <- vegan::specnumber(wide.df[, 8:ncol(wide.df)])
   final.vec <- (ept.rich / total.rich) * 100
   return(final.vec)
 }
@@ -355,9 +355,9 @@ rich_nco <- function(long, rank = "GENUS"){
     total.rich <- rep(0, nrow(taxa.wide))
   } else {
     if (ncol(taxa.wide) == 7) {
-      total.rich <- ifelse(taxa.wide[, 7] > 0, 1, 0)
+      total.rich <- ifelse(taxa.wide[, 8] > 0, 1, 0)
     } else {
-      total.rich <- vegan::specnumber(taxa.wide[, 7:ncol(taxa.wide)])
+      total.rich <- vegan::specnumber(taxa.wide[, 8:ncol(taxa.wide)])
     }
   }
   #============================================================================
@@ -395,11 +395,11 @@ rich_nco <- function(long, rank = "GENUS"){
 effective_richness <- function(taxa.wide, index){
   
   if(index == "shannon"){
-    final.vec <- exp(vegan::diversity(taxa.wide[, 7:ncol(taxa.wide)], "shannon"))
+    final.vec <- exp(vegan::diversity(taxa.wide[, 8:ncol(taxa.wide)], "shannon"))
   }
   
   if(index == "invsimpson"){
-    final.vec <- 1 / (1 + vegan::diversity(taxa.wide[, 7:ncol(taxa.wide)], "invsimpson"))
+    final.vec <- 1 / (1 + vegan::diversity(taxa.wide[, 8:ncol(taxa.wide)], "invsimpson"))
   }
   
   return(final.vec)

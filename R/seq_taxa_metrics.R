@@ -10,17 +10,17 @@
 #'@export
 #==============================================================================
 calc_pct_taxa <- function(wide.df, taxa.rank, master.df){
-  if(any(rowSums(wide.df[, 7:ncol(wide.df)]) == 0)) {
-    with.counts <- wide.df[rowSums(wide.df[, 7:ncol(wide.df)]) != 0, ]
-    with.counts[, 7:ncol(with.counts)] <- (with.counts[, 7:ncol(with.counts)] /
-                                     rowSums(with.counts[, 7:ncol(with.counts)])) * 100
-    without.counts <- wide.df[rowSums(wide.df[, 7:ncol(wide.df)]) == 0, ]
+  if(any(rowSums(wide.df[, 8:ncol(wide.df)]) == 0)) {
+    with.counts <- wide.df[rowSums(wide.df[, 8:ncol(wide.df)]) != 0, ]
+    with.counts[, 8:ncol(with.counts)] <- (with.counts[, 8:ncol(with.counts)] /
+                                     rowSums(with.counts[, 8:ncol(with.counts)])) * 100
+    without.counts <- wide.df[rowSums(wide.df[, 8:ncol(wide.df)]) == 0, ]
     
     wide.df <- rbind(with.counts, without.counts)
     
   } else {
-    wide.df[, 7:ncol(wide.df)] <- (wide.df[, 7:ncol(wide.df)] /
-                                     rowSums(wide.df[, 7:ncol(wide.df)])) * 100
+    wide.df[, 8:ncol(wide.df)] <- (wide.df[, 8:ncol(wide.df)] /
+                                     rowSums(wide.df[, 8:ncol(wide.df)])) * 100
   }
   
   t_list <- unique(toupper(master.df[, taxa.rank]))
@@ -29,16 +29,19 @@ calc_pct_taxa <- function(wide.df, taxa.rank, master.df){
   list_taxa.df <- if(length(cn) == 0){
     list_taxa.df <- data.frame(wide.df[, c("UNIQUE_ID", "STATION_ID",
                                            "AGENCY_CODE", "DATE",
-                                           "METHOD", "SAMPLE_NUMBER")])
+                                           "METHOD", "SAMPLE_NUMBER", 
+                                           "CONDITION")])
     list_taxa.df$NO_MATCH <- 0
     colnames(list_taxa.df) <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE",
                                 "DATE", "METHOD", "SAMPLE_NUMBER",
+                                "CONDITION",
                                 "NO_MATCH")
     list_taxa.df
   }else{
-    list_taxa.df <- data.frame(cbind(wide.df[, 1:6], shorten))
+    list_taxa.df <- data.frame(cbind(wide.df[, 1:7], shorten))
     colnames(list_taxa.df) <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE",
                                 "DATE", "METHOD", "SAMPLE_NUMBER",
+                                "CONDITION",
                                  paste("PCT", cn, sep = "_"))
     list_taxa.df
   }
@@ -79,21 +82,21 @@ seq_pct_taxa <- function(long.df, master.df){
   print("...Species Wide")
   species <- if("SPECIES" %in% names(long.df)) wide(long.df, "SPECIES")
   
-  pct_phylum <- if(length(phylum) > 7) calc_pct_taxa(phylum, taxa.rank = "PHYLUM", master.df)
-  pct_subphylum <- if(length(subphylum) > 7) calc_pct_taxa(subphylum, "SUBPHYLUM", master.df)
-  pct_class <- if(length(class) > 7) calc_pct_taxa(class, "CLASS", master.df)
-  pct_subclass <- if(length(subclass) > 7) calc_pct_taxa(subclass, "SUBCLASS", master.df)
-  pct_order <- if(length(order) > 7) calc_pct_taxa(order, "ORDER", master.df)
-  pct_suborder <- if(length(suborder) > 7) calc_pct_taxa(suborder, "SUBORDER", master.df)
-  pct_family <- if(length(family) > 7) calc_pct_taxa(family, "FAMILY", master.df)
-  pct_subfamily <- if(length(subfamily) > 7) calc_pct_taxa(subfamily, "SUBFAMILY", master.df)
-  pct_tribe <- if(length(tribe) > 7) calc_pct_taxa(tribe, "TRIBE", master.df)
-  pct_genus <- if(length(genus) > 7) calc_pct_taxa(genus, "GENUS", master.df)
-  pct_species <- if(length(species) > 7) calc_pct_taxa(species, "SPECIES", master.df)
+  pct_phylum <- if(length(phylum) > 8) calc_pct_taxa(phylum, taxa.rank = "PHYLUM", master.df)
+  pct_subphylum <- if(length(subphylum) > 8) calc_pct_taxa(subphylum, "SUBPHYLUM", master.df)
+  pct_class <- if(length(class) > 8) calc_pct_taxa(class, "CLASS", master.df)
+  pct_subclass <- if(length(subclass) > 8) calc_pct_taxa(subclass, "SUBCLASS", master.df)
+  pct_order <- if(length(order) > 8) calc_pct_taxa(order, "ORDER", master.df)
+  pct_suborder <- if(length(suborder) > 8) calc_pct_taxa(suborder, "SUBORDER", master.df)
+  pct_family <- if(length(family) > 8) calc_pct_taxa(family, "FAMILY", master.df)
+  pct_subfamily <- if(length(subfamily) > 8) calc_pct_taxa(subfamily, "SUBFAMILY", master.df)
+  pct_tribe <- if(length(tribe) > 8) calc_pct_taxa(tribe, "TRIBE", master.df)
+  pct_genus <- if(length(genus) > 8) calc_pct_taxa(genus, "GENUS", master.df)
+  pct_species <- if(length(species) > 8) calc_pct_taxa(species, "SPECIES", master.df)
   
   check_exists <- function(pct_taxa, long.df){
     if(is.null(pct_taxa)){
-      pct_taxa <- unique(long.df[, 1:6])
+      pct_taxa <- unique(long.df[, 1:7])
     }
     return(pct_taxa)
   }
@@ -124,9 +127,10 @@ seq_pct_taxa <- function(long.df, master.df){
                                   checked_pct_tribe, checked_pct_genus,
                                   checked_pct_species), by =  c("UNIQUE_ID", "STATION_ID",
                                                                 "AGENCY_CODE","DATE",
-                                                                "METHOD", "SAMPLE_NUMBER"),
+                                                                "METHOD", "SAMPLE_NUMBER",
+                                                                "CONDITION"),
                              type = "full")
-  comb_taxa <- comb_all[, 7:ncol(comb_all)]
+  comb_taxa <- comb_all[, 8:ncol(comb_all)]
   rm.cols <- names(comb_taxa[, colSums(comb_taxa) == 0])
   final.df <- comb_all[, !(names(comb_all) %in% rm.cols)]
   
@@ -224,7 +228,7 @@ seq_taxa_rich <- function(long.df, rank = "GENUS", master.df){
   # do not exist are first filled with zeros and recieve a name "if "...
   # After the columns are appended, columns containing "if " are removed.
   # MORE ELEGANT WAY TO DO THIS?
-  num.rows <- nrow(unique(long.df[, 1:6]))
+  num.rows <- nrow(unique(long.df[, 1:7]))
   final.df <- cbind(if(!is.null("phylum.df")) phylum.df else data.frame(rep(NA, num.rows)),
                     if(!is.null("subphylum.df")) subphylum.df else data.frame(rep(NA, num.rows)),
                     if(!is.null("class.df")) class.df else data.frame(rep(NA, num.rows)),

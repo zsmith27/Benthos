@@ -21,7 +21,7 @@ data_prep <- function(long.df, master.df){
   #============================================================================
   # Necessary column names.
   benthos.cols <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE", "METHOD",
-                    "SAMPLE_NUMBER", "FINAL_ID", "REPORTING_VALUE")
+                    "SAMPLE_NUMBER", "CONDITION", "FINAL_ID", "REPORTING_VALUE")
   # Check if any of the necessary columns are missing.
   if(any((benthos.cols %in% names(long.df)) == FALSE)){
     missing.cols <- benthos.cols[!benthos.cols %in% names(long.df)]
@@ -81,7 +81,8 @@ data_prep <- function(long.df, master.df){
   }
   #============================================================================
   keep.cols <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE", "METHOD",
-                 "SAMPLE_NUMBER", "ISSUE", "WARNING", "FINAL_ID", "AGENCY_ID",
+                 "SAMPLE_NUMBER", "CONDITION", "ISSUE", "WARNING",
+                 "FINAL_ID", "AGENCY_ID",
                  "REPORTING_VALUE",
                  "PHYLUM", "SUBPHYLUM", "CLASS", "SUBCLASS", 
                  "ORDER", "SUBORDER", "FAMILY", "SUBFAMILY",
@@ -155,7 +156,7 @@ long <- function (wide.df, taxa.rank = "FAMILY") {
   wide.df <- clean_up(wide.df)
   
   long <- tidyr::gather_(wide.df, taxa.rank, "REPORTING_VALUE",
-                         names(wide.df[, 7:ncol(wide.df)]))
+                         names(wide.df[, 8:ncol(wide.df)]))
   
 
   return(wide)
@@ -180,7 +181,7 @@ wide <- function (long.df, taxa.rank, pct.unid = NULL) {
   #long.dt <- data.table::data.table(long.df)
   # List of columns to aggregate by.
   agg.list <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
-                "METHOD", "SAMPLE_NUMBER",
+                "METHOD", "SAMPLE_NUMBER", "CONDITION",
                  taxa.rank, "REPORTING_VALUE")
   # Aggregate the taxonomic counts.
   #agg <- long.dt[, sum(REPORTING_VALUE), by = agg.list]
@@ -193,15 +194,15 @@ wide <- function (long.df, taxa.rank, pct.unid = NULL) {
   
   # Update column names.
   #names(agg) <- c("UNIQUE_ID", "STATION_ID", "DATE", "SAMPLE_NUMBER",
-  #                   "AGENCY_CODE", taxa.rank, "REPORTING_VALUE")
+  #                   "AGENCY_CODE", "CONDITION", taxa.rank, "REPORTING_VALUE")
 
   #============================================================================
   #print("[2/2] Transforming from long.df data format to wide data format.")
   wide.df <- tidyr::spread_(agg, key = taxa.rank, "REPORTING_VALUE" )
   if(nrow(long.df[!long.df$UNIQUE_ID %in% wide.df$UNIQUE_ID, ]) > 0){
-    missing.long <- unique(long.df[!long.df$UNIQUE_ID %in% wide.df$UNIQUE_ID, 1:6])
-    missing.wide <- cbind(missing.long, wide.df[1, 7:ncol(wide.df)])
-    missing.wide[, 7:ncol(missing.wide)] <- NA
+    missing.long <- unique(long.df[!long.df$UNIQUE_ID %in% wide.df$UNIQUE_ID, 1:7])
+    missing.wide <- cbind(missing.long, wide.df[1, 8:ncol(wide.df)])
+    missing.wide[, 8:ncol(missing.wide)] <- NA
     wide.df <- rbind(wide.df, missing.wide)
   }
 
@@ -221,15 +222,15 @@ wide <- function (long.df, taxa.rank, pct.unid = NULL) {
     cat("Samples with >=", pct.unid, "% taxa unidentified at the specified 
         taxonomic level were excluded from the data set (N = ",
         nrow(wide.df) - sum((wide.df$UNIDENTIFIED / 
-                               rowSums(wide.df[, 7:ncol(wide.df)]) * 100 >= pct.unid)),
+                               rowSums(wide.df[, 8:ncol(wide.df)]) * 100 >= pct.unid)),
         "). \n The number of samples with >= ", pct.unid, "% unidentified taxa: ",
-        sum((wide.df$UNIDENTIFIED / rowSums(wide.df[, 7:ncol(wide.df)]) *
+        sum((wide.df$UNIDENTIFIED / rowSums(wide.df[, 8:ncol(wide.df)]) *
                100 >= pct.unid)), " (N = ", nrow(wide.df), "; ",
-        round((sum((wide.df$UNIDENTIFIED / rowSums(wide.df[, 7:ncol(wide.df)]) * 
+        round((sum((wide.df$UNIDENTIFIED / rowSums(wide.df[, 8:ncol(wide.df)]) * 
                       100 >= pct.unid)) / nrow(wide.df)) * 100, 2), "%)", sep ="")
     
     wide.df <- wide.df[!((wide.df$UNIDENTIFIED /
-                            rowSums(wide.df[, 7:ncol(wide.df)])) * 100 >= pct.unid), ]
+                            rowSums(wide.df[, 8:ncol(wide.df)])) * 100 >= pct.unid), ]
   }
   
   if("UNIDENTIFIED" %in% names(wide.df)) {

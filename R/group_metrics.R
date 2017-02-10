@@ -13,7 +13,7 @@
 
 group_taxa <- function(NameList, Taxa.df){
   ID <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
-          "METHOD", "SAMPLE_NUMBER")
+          "METHOD", "SAMPLE_NUMBER", "CONDITION")
   taxa.list <- as.character(unlist(NameList))
   #taxa.list[which(c(1, diff(taxa.list)) != 0)]
   #idx <- match(taxa.list, names(Taxa.df))
@@ -21,14 +21,14 @@ group_taxa <- function(NameList, Taxa.df){
   taxa_list.df <- data.frame(Taxa.df[, names(Taxa.df) %in% c(ID, taxa.list)])
   taxa_list.df <- taxa_list.df[, !(names(taxa_list.df) %in% "UNIDENTIFIED")]
   taxa_list.df[is.na(taxa_list.df)] <- 0 #NA = zero
-  if(ncol(taxa_list.df) < 7) {
+  if(ncol(taxa_list.df) < 8) {
     final.vec <- 0
   } else {
-    if(ncol(taxa_list.df) == 7) {
-      final.vec <- taxa_list.df[, 7]
+    if(ncol(taxa_list.df) == 8) {
+      final.vec <- taxa_list.df[, 8]
     } else {
-      if(ncol(taxa_list.df) > 7)
-       final.vec <- rowSums(taxa_list.df[, 7:ncol(taxa_list.df)])
+      if(ncol(taxa_list.df) > 8)
+       final.vec <- rowSums(taxa_list.df[, 8:ncol(taxa_list.df)])
     }
   }
   return(final.vec)
@@ -45,19 +45,20 @@ group_taxa <- function(NameList, Taxa.df){
 #'@export
 
 group_rich <- function(NameList, Taxa.df){
-  ID <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE", "METHOD", "SAMPLE_NUMBER")
+  ID <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE", "METHOD",
+          "SAMPLE_NUMBER", "CONDITION")
   taxa.list <- as.character(unlist(NameList))
   #taxa.list <- taxa.list[!taxa.list %in% NA]
   taxa_list.df <- data.frame(Taxa.df[, names(Taxa.df) %in% c(ID, taxa.list)])
   taxa_list.df <- taxa_list.df[, !(names(taxa_list.df) %in% "UNIDENTIFIED")]
   taxa_list.df[is.na(taxa_list.df)] <- 0 #NA = zero
-  if(ncol(taxa_list.df) < 7) {
+  if(ncol(taxa_list.df) < 8) {
     final.vec <- rep(0, nrow(taxa_list.df))
   } else {
-    if(ncol(taxa_list.df) == 7){
-      final.vec <- ifelse(taxa_list.df[, 7] > 0, 1, 0)
+    if(ncol(taxa_list.df) == 8){
+      final.vec <- ifelse(taxa_list.df[, 8] > 0, 1, 0)
     } else {
-      final.vec <- vegan::specnumber(taxa_list.df[, 7:ncol(taxa_list.df)])
+      final.vec <- vegan::specnumber(taxa_list.df[, 8:ncol(taxa_list.df)])
     }
   }
   return(final.vec)
@@ -115,7 +116,7 @@ pct_attribute <- function(Taxa.df, master.df, Group, Group_taxa.rank, taxa.rank 
   if(sum(group.taxa) == 0){
     final.vec <- 0
   }else{
-    final.vec <- (group.taxa / rowSums(Taxa.df[, 7:ncol(Taxa.df)])) * 100
+    final.vec <- (group.taxa / rowSums(Taxa.df[, 8:ncol(Taxa.df)])) * 100
   }
   return(final.vec)
 }
@@ -138,16 +139,17 @@ rich_attribute <- function(taxa.wide, master.df, attribute.column,
   new.group <- c(attribute.interest)
   grep.taxa <- master.df[grepl(paste(new.group, collapse="|"), master.df[, attribute.column]), ]
   name.list <- as.list(grep.taxa$FINAL_ID)
-  ID <- c("UNIQUE_ID", "AGENCY_CODE", "STATION_ID", "DATE", "METHOD", "SAMPLE_NUMBER")
+  ID <- c("UNIQUE_ID", "AGENCY_CODE", "STATION_ID", "DATE", "METHOD",
+          "SAMPLE_NUMBER", "CONDITION")
   taxa.list <- as.character(unlist(name.list))
   group.rich <- group_rich(name.list, taxa.wide)
   final.vec <- group.rich
   #taxa_list.df <- data.frame(taxa.wide[, names(taxa.wide) %in% c(ID, taxa.list)])
   #taxa_list.df[is.na(taxa_list.df)] <- 0 #NA = zero
-  #if(ncol(taxa_list.df) < 7) {
+  #if(ncol(taxa_list.df) < 8) {
   #  final_taxa.wide <- 0
   #} else {
-  #  final_taxa.wide <- vegan::specnumber(taxa_list.df[, 7:ncol(taxa_list.df)])
+  #  final_taxa.wide <- vegan::specnumber(taxa_list.df[, 8:ncol(taxa_list.df)])
   #}
   return(final.vec)
 }

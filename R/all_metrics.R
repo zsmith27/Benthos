@@ -59,9 +59,10 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   #============================================================================
 
   metrics <- data.frame(taxa.rank.df[, c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE",
-                                         "DATE", "METHOD", "SAMPLE_NUMBER")])
+                                         "DATE", "METHOD", "SAMPLE_NUMBER",
+                                         "CONDITION")])
   colnames(metrics) <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
-                         "METHOD", "SAMPLE_NUMBER")
+                         "METHOD", "SAMPLE_NUMBER", "CONDITION")
   metrics <- metrics[order(metrics$UNIQUE_ID), ]
   #============================================================================
 
@@ -340,7 +341,7 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   long.sub <- long.df[, 1:last.col]
   seq.pct <- seq_pct_taxa(long.sub, master.df)
   merge.cols <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
-                  "METHOD", "SAMPLE_NUMBER")
+                  "METHOD", "SAMPLE_NUMBER", "CONDITION")
   almost_final.df <- merge(metrics, seq.pct, by = merge.cols)
   #============================================================================
   print("Sequence Taxa Richness")
