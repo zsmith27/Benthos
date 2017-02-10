@@ -10,7 +10,8 @@
 #setwd("C:/Users/zsmith/Desktop/Benthos_R/Benthos")
 #devtools::use_data(master, overwrite = TRUE)
 
-
+#setwd("C:/Users/zsmith/Desktop/Benthos_R/Benthos")
 #devtools::use_package("data.table")
 #devtools::use_package("vegan")
 #devtools::use_package("tidyr")
+#devtools::use_package("zoo")
