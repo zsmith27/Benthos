@@ -38,6 +38,7 @@ data_prep <- function(long.df, master.df){
   # Change the name of the FINAL_ID column to AGENCY_ID to make it easier to
   # merge with the master taxa list.
   names(long.df)[names(long.df) %in% "FINAL_ID"] <- "AGENCY_ID"
+  long.df$AGENCY_ID <- toupper(long.df$AGENCY_ID)
   #============================================================================
   # Merge the taxonomic counts with the master taxa list.
   merged <- merge(long.df, sub.master, by = "AGENCY_ID", all.x = TRUE)
