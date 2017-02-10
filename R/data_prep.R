@@ -21,7 +21,7 @@ data_prep <- function(long.df, master.df){
   #============================================================================
   # Necessary column names.
   benthos.cols <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE", "METHOD",
-                    "SAMPLE_NUMBER", "CONDITION", "FINAL_ID", "REPORTING_VALUE")
+                    "SAMPLE_NUMBER", "FINAL_ID", "REPORTING_VALUE")
   # Check if any of the necessary columns are missing.
   if(any((benthos.cols %in% names(long.df)) == FALSE)){
     missing.cols <- benthos.cols[!benthos.cols %in% names(long.df)]
@@ -29,6 +29,9 @@ data_prep <- function(long.df, master.df){
                      paste(missing.cols, collapse = ", "))
     stop(error.1)
   }
+  #============================================================================
+  # If the condition column does not exist, create it and fill it with none.
+  if(!"CONDITION" %in% names(taxa.df)) taxa.df$CONDITION <- "NONE"
   #============================================================================
   # Subset the master taxa list to only include taxonomic hierarchy.
   sub.master <- unique(master[, c("FINAL_ID", "AGENCY_ID",
