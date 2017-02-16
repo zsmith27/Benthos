@@ -69,7 +69,7 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   # Calculate diversity metrics
   print("Calculating Diversity Metrics:")
   print("...Richness")
-  metrics$RICH <- vegan::specnumber(taxa.rank.df[, 7:ncol(taxa.rank.df)])
+  metrics$RICH <- vegan::specnumber(taxa.rank.df[, 8:ncol(taxa.rank.df)])
   print("...Shannon Diversity")
   metrics$SHANNON <- shannon(taxa.rank.df)
   #print("  Effecitiv Richness (Shannon)")
@@ -87,7 +87,7 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   print("...Pielou Evenness")
   metrics$PIELOU <-  pielou(taxa.rank.df)
 
-  if(taxa.rank %in% c("FAMILY", "GENUS")){
+  if(taxa.rank %in% c("SUBORDER", "FAMILY", "SUBFAMILY", "TRIBE", "GENUS", "SPECIES")){
     #print("...Ephemeroptera Richness")
     #metrics$RICH_EPHEMEROPTERA <- rich_ephemeroptera(long.df, taxa.rank)
     #print("...Plecoptera Richness")
@@ -159,7 +159,7 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   # Tolerance metrics need to be updated once more taxonomic levels are
   # added to the taxa attributes table
 
-  if(taxa.rank %in% c("FAMILY", "GENUS")){
+  if(taxa.rank %in% c("SUBORDER", "FAMILY", "SUBFAMILY", "TRIBE", "GENUS", "SPECIES")){
     print("...Intolerant Richness (0-3)")
     metrics$RICH_INTOL_0_3 <- rich_tolerance(taxa.rank.df, master.df, tv.col, 0, 3)
     print("...Intolerant Richness (0-4)")
@@ -178,7 +178,7 @@ all_metrics <- function(long.df, master.df, taxa.rank,
                                                        tolerance_value = tv.col)
   }
 
-  if(taxa.rank %in% c("FAMILY")){
+  if(taxa.rank %in% c("SUBORDER", "FAMILY", "SUBFAMILY", "TRIBE", "GENUS", "SPECIES")){
     print("...Becks Version 1")
     metrics$BECKS_V1 <- becks(taxa.rank.df, taxa.rank, master.df, beck.version = 1)
     print("...Becks Version 3")
@@ -231,11 +231,11 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   # Tolerance metrics need to be updated once more tolerance values are added
   # to the taxa attributes table
   print("Calculating Tolerance Metrics:")
-  if(taxa.rank %in% "FAMILY") {
+  if(taxa.rank %in% c("SUBORDER", "FAMILY", "SUBFAMILY", "TRIBE", "GENUS", "SPECIES")) {
     print("...ASPT")
     metrics$ASPT_MOD <- tol_index(long.fill, master.df, "ASPT", taxa.rank)
   }
-  if(taxa.rank %in% c("FAMILY", "GENUS")){
+  if(taxa.rank %in% c("SUBORDER", "FAMILY", "SUBFAMILY", "TRIBE", "GENUS", "SPECIES")){
     print("...HBI")
     metrics$HBI <- tol_index(long.fill, master.df, tv.col, taxa.rank)
     print("...% Urban Intolerant")
@@ -254,7 +254,7 @@ all_metrics <- function(long.df, master.df, taxa.rank,
 
   #Composition Metrics==========================================================
   print("Calculating Composition Metrics:")
-  if(taxa.rank %in% c("FAMILY", "GENUS")){
+  if(taxa.rank %in% c("SUBORDER", "FAMILY", "SUBFAMILY", "TRIBE", "GENUS", "SPECIES")){
     print("...%EPT Minus Hydropsychidae and Baetidae")
     metrics$PCT_EPT_HYDRO_BAETID <- pct_ept_hydro_baetid(order.wide, family.wide)
     print("...%EPT Minus Hydropsychidae")
@@ -297,10 +297,11 @@ all_metrics <- function(long.df, master.df, taxa.rank,
   #Functional Feeding Group (FFG) Metrics========================================
   print("Calculating FFG Metrics:")
   #if(!(taxa.rank %in% "FAMILY") | taxa.rank %in% "FAMILY") taxa.rank.att <- "FAMILY"
-  if(taxa.rank %in% c("ORDER")) taxa.rank.att <- "ORDER"
-  if(taxa.rank %in% c("FAMILY", "SUBFAMILY", "TRIBE")) taxa.rank.att <- "FAMILY"
+  #if(taxa.rank %in% c("ORDER")) taxa.rank.att <- "ORDER"
+  #if(taxa.rank %in% c("FAMILY", "SUBFAMILY", "TRIBE")) taxa.rank.att <- "FAMILY"
   # Update once genus attributes added
-  if(taxa.rank %in% c("GENUS", "SPECIES")) taxa.rank.att <- "GENUS"
+  #if(taxa.rank %in% c("GENUS", "SPECIES")) taxa.rank.att <- "GENUS"
+  taxa.rank.att <- taxa.rank
   #metrics$PCT_FFG_UNASSIGNED <- pct_attribute(taxa.rank.df, master.df, ffg.col, "UA", taxa.rank.att)
   #metrics$PCT_DOM_FFG <- pct_dom1_group(long.df, master.df, ffg.col, taxa.rank.att)
   print("...%Collector")
