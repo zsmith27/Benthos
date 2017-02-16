@@ -332,27 +332,31 @@ becks <- function(taxa.wide, taxa.rank,  master.df, beck.version = 1) {
   name.list.1 <- list(split.beck$`1`)
   vec.1 <- unlist(unique(name.list.1))
   beck.1 <- taxa.wide[, c(1:7, which(names(taxa.wide) %in% vec.1))]
-  rich.beck.1 <- vegan::specnumber(beck.1[, 8:ncol(beck.1)])
-  
-  name.list.2 <- list(split.beck$`2`)
-  vec.2 <- unlist(unique(name.list.2))
-  beck.2 <- taxa.wide[, c(1:7, which(names(taxa.wide) %in% vec.2))]
-  rich.beck.2 <- vegan::specnumber(beck.2[, 8:ncol(beck.2)])
-  
-  if(beck.version == 3){
-    name.list.0 <- list(split.beck$`0`)
-    vec.0 <- unlist(unique(name.list.0))
-    beck.0 <- taxa.wide[, c(1:7, which(names(taxa.wide) %in% vec.0))]
-    if(ncol(beck.0) < 8){
-      rich.beck.0 <- 0
-    }else{
-      rich.beck.0 <- vegan::specnumber(beck.0[, 8:ncol(beck.0)])
+  if(ncol(beck.1) < 8){
+    final.vec <- rep(0, nrow(taxa.wide))
+  } else {
+    if(ncol(beck.1) == 8) rich.beck.1 <- ifelse(beck.1[, 8] > 0, 1, 0)
+    if(ncol(beck.1) > 8) rich.beck.1 <- vegan::specnumber(beck.1[, 8:ncol(beck.1)])
+    name.list.2 <- list(split.beck$`2`)
+    vec.2 <- unlist(unique(name.list.2))
+    beck.2 <- taxa.wide[, c(1:7, which(names(taxa.wide) %in% vec.2))]
+    rich.beck.2 <- vegan::specnumber(beck.2[, 8:ncol(beck.2)])
+    
+    if(beck.version == 3){
+      name.list.0 <- list(split.beck$`0`)
+      vec.0 <- unlist(unique(name.list.0))
+      beck.0 <- taxa.wide[, c(1:7, which(names(taxa.wide) %in% vec.0))]
+      if(ncol(beck.0) < 8){
+        rich.beck.0 <- 0
+      }else{
+        rich.beck.0 <- vegan::specnumber(beck.0[, 8:ncol(beck.0)])
+      }
+      
+      final.vec <- (3 * rich.beck.0) + (2 * rich.beck.1) + rich.beck.2
     }
     
-    final.vec <- (3 * rich.beck.0) + (2 * rich.beck.1) + rich.beck.2
+    if(beck.version == 1) final.vec <- (2 * rich.beck.1) + rich.beck.2
   }
-  
-  if(beck.version == 1) final.vec <- (2 * rich.beck.1) + rich.beck.2
   
   return(final.vec)
 }
