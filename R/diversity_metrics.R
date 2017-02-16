@@ -249,7 +249,7 @@ ept_rich_no_tol <- function(long, rank = "FAMILY", master, tolerance_value = "BI
 #'@param rank = The taxonomic rank used to perform the analysis. You must
 #'sepecify either 'FAMILY' or "GENUS.'
 #'@return The number of taxa identified as EPT (Orders: Ephemeroptera,
-#' Plecoptera, and Trichoptera), excluding taxa with a tolerance value >= 7.
+#' Plecoptera, and Trichoptera).
 #'@export
 
 rich_ept <- function(long, rank = "FAMILY"){
@@ -329,6 +329,47 @@ pct_ept_rich_no_tol <- function (long, rank, master, tolerance_value = "BIBI_TV"
   ept.rich <- vegan::specnumber(no.tol.ept[, 8:ncol(no.tol.ept)])
   total.rich <- vegan::specnumber(wide.df[, 8:ncol(wide.df)])
   final.vec <- (ept.rich / total.rich) * 100
+  return(final.vec)
+}
+
+#============================================================================
+#'COTE Richness
+#'
+#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'row represents a unique sample and taxon).
+#'@param rank = The taxonomic rank used to perform the analysis. You must
+#'sepecify either 'FAMILY' or "GENUS.'
+#'@return The number of taxa identified as COTE (Orders: Coleoptera, Odonata,
+#' Trichoptera, and Ephemeroptera).
+#'@export
+
+rich_cote <- function(long, rank = "FAMILY"){
+  coleop <- taxon_richness(long,"COLEOPTERA", "ORDER", rank)
+  odonat <- taxon_richness(long,"ODONATA", "ORDER", rank)
+  trichop <- taxon_richness(long,"TRICHOPTERA", "ORDER", rank)
+  ephem <- taxon_richness(long, "EPHEMEROPTERA", "ORDER", rank)
+  final.vec <-  coleop + odonat + trichop + ephem
+  return(final.vec)
+}
+
+#============================================================================
+#'POTEC Richness
+#'
+#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'row represents a unique sample and taxon).
+#'@param rank = The taxonomic rank used to perform the analysis. You must
+#'sepecify either 'FAMILY' or "GENUS.'
+#'@return The number of taxa identified as POTEC (Orders: Plecoptera, Odonata,
+#' Trichoptera, Ephemeroptera, and Coleoptera).
+#'@export
+
+rich_potec <- function(long, rank = "FAMILY"){
+  plecop <- taxon_richness(long,"PLECOPTERA", "ORDER", rank)
+  odonat <- taxon_richness(long,"ODONATA", "ORDER", rank)
+  trichop <- taxon_richness(long,"TRICHOPTERA", "ORDER", rank)
+  ephem <- taxon_richness(long, "EPHEMEROPTERA", "ORDER", rank)
+  coleop <- taxon_richness(long,"COLEOPTERA", "ORDER", rank)
+  final.vec <-  plecop + odonat + trichop + ephem + coleop
   return(final.vec)
 }
 

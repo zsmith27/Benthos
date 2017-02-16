@@ -98,6 +98,10 @@ all_metrics <- function(long.df, master.df, taxa.rank,
     metrics$RICH_EPT <- rich_ept(long.df, taxa.rank)
     print("...%EPT Richness")
     metrics$PCT_EPT_RICH <- pct_ept_rich(long.df, taxa.rank)
+    print("...COTE Richness")
+    metrics$RICH_COTE <- rich_cote(long.df, taxa.rank)
+    print("...POTEC Richness")
+    metrics$RICH_POTEC <- rich_potec(long.df, taxa.rank)
 
     # FFGs
     print("...Collector Richness")
