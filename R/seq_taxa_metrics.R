@@ -96,7 +96,10 @@ seq_pct_taxa <- function(long.df, master.df){
   
   check_exists <- function(pct_taxa, long.df){
     if(is.null(pct_taxa)){
-      pct_taxa <- unique(long.df[, 1:7])
+      pct_taxa <- unique(long.df[, c("UNIQUE_ID", "STATION_ID",
+                                     "AGENCY_CODE","DATE",
+                                     "METHOD", "SAMPLE_NUMBER",
+                                     "CONDITION")])
     }
     return(pct_taxa)
   }
@@ -173,12 +176,14 @@ rich_by_rank <- function(long.df, low.res.rank, high.res.rank, master.df) {
 #'
 seq_taxa_rich <- function(long.df, rank = "GENUS", master.df){
 
-  taxa.cols <- c("PHYLUM", "SUBPHYLUM", "CLASS", "SUBCLASS",
-                 "ORDER", "SUBORDER", "FAMILY", "SUBFAMILY",
-                 "TRIBE", "GENUS", "SPECIES")
-  last.col <- which(taxa.cols %in% rank) - 1
-  
-  taxa.final <- taxa.cols[1:last.col]
+    taxa.cols <- c("PHYLUM", "SUBPHYLUM", "CLASS",
+                   "SUBCLASS", "ORDER", "SUBORDER",
+                   "FAMILY", "SUBFAMILY", "TRIBE",
+                   "GENUS", "SPECIES")
+    taxa.final <- names(long.df)[which(names(long.df) %in% taxa.cols)]
+    taxa.final <- taxa.final[-length(taxa.final)]
+
+
   #============================================================================
   
   
@@ -229,15 +234,15 @@ seq_taxa_rich <- function(long.df, rank = "GENUS", master.df){
   # After the columns are appended, columns containing "if " are removed.
   # MORE ELEGANT WAY TO DO THIS?
   num.rows <- nrow(unique(long.df[, 1:7]))
-  final.df <- cbind(if(!is.null("phylum.df")) phylum.df else data.frame(rep(NA, num.rows)),
-                    if(!is.null("subphylum.df")) subphylum.df else data.frame(rep(NA, num.rows)),
-                    if(!is.null("class.df")) class.df else data.frame(rep(NA, num.rows)),
-                    if(!is.null("subclass.df")) subclass.df else data.frame(rep(NA, num.rows)),
-                    if(!is.null("order.df")) order.df else data.frame(rep(NA, num.rows)),
-                    if(!is.null("suborder.df")) suborder.df else data.frame(rep(NA, num.rows)),
-                    if(!is.null("family.df")) family.df else data.frame(rep(NA, num.rows)),
-                    if(!is.null("subfamily.df")) subfamily.df else data.frame(rep(NA, num.rows)),
-                    if(!is.null("tribe.df")) tribe.df else data.frame(rep(NA, num.rows)),
+  final.df <- cbind(if(!is.null(phylum.df)) phylum.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null(subphylum.df)) subphylum.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null(class.df)) class.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null(subclass.df)) subclass.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null(order.df)) order.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null(suborder.df)) suborder.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null(family.df)) family.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null(subfamily.df)) subfamily.df else data.frame(rep(NA, num.rows)),
+                    if(!is.null(tribe.df)) tribe.df else data.frame(rep(NA, num.rows)),
                     if(!is.null(genus.df)) genus.df else data.frame(rep(NA, num.rows)))
   
   final.df <- final.df[, !grepl("rep.NA", names(final.df))]
