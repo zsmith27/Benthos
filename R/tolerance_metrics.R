@@ -312,6 +312,8 @@ pct_urban_intol <- function(long.df, master.df) {
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
 #'the following script: master.df <- data(master)
+#'@param beck.colum = The name of the column in the master.df that contains
+#'Beck values.
 #'@param beck.version = The version of Beck's Index specified as 1 or 3.  The
 #'defualt is 1, the orginal Beck's Index:
 #'2(S1) + 1(S2) + 3(S3)
@@ -326,9 +328,9 @@ pct_urban_intol <- function(long.df, master.df) {
 #'organisms sensitive to degradation (Beck Classes 0 and 1).
 #'@export
 
-becks <- function(taxa.wide, taxa.rank,  master.df, beck.version = 1) {
+becks <- function(taxa.wide, taxa.rank,  master.df, beck.column, beck.version = 1) {
   
-  split.beck <- split(master.df[, taxa.rank], master.df$BECK_CLASS)
+  split.beck <- split(master.df[, taxa.rank], master.df[, beck.column])
   name.list.1 <- list(split.beck$`1`)
   vec.1 <- unlist(unique(name.list.1))
   beck.1 <- taxa.wide[, c(1:7, which(names(taxa.wide) %in% vec.1))]

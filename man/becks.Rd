@@ -4,7 +4,7 @@
 \alias{becks}
 \title{Beck's Index}
 \usage{
-becks(taxa.wide, taxa.rank, master.df, beck.version = 1)
+becks(taxa.wide, taxa.rank, master.df, beck.column, beck.version = 1)
 }
 \arguments{
 \item{taxa.wide}{= Taxonomic counts aggregated at the specific taxonomic
@@ -30,6 +30,9 @@ as specified by PADNR:
 3(S0) + 2(S1) + 1(S2) + 3(S3)
 where:
 S# = Taxa richness at each level of Beck's classifications (0-3).}
+
+\item{beck.colum}{= The name of the column in the master.df that contains
+Beck values.}
 }
 \value{
 Beck's Biotic Index produces weighted richness values, which favors
