@@ -93,6 +93,8 @@ data_prep <- function(long.df, master.df){
   keep.cols[!keep.cols %in% names(merged)]
   final.df <- merged[, keep.cols]
   final.df[final.df == ""] <- NA
+  # Sort columns by "UNIQUE_ID".
+  final.df <- final.df[order(final.df$UNIQUE_ID), ]
   return(final.df)
 }
 
@@ -131,16 +133,18 @@ clean_up <- function(x) {
 #applies lowest identification to each row
 fill_taxa <- function(Taxon_List){
   
-  taxa <- c("PHYLUM", "SUBPHYLUM", "CLASS",
+  taxa.cols <- c("PHYLUM", "SUBPHYLUM", "CLASS",
             "SUBCLASS", "ORDER", "SUBORDER",
             "FAMILY", "SUBFAMILY", "TRIBE",
             "GENUS", "SPECIES")
+  taxa.cols <- taxa.cols[taxa.cols %in% names(Taxon_List)]
+  
   
   Taxon_List[Taxon_List == ""]  <- NA
   final.df <- Taxon_List
-  final.df[, taxa] <- data.frame(t(apply(final.df[, taxa], 1, zoo::na.locf)))
+  final.df[, taxa.cols] <- data.frame(t(apply(final.df[, taxa.cols], 1, zoo::na.locf)))
   names(final.df) <- toupper(colnames(final.df))
-  final.df[, taxa] <- lapply(final.df[, taxa], toupper)
+  final.df[, taxa.cols] <- lapply(final.df[, taxa.cols], toupper)
   
   return(final.df)
 }
