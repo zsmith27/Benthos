@@ -17,6 +17,27 @@ taxon_richness <- function(long, taxon, low.res.rank, high.res.rank){
   final.vec <- group_rich(taxa.list, taxa.wide)
   return(final.vec)
 }
+
+#============================================================================
+#'Internal Use: Calculate Richness
+#'
+#'@param wide.df = a wide dataframe of taxonomic counts.
+#'@return Calculates richness based on the appropriate number of columns.
+#'@export
+calc_richness <- function(wide.df){
+  if(ncol(wide.df) > 8){
+    final.vec <- vegan::specnumber(wide.df[, 8:ncol(wide.df)])
+  }
+  
+  if(ncol(wide.df) == 8){
+    final.vec <- ifelse(wide.df[, 8] > 0, 1, 0)
+  }
+  
+  if(ncol(wide.df) < 8){
+    final.vec <- rep(0, nrow(wide.df))
+  }
+  return(final.vec)
+}
 #==============================================================================
 #'Margalef's Index
 #'
@@ -191,7 +212,8 @@ abundance <- function(taxa.wide){
 
 pielou <- function(taxa.wide){
   #Requires vegan package
-  richness <- vegan::specnumber(taxa.wide[, 8:ncol(taxa.wide)])
+  richness <- calc_richness(taxa.wide)
+  #richness <- vegan::specnumber(taxa.wide[, 8:ncol(taxa.wide)])
   final.vec <- ifelse(richness > 1,
                       vegan::diversity(taxa.wide[, 8:ncol(taxa.wide)]) /
                         log(richness), 0)
@@ -237,7 +259,8 @@ ept_rich_no_tol <- function(long, rank = "FAMILY", master, tolerance_value = "BI
   no.tol.ept <- data.frame(new.df[, !(names(new.df) %in% name.list)])
   
   # Caculate richness values using vegan
-  final.vec <- vegan::specnumber(no.tol.ept[, 8:ncol(no.tol.ept)])
+  final.vec <- calc_richness(no.tol.ept)
+  
   return(final.vec)
 }
 
@@ -281,8 +304,10 @@ pct_ept_rich <- function(long, rank){
   taxa.list <- c(sample.info, ephem, plecop, trichop)
   new.df <- wide.df[, names(wide.df) %in% taxa.list]
   new.df <- new.df[, !(names(new.df) %in% "UNIDENTIFIED")]
-  ept.rich <- vegan::specnumber(new.df[, 8:ncol(new.df)])
-  total.rich <- vegan::specnumber(wide.df[, 8:ncol(wide.df)])
+  ept.rich <- calc_richness(new.df)
+  #ept.rich <- vegan::specnumber(new.df[, 8:ncol(new.df)])
+  total.rich <- calc_richness(wide.df)
+  #total.rich <- vegan::specnumber(wide.df[, 8:ncol(wide.df)])
   final.vec <- (ept.rich / total.rich) * 100
   return(final.vec)
 }
@@ -326,8 +351,10 @@ pct_ept_rich_no_tol <- function (long, rank, master, tolerance_value = "BIBI_TV"
   no.tol.ept <- data.frame(new.df[, !(names(new.df) %in% name.list)])
   
   # Caculate richness values using vegan
-  ept.rich <- vegan::specnumber(no.tol.ept[, 8:ncol(no.tol.ept)])
-  total.rich <- vegan::specnumber(wide.df[, 8:ncol(wide.df)])
+  ept.rich <- calc_richness(new.df)
+  #ept.rich <- vegan::specnumber(no.tol.ept[, 8:ncol(no.tol.ept)])
+  total.rich <- calc_richness(wide.df)
+  #total.rich <- vegan::specnumber(wide.df[, 8:ncol(wide.df)])
   final.vec <- (ept.rich / total.rich) * 100
   return(final.vec)
 }
@@ -392,15 +419,7 @@ rich_nco <- function(long, rank = "GENUS"){
   chiro_oligo.rich <- chiro + oligo
   #============================================================================
   taxa.wide <- wide(long, rank)
-  if (ncol(taxa.wide) < 7) {
-    total.rich <- rep(0, nrow(taxa.wide))
-  } else {
-    if (ncol(taxa.wide) == 7) {
-      total.rich <- ifelse(taxa.wide[, 8] > 0, 1, 0)
-    } else {
-      total.rich <- vegan::specnumber(taxa.wide[, 8:ncol(taxa.wide)])
-    }
-  }
+  total.rich <- calc_richness(taxa.wide)
   #============================================================================
   final.vec <- total.rich - chiro_oligo.rich
   
