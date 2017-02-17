@@ -5,7 +5,7 @@
 \title{Run All Metrics}
 \usage{
 all_metrics(long.df, master.df, taxa.rank, tv.col = "BIBI_TV",
-  ffg.col = "BIBI_FFG", hab.col = "BIBI_HABIT")
+  ffg.col = "BIBI_FFG", hab.col = "BIBI_HABIT", beck.col = "BECK_CLASS")
 }
 \arguments{
 \item{long.df}{= Taxonomic counts in a long data format.}
