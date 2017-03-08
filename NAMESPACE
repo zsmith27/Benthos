@@ -3,6 +3,7 @@
 export(abundance)
 export(all_metrics)
 export(becks)
+export(benthos_cheat)
 export(blank_col)
 export(calc_pct_taxa)
 export(calc_richness)
