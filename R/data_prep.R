@@ -113,6 +113,15 @@ data_prep <- function(long.df, master.df){
 #  print(error.2)
 #}
 #==============================================================================
+#'Data Clean Up
+#'
+#'@param x = a data frame.
+#'@return capitalizes all of the column names, as well as, removes any leading
+#'or trailing white space from the column names, columns of class character, 
+#'and columns of class factor.
+#'@export
+#requires package zoo
+#applies lowest identification to each row
 clean_up <- function(x) {
   # Change all names to uppercase and remove leading and trailing white space.
   names(x) <- trimws(toupper(names(x)))
