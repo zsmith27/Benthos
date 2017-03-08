@@ -268,7 +268,8 @@ wide <- function (long.df, taxa.rank, pct.unid = NULL) {
 benthos_cheat <- function(long.df){
   long.df <- clean_up(long.df)
   need.cols <- c("UNIQUE_ID", "FINAL_ID", "REPORTING_VALUE")
-  if (!need.cols %in% names(long.df)){
+  length.need.cols <- length(need.cols[!need.cols %in% names(long.df)])
+  if (length.need.cols == 0){
     stop(paste("UNIQUE_ID, FINAL_ID, and REPORTING_VALUE must exist as column names."))
   } 
   benthos.cols <- c("STATION_ID", "AGENCY_CODE", "DATE", "METHOD", "SAMPLE_NUMBER")
