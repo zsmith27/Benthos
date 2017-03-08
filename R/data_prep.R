@@ -252,3 +252,39 @@ wide <- function (long.df, taxa.rank, pct.unid = NULL) {
 }
 
 #==============================================================================
+#'Benthos Cheat
+#'
+#'@param long.df = Taxonomic counts in a long data format.
+#'@return The Benthos package requires eight columns to exist before the metrics
+#'can be calculated.  Although it is generally not recommended, five of these
+#'columns (i.e., "STATION_ID", "AGENCY_CODE", "DATE", "METHOD", and
+#' "SAMPLE_NUMBER") can be automatically generated and filled with a character
+#'  sting (i.e., "blank"). Some of the required columns are not applicable to 
+#'  all users and would have to be filled with a constant before proceeding;
+#'  this function does the job for you.
+#'@export
+#'
+
+benthos_cheat <- function(long.df){
+  long.df <- clean_up(long.df)
+  need.cols <- c("UNIQUE_ID", "FINAL_ID", "REPORTING_VALUE")
+  if (!need.cols %in% names(long.df)){
+    stop(paste("UNIQUE_ID, FINAL_ID, and REPORTING_VALUE must exist as column names."))
+  } 
+  benthos.cols <- c("STATION_ID", "AGENCY_CODE", "DATE", "METHOD", "SAMPLE_NUMBER")
+  if (!any(benthos.cols %in% names(long.df))) {
+    sub.benthos.cols <- benthos.cols[!benthos.cols %in% names(long.df)]
+    fill.cols <- lapply(sub.benthos.cols, function(x){
+      long.df[, x] <- rep("blank", nrow(long.df))
+    })
+    
+    new.cols <- data.frame(do.call(cbind, fill.cols))
+    names(new.cols) <- sub.benthos.cols
+    final.df <- cbind(long.df, new.cols)
+    
+  } else {
+    final.df <- long.df
+  }
+  
+  return(final.df)
+}
