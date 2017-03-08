@@ -272,7 +272,8 @@ benthos_cheat <- function(long.df){
     stop(paste("UNIQUE_ID, FINAL_ID, and REPORTING_VALUE must exist as column names."))
   } 
   benthos.cols <- c("STATION_ID", "AGENCY_CODE", "DATE", "METHOD", "SAMPLE_NUMBER")
-  if (!any(benthos.cols %in% names(long.df))) {
+  sub.benthos.cols <- benthos.cols[!benthos.cols %in% names(long.df)]
+  if (length(sub.benthos.cols) > 0) {
     sub.benthos.cols <- benthos.cols[!benthos.cols %in% names(long.df)]
     fill.cols <- lapply(sub.benthos.cols, function(x){
       long.df[, x] <- rep("blank", nrow(long.df))
