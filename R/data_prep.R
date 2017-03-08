@@ -17,7 +17,10 @@
 
 data_prep <- function(long.df, master.df){
   # Make sure all column names are uppercase.
-  names(long.df) <- toupper(names(long.df))
+  #names(long.df) <- toupper(names(long.df))
+  # All column names to uppercase and remove leading and trailing white space
+  # from column names, character fields, and factor fields.
+  long.df <- clean_up(long.df)
   #============================================================================
   # Necessary column names.
   benthos.cols <- c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE", "METHOD",
