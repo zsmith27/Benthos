@@ -1,7 +1,7 @@
 #==============================================================================
 # Composition Metrics
 #==============================================================================
-#'Percentage of Amphipod Individuals
+#'Percentage of a Specified Taxon
 #'
 #'@param wide.df = Taxonomic counts aggregated at the appropriate taxonomic
 #' rank in a wide data format. Use the wide function to prepare the data.
