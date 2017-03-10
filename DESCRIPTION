@@ -15,4 +15,8 @@ Imports: data.table,
     vegan,
     tidyr,
     zoo,
-    plyr
+    plyr,
+    tidyverse,
+    devtools,
+    curl,
+    httr
