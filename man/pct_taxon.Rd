@@ -2,7 +2,7 @@
 % Please edit documentation in R/composition_metrics.R
 \name{pct_taxon}
 \alias{pct_taxon}
-\title{Percentage of Amphipod Individuals}
+\title{Percentage of a Specified Taxon}
 \usage{
 pct_taxon(wide.df, taxon)
 }
@@ -16,5 +16,5 @@ rank in a wide data format. Use the wide function to prepare the data.}
 The percentage of individuals identified as the specified taxon.
 }
 \description{
-Percentage of Amphipod Individuals
+Percentage of a Specified Taxon
 }
