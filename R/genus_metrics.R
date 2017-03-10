@@ -116,19 +116,75 @@ pct_ept_hydropsyche <- function(order.wide, genus.wide){
 }
 
 #==============================================================================
-#'Percentage of Tanytarsini
+#'Percentage of Non-Tanytarsini Diptera and Non-Insecta
 #'
+#'@param class.wide = Taxonomic counts aggregated at the class level
+#' classification in a wide data format. Use the wide function to
+#' prepare the data.
+#'@param order.wide = Taxonomic counts aggregated at the order level
+#' classification in a wide data format. Use the wide function to
+#' prepare the data.
 #'@param tribe.wide = Taxonomic counts aggregated at the tribe level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@return The percentage of individuals identified as Tanytarsini
-#'(Diptera; Chironomidae) individuals. Tanytarsini is a tribe from the family
-#'Chironomidae.
+#'@return The percentage of Diptera individuals not identified as Tanytarsini
+#'(Diptera; Chironomidae) individuals plus the percentage of individuals not 
+#'identified as Insecta. Tanytarsini is a tribe from the family 
+#'Chironomidae. This metric was used by the Ohio Environmental Protection
+#'Agency. Ohio Environmental Protection Agency. 1988. 
+#'Biological criteria for the protection of aquatic life: Volume II: 
+#'users manual for biological field assessment of Ohio surface waters. 
+#'Ohio EPA, Division of Water Quality Monitoring and Assessment, 
+#'Surface Water Section, Columbus.
 #'@export
 
-pct_tanytarsini <- function(tribe.wide){
-  return((blank_col("TANYTARSINI", tribe.wide) /
-            rowSums(tribe.wide[, 8:ncol(tribe.wide)])) * 100)
+pct_non_tanytarsini_non_insecta <- function(class.wide, order.wide, tribe.wide){
+  pct.non.insecta <- 100 - pct_taxon(class.wide, "INSECTA")
+  pct.diptera <- pct_taxon(order.wide, "DIPTERA")
+  pct.tany <- pct_taxon(tribe.wide, "TANYTARSINI")
+  pct.non.tany <- pct.diptera - pct.tany
+  
+  final.vec <- pct.non.tany + pct.non.insecta
+  
+  return(final.vec)
+  
+}
+
+#==============================================================================
+# NEEDS WORK!!!!!!!!!!!!!!!!!!!!!!
+#==============================================================================
+#'Ohio EPA Percentage of Tolerant Taxa
+#'
+#'@param class.wide = Taxonomic counts aggregated at the class level
+#' classification in a wide data format. Use the wide function to
+#' prepare the data.
+#'@param order.wide = Taxonomic counts aggregated at the order level
+#' classification in a wide data format. Use the wide function to
+#' prepare the data.
+#'@param tribe.wide = Taxonomic counts aggregated at the tribe level
+#' classification in a wide data format. Use the wide function to
+#' prepare the data.
+#'@return The percentage of Diptera individuals not identified as Tanytarsini
+#'(Diptera; Chironomidae) individuals plus the percentage of individuals not 
+#'identified as Insecta. Tanytarsini is a tribe from the family 
+#'Chironomidae. This metric was used by the Ohio Environmental Protection
+#'Agency. Ohio Environmental Protection Agency. 1988. 
+#'Biological criteria for the protection of aquatic life: Volume II: 
+#'users manual for biological field assessment of Ohio surface waters. 
+#'Ohio EPA, Division of Water Quality Monitoring and Assessment, 
+#'Surface Water Section, Columbus.
+#'@export
+
+
+ohio_pct_tolerant <- function(){
+  
+  pct.oligochaeta <- pct_taxon(class.wide, "OLIGOCHAETA")
+  pct.psectrotanypus_dyari <- pct_taxon(species.wide, "PSECTROTANYPUS_DYARI")
+  pct.cricotopus_bicinctus <- pct_taxon(species.wide, "CRICOTOPUS_BICINCTUS")
+  pct.cricotopus_sylvestris <- pct_taxon(species.wide, "CRICOTOPUS_SYLVESTRIS")
+  pct.psectrotanypus_dyari <- pct_taxon(species.wide, "PSECTROTANYPUS_DYARI")
+  pct.psectrotanypus_dyari <- pct_taxon(species.wide, "PSECTROTANYPUS_DYARI")
+  
   
 }
 
