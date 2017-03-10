@@ -6,6 +6,7 @@ Author: Zachary M. Smith
 Maintainer: Zachary M. Smith <zsmith@icprb.org>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
+Depends: R (>= 3.1.0)
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
