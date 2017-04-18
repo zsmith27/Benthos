@@ -12,7 +12,7 @@
 
 <meta name="author" content="Zachary M. Smith" />
 
-<meta name="date" content="2017-02-03" />
+<meta name="date" content="2017-02-10" />
 
 <title>Benthos</title>
 
@@ -32,62 +32,63 @@
 
 <h1 class="title toc-ignore">Benthos</h1>
 <h4 class="author"><em>Zachary M. Smith</em></h4>
-<h4 class="date"><em>2017-02-03</em></h4>
+<h4 class="date"><em>2017-02-10</em></h4>
 
 
 
 <div id="disclaimer" class="section level2">
 <h2><strong>Disclaimer</strong></h2>
-<p>The <em>Benthos</em> package is currently in the early stages of development. Therefore, be aware that <em>Benthos</em> package will be constantly updated and major changes may occur. Additionaly, there are most likely errors in the functions that have not yet been identified. I ask that if you do find an error please send me an email (<a href="mailto:zsmith@icprb.org">zsmith@icprb.org</a>) or visit my GitHub page (<a href="https://github.com/zsmith27" class="uri">https://github.com/zsmith27</a>). If you are R savy the easiest way to communicate issues and solutions is to add an issue on my GitHub page.</p>
+<p>The <em>Benthos</em> package is currently in the early stages of development. Be aware that the <em>Benthos</em> package will be constantly updated and major changes may occur. Additionally, errors may exist. I ask that if you do find an error please send me an email (<a href="mailto:zsmith@icprb.org">zsmith@icprb.org</a>) or visit my GitHub page (<a href="https://github.com/zsmith27" class="uri">https://github.com/zsmith27</a>). If you are R savvy, the easiest way to communicate issues and solutions is to add an issue on my GitHub page.</p>
 </div>
 <div id="description" class="section level2">
 <h2><strong>Description</strong></h2>
-<p>The <em>Benthos</em> package is useful for the general assessment of benthic macroinverterbate assemblages. More than 80 functions have been written to quickly assess common assemblage metrics. This document provides an overview of the functions contained within the package and their intended use. </p>
+<p>The <em>Benthos</em> package is useful for the general assessment of benthic macroinvertebrate assemblages. More than 80 functions have been written to quickly assess common assemblage metrics. This document provides an overview of the functions contained within the package and their intended use. </p>
 </div>
 <div id="installing-the-package" class="section level2">
 <h2><strong>Installing the Package</strong></h2>
-<p>Currently, the package is available on GitHub. GitHub (<a href="https://github.com/" class="uri">https://github.com/</a>) provides version control for R-packages and allows the package to be easily shared or copied. Once the Benthos package has been thuroughly vetted the ultimate goal will be to add the package to CRAN.</p>
-<p>To install the <em>Benthos</em> package you will first need to install the package <em>dplyr</em>. You only need to install <em>dplyr</em> once to your computer.</p>
+<p>Currently, the package is only available on GitHub. GitHub (<a href="https://github.com/" class="uri">https://github.com/</a>) provides version control for R-packages and allows the package to be easily shared or copied. Once the Benthos package has been thoroughly vetted the ultimate goal will be to add the package to CRAN.</p>
+<p>To install the <em>Benthos</em> package you will first need to install the package <em>dplyr</em>.</p>
 <pre><code>install.packages(&quot;dplyr&quot;)</code></pre>
-<p>Once you have installed <em>dplyr</em> you will need to load it into your library and then use the function <code>instal_github()</code> to install the Benthos package.</p>
+<p>You only need to install <em>dplyr</em> once to your computer. After you have installed <em>dplyr</em>, you will need to load it into your library and then use the function <code>install_github()</code> to install the Benthos package.</p>
 <pre><code>library(devtools)
-install_github(&quot;zsmith27/Benthos&quot;)</code></pre>
+install_github(&quot;zsmith27/Benthos&quot;, build_vignettes = TRUE)</code></pre>
 <p>I recommend that you run the script above each time you use the <em>Benthos</em> package to insure that you have the most up-to-date version.</p>
 </div>
 <div id="overview-of-workflow" class="section level2">
 <h2><strong>Overview of Workflow</strong></h2>
 <ol style="list-style-type: decimal">
-<li>Prepare data in R or another program to meet the formating requirements (See Data Preperation).</li>
-<li>Use the <em>check_data</em> function to identify potential formating issues or issues merging the taxa count data with the <code>master</code> (See Check Data).</li>
-<li>Calculate macorinvertebrate metrics.</li>
+<li>Prepare data in R or another program to meet the formatting requirements (See Data Preparation).</li>
+<li>Use the <em>check_data</em> function to identify potential formatting issues or issues merging the taxa count data with the <code>master</code> (See Check Data).</li>
+<li>Calculate macroinvertebrate metrics.</li>
 </ol>
 </div>
 <div id="master-taxa-list" class="section level2">
 <h2><strong>Master Taxa List</strong></h2>
-<p>The <em>Benthos</em> package relies entirely on the Master Taxa List. Included in the Master Taxa List are all of the necessary taxonomic hierarchy information as well as assigned taxonomic attributes (e.g., tolerance values, functional feeding groups, and habits). The Master Taxa List (<code>master</code>) is built in to the <em>Benthos</em> package and can be loaded with the following script:</p>
-<pre><code>data(&quot;master&quot;)</code></pre>
-<p>Many metrics require that a taxon be rolled up to lower taxonomic resolution. For example, if all of the taxa are identified to the genus-level, the counts must be rolled up and aggregated at the order-level to calulate the percentage of Ephemeroptera taxa. The <code>master</code> includes all of the necessary information for aggregating the reported taxa at various taxonomic levels.</p>
-<p>The <code>master</code> also includes the available taxonomic attributes for calulating tolerance metrics, functional feeding group metrics, and habit metrics. During metric calculations the <code>master</code> is referenced to assign the appropriate taxonomic attribute.</p>
-<p>If a taxon or taxa in your dataset are not present in the <code>master</code>, metrics not be correctly calculated. Therefore, you will recieve an error if you attempt to include a taxon in your dataset that is not present in the <code>master</code>. Users are welcome to modify the <code>master</code> in R or to export the file as a <em>.csv</em> for modifications in other programs. To export as a <em>.csv</em>:</p>
+<p>The Master Taxa List (MTL) refers to a table containing taxonomic hierarchy information and taxonomic attributes (e.g., tolerance values, functional feeding groups, and habits). The <em>Benthos</em> package relies entirely on the MTL (<code>master</code>) to calculate metrics, which is embedded within the package. Use the following script to load the MTL:</p>
+<pre><code>data(master)</code></pre>
+<p>Many metrics require that a taxon be rolled up to lower taxonomic resolution. For example, if all of the taxa are identified to the genus-level, the counts must be rolled up and aggregated at the order-level to calculate the percentage of Ephemeroptera taxa. The <code>master</code> includes all of the necessary information for aggregating the reported taxa at various taxonomic levels.</p>
+<p>The <code>master</code> also includes the available taxonomic attributes for calculating tolerance metrics, functional feeding group metrics, and habit metrics. During metric calculations the <code>master</code> is referenced to assign the appropriate taxonomic attribute.</p>
+<p>If a taxon or taxa in your dataset are not present in the <code>master</code>, metrics cannot be correctly calculated. Therefore, you will receive an error if you attempt to include a taxon in your dataset that is not present in the <code>master</code>. Users are welcome to modify the <code>master</code> in R or to export the file as a <em>.csv</em> for modifications in other programs. To export as a <em>.csv</em>:</p>
 <pre><code>write.csv(master, &quot;master.csv&quot;, row.names = FALSE)</code></pre>
-<p>If the <code>master</code> is missing a taxon or taxa that you would like to be included, please email me and I will add the taxon to the list as soon as possible. Additionally, it is possible to append accessory taxonomic attributes assigned by your agency to the <code>master</code>. I urge you to send me your agencies taxonomic attributes to be included in the publically available <code>master</code>. My goal is to create a comprehensive table of all of the available taxonomic attributes. This will allow agencies to fill gaps in thier attribute assignments or to compare thier attribute assignments to those of another agency. If you would like your agencies attributes to be publicaly available in the Benthos package, please send me an email with the attributes in a <em>.csv</em> or <em>.xlsx</em> file. Please try to match the format of the <code>master</code> as closely as possible before sending your attributes.</p>
+<p>If the <code>master</code> is missing a taxon or taxa that you would like to be included, please email me and I will add the taxon to the list as soon as possible. Additionally, it is possible to append accessory taxonomic attributes assigned by your agency to the <code>master</code>. I urge you to send me your agencies taxonomic attributes to be included in the publically available <code>master</code>. My goal is to create a comprehensive table of all of the available taxonomic attributes. This will allow agencies to fill gaps in their attribute assignments or to compare their attribute assignments to those of other agencies. If you would like your agencies attributes to be publically available in the Benthos package, please send me an email with the attributes in a <em>.csv</em> or <em>.xlsx</em> file. Please try to match the format of the <code>master</code> as closely as possible before sending your attribute table.</p>
 </div>
-<div id="data-preperation" class="section level2">
-<h2><strong>Data Preperation</strong></h2>
-<p>Preparing your data for the <em>Benthos</em> package will be the most time consuming and diffuclt aspect of using the package. It is too diffucult to calculate may of these metrics if your data set is not in the proper format. Therefore, I have created a strict format that must be followed to use this package.</p>
-<p>It is required that your data is in a long format with the following seven columns:</p>
+<div id="data-preparation" class="section level2">
+<h2><strong>Data Preparation</strong></h2>
+<p>Preparing your data for the <em>Benthos</em> package will be the most time consuming and difficult aspect of using the package. It is too difficult to accommodate various data formats. Therefore, I have created a strict data format that must be followed to use this package. For government agencies, I will consider adding a specific function to make data preparation quick and easy.</p>
+<p>It is required that your data is in a long format with the following eight columns:</p>
 <ol style="list-style-type: decimal">
-<li><strong>EVENT_ID</strong> - A name that represents each unique sample. Data will be aggregate by the <strong>EVENT_ID</strong> during metric calculations. Therefore, you must make sure that each sample you want treated seperately has a unique <strong>EVENT_ID</strong>. If you do not already have an <strong>EVENT_ID</strong>, I recommend that you concatanate <strong>STATION_ID</strong>, <strong>AGENCY</strong>, <strong>DATE</strong>, and <strong>REPLICATE</strong> columns. This can easily be done in R with the paste function. Example:</li>
+<li><strong>UNIQUE_ID</strong> - A name that represents each unique sample. Data will be aggregate by the <strong>UNIQUE_ID</strong> during metric calculations. Therefore, you must make sure that each sample you want treated separately has a unique <strong>UNIQUE_ID</strong>. If you do not already have an <strong>UNIQUE_ID</strong>, I recommend that you concatenate <strong>STATION_ID</strong>, <strong>AGENCY_CODE</strong>, <strong>DATE</strong>, and <strong>SAMPLE_NUMBER</strong> columns. This can easily be done in R with the paste function. Example:</li>
 </ol>
-<pre><code>my.df$EVENT_ID &lt;- paste(my.df$STATION_ID, my.df$AGENCY, my.df$DATE, my.df$REPLICATE, sep = &quot;_&quot;)</code></pre>
+<pre><code>my.df$UNIQUE_ID &lt;- paste(my.df$STATION_ID, my.df$AGENCY, my.df$DATE, my.df$REPLICATE, sep = &quot;_&quot;)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li><strong>STATION_ID</strong> - Typically a one word or string of characters that represents a particular sampling location. These may be duplicated because samples was collected from the station multiple times or if replicates were collected.</li>
-<li><strong>AGENCY</strong> - For most users this column will be unnecessary and you can fill it with any constant variable that you choose. However, some users may have data from multiple agencies or projects. This column allows you to carry that information through the metric calculation process.</li>
+<li><strong>STATION_ID</strong> - Typically a one word or string of characters that represents a particular sampling location. These may be duplicated because samples were collected from the station multiple times or if replicates were collected.</li>
+<li><strong>AGENCY_CODE</strong> - For most users this column will be unnecessary and you can fill it with any constant variable that you choose. However, some users may have data from multiple agencies or projects. This column allows you to carry that information through the metric calculation process.</li>
 <li><strong>DATE</strong> - The date that the sample was collected. I do not convert this column to R’s class <em>Date</em>. Therefore, the DATE column can be in any date format you prefer and time can be included as well.</li>
-<li><strong>REPLICATE</strong> - Indicates the number of samples collected during a sampling event. If you do not have any replicates then fill this column with 1’s.</li>
-<li><strong>FINAL_ID</strong> - The taxon collect.
+<li><strong>METHOD</strong> - The collection method.</li>
+<li><strong>SAMPLE_NUMBER</strong> - Indicates the number of samples collected during a sampling event. If you do not have any replicates, then fill this column with 1’s.</li>
+<li><strong>FINAL_ID</strong> - The taxon collected.
 <ul>
-<li>Must be a single string of characters. To include species as the final ID, genus and species must be concatenated with an underscore seperation (e.g., HAGENIUS_BREVISTYLUS).</li>
+<li>Must be a single string of characters. To include species as the final ID, genus and species must be concatenated with an underscore separation (e.g., HAGENIUS_BREVISTYLUS).</li>
 <li>No special or additional characters (e.g., “Caenis <strong>sp.</strong>” or “<strong>Undetermined</strong> Chironomidae”). The final ID will be matched with a row in the <code>master</code>. Therefore, special or additional characters will prevent the taxon from being properly merged with the appropriate taxonomic hierarchy and attributes.
 <ul>
 <li>Advanced users can modify the <code>master</code> to include final IDs that they prefer or to add additional taxa to the list. If you do find that a taxon or taxa are missing from the <code>master</code>, please send me an email with as much information on the taxon as possible and I will add it to the <code>master</code> contained within this package.</li>
@@ -100,10 +101,14 @@ install_github(&quot;zsmith27/Benthos&quot;)</code></pre>
 <div id="importing-taxa-counts-into-r" class="section level2">
 <h2><strong>Importing Taxa Counts into R</strong></h2>
 <p>To import your data into R, I recommend you save you table as a <em>.csv</em> file and use the following script:</p>
-<p>Set working directory. This should specify where your taxonomic counts table is located on your computer.</p>
-<pre><code>setwd(C:/Users/zsmith/Desktop)</code></pre>
-<p>Specify the file you want to import and assign the dataframe a name. In this case I named the dataframe “taxa.df”.</p>
-<pre><code>taxa.df &lt;- read.csv(&quot;my_taxa.csv&quot;, stringsAsFactors = FALSE)</code></pre>
+<pre><code># Set working directory. 
+# This should specify where your taxonomic counts table is located on your computer.
+# Note: must be separated by forward slashes (/).
+setwd(&quot;C:/Users/zsmith/Desktop&quot;)
+
+# Specify the file you want to import and assign the dataframe a name.
+# In this case I named the dataframe &quot;taxa.df&quot;.
+taxa.df &lt;- read.csv(&quot;my_taxa.csv&quot;, stringsAsFactors = FALSE)</code></pre>
 </div>
 <div id="data-check" class="section level2">
 <h2><strong>Data Check</strong></h2>
@@ -114,9 +119,15 @@ install_github(&quot;zsmith27/Benthos&quot;)</code></pre>
 <pre><code>metrics.df &lt;- all_metrics(long.df = taxa.df, master.df = master, taxa.rank = &quot;FAMILY&quot;, pct_un = 0)</code></pre>
 <ol style="list-style-type: decimal">
 <li><strong>long.df</strong> = Taxonomic counts in a long data format.</li>
-<li><strong>master.df</strong> = The master taxa list contains taxonomic ranks from phylum to species and known taxonomic attributes.</li>
+<li><strong>master.df</strong> = The master taxa list contains taxonomic ranks from phylum to species and known taxonomic attributes.
+<ul>
+<li>If you modified the Master Taxa List (<code>master</code>), then you need to specify the modified Master Taxa List here.</li>
+</ul></li>
 <li><strong>taxa.rank</strong> = The lowest taxonomic rank (“ORDER”, “FAMILY”, or “GENUS”) used to calculate the metrics. If the majority of your taxa are identified to the family level, then it would be inappropriate to perform metric calculations at the genus level.</li>
 </ol>
+</div>
+<div id="the-wide-function" class="section level2">
+<h2><strong>The wide function</strong></h2>
 </div>
 
 
