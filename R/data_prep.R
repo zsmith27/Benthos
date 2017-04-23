@@ -145,9 +145,9 @@ clean_up <- function(x) {
 #applies lowest identification to each row
 fill_taxa <- function(Taxon_List){
   
-  taxa.cols <- c("PHYLUM", "SUBPHYLUM", "CLASS",
-            "SUBCLASS", "ORDER", "SUBORDER",
-            "FAMILY", "SUBFAMILY", "TRIBE",
+  taxa.cols <- c("PHYLUM", "SUBPHYLUM", "CLASS","SUBCLASS", "INFRACLASS",
+             "SUPERORDER", "ORDER", "SUBORDER", "INFRAORDER",
+            "SUPERFAMILY", "FAMILY", "SUBFAMILY", "TRIBE",
             "GENUS", "SPECIES")
   taxa.cols <- taxa.cols[taxa.cols %in% names(Taxon_List)]
   
