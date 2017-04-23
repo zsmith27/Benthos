@@ -21,3 +21,4 @@ Imports: data.table,
     curl,
     httr,
     magrittr
+Suggests: covr
