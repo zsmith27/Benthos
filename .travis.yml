@@ -1,11 +1,13 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-sudo: required
+sudo: false
 cache: packages
 
 r_packages:
   - covr
+  
+[![Build Status](https://travis-ci.org/zsmith27/Benthos.svg?branch=master)](https://travis-ci.org/zsmith27/Benthos)
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
