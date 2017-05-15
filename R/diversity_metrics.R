@@ -105,7 +105,7 @@ menhinicks <- function(taxa.wide) {
 
 pct_dom <- function(taxa.wide, dom.level){
   final.vec <- apply(taxa.wide[, 8:ncol(taxa.wide)], 1, function(x){
-    sum(order(x, decreasing = TRUE)[1:dom.level])
+    sum(x[order(x, decreasing = TRUE)][1:dom.level]) / sum(x) * 100
   })
   return(final.vec)
 }
