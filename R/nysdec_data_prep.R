@@ -117,6 +117,8 @@ nysdec_data_prep_old <- function(taxa.df, master.df){
 nysdec_data_prep <- function(taxa.df, master.df){
   # Column names to uppercase.
   names(taxa.df) <- toupper(names(taxa.df))
+  # If GENSPECIES is a column name, change the name to FINAL_ID.
+  names(taxa.df)[names(taxa.df) %in% "GENSPECIES"] <- "FINAL_ID"
   # Check for an AGENCY_CODE column and add one if missing.
   if(!"AGENCY_CODE" %in% names(taxa.df)) {
     taxa.df$AGENCY_CODE <- "NYSDEC_SBU"
@@ -133,10 +135,10 @@ nysdec_data_prep <- function(taxa.df, master.df){
   names(taxa.df)[names(taxa.df) %in% "COLL_DATE"] <- "DATE"
   # Change column name SITE_ID to STATION_ID.
   names(taxa.df)[names(taxa.df) %in% "SITE_ID"] <- "STATION_ID"
-  # Make sure the STATION_ID column is numeric.
+  # Make sure the STATION_ID column is class character.
   taxa.df$STATION_ID <- as.character(taxa.df$STATION_ID)
-  # Column GENSPECIES to uppercase.
-  taxa.df$GENSPECIES <- trimws(toupper(as.character(taxa.df$GENSPECIES)))
+  # Column FINAL_ID to uppercase.
+  taxa.df$FINAL_ID <- trimws(toupper(as.character(taxa.df$FINAL_ID)))
   # Change column name INDIV to REPORTING_VALUE.
   names(taxa.df)[names(taxa.df) %in% "INDIV"] <- "REPORTING_VALUE"
   taxa.df$REPORTING_VALUE <- as.numeric(as.character(taxa.df$REPORTING_VALUE))
@@ -146,9 +148,7 @@ nysdec_data_prep <- function(taxa.df, master.df){
   }
   
   if(!"CONDITION" %in% names(taxa.df)) taxa.df$CONDITION <- "NONE"
-  
-  # Change column name INDIV to REPORTING_VALUE.
-  names(taxa.df)[names(taxa.df) %in% "GENSPECIES"] <- "FINAL_ID"
+
   #============================================================================
   taxa.df <- taxa.df[, c("UNIQUE_ID", "STATION_ID", "AGENCY_CODE", "DATE",
                            "METHOD","SAMPLE_NUMBER", "CONDITION", "FINAL_ID",
