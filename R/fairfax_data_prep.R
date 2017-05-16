@@ -79,3 +79,51 @@ fairfax_data_prep <- function(taxa.df){
   # End fairfax_data_prep function.
   return(final.df)
 }
+
+#==============================================================================
+#'Prepare the Fairfax County Taxonomic Attributes Table
+#'
+#'@param attributes.df = Taxonomic attributes table.
+#'@return Prepare Fairfax County's Taxonomic attribute table for use in the
+#'Benthos package.
+#'@importFrom magrittr "%>%"
+#'@export
+
+fairfax_attributes_prep <- function(attributes.df) {
+  # All column names to uppercase and remove leading and trailing white space
+  # from column names, character fields, and factor fields. 
+  attributes.clean <- clean_up(attributes.df)
+  #----------------------------------------------------------------------------
+  # Replace strings with trailing "F" and "G"  with NA from the FAMILY and 
+  # GENUS columns, respectively.
+  attributes.clean$FAMILY <- ifelse(endsWith(attributes.clean$FAMILY, "F"), NA,
+                                    attributes.clean$FAMILY)
+  attributes.clean$GENUS <- ifelse(endsWith(attributes.clean$GENUS, "G"), NA,
+                                   attributes.clean$GENUS)
+  #----------------------------------------------------------------------------
+  # Change clinger abreviation (CL) to the standard Benthos abreviation (CN).
+  attributes.clean$HABITAT <- ifelse(attributes.clean$HABITAT %in% "CL", "CN",
+                                   attributes.clean$HABITAT)
+  #----------------------------------------------------------------------------
+  # Identify the taxonomic rank columns present in the attributes table.
+  taxa.cols <- c("PHYLUM", "SUBPHYLUM", "CLASS","SUBCLASS", "INFRACLASS",
+                 "SUPERORDER", "ORDER", "SUBORDER", "INFRAORDER",
+                 "SUPERFAMILY", "FAMILY", "SUBFAMILY", "TRIBE",
+                 "GENUS", "SPECIES")
+  taxa.cols <- taxa.cols[taxa.cols %in% names(attributes.clean)]
+  # Make sure all taxonomic names are uppercase, have no leading/trailing
+  # white space, and are of class character.
+  attributes.clean[, taxa.cols] <- sapply(attributes.clean[, taxa.cols], function(x){
+    toupper(x) %>% trimws() %>% as.character()
+  })
+  # Use the fill_taxa function to fill NAs in the taxonomic rank columns
+  # with the previously identified taxonomic rank.
+  attributes.clean$FINAL_ID <- fill_taxa(attributes.clean)$GENUS
+  #----------------------------------------------------------------------------
+  # Sort the columns so that the FINAL_ID column is first.
+  attributes.final <- attributes.clean[, c(ncol(attributes.clean),
+                                           1:(ncol(attributes.clean) - 1))]
+  #----------------------------------------------------------------------------
+  # End fairfax_attributes_prep function.
+  return(attributes.final)
+}
