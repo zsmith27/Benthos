@@ -7,11 +7,11 @@
 pct_dom(taxa.wide, dom.level)
 }
 \arguments{
-\item{taxa.wide}{= Taxonomic counts aggregated at the specific taxonomic
+\item{taxa.wide}{Taxonomic counts aggregated at the specific taxonomic
 classification (e.g., Order, Family, or Genus) in a wide data format.
  Use the wide function to prepare the data.}
 
-\item{dom.level}{= A numeric value 1-5 indicating the number}
+\item{dom.level}{A numeric value 1-5 indicating the number}
 }
 \value{
 Percent of individuals that represent the most abundant taxon or taxa.

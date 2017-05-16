@@ -8,14 +8,14 @@ Transform taxa count data from long to wide format}
 wide(long.df, taxa.rank, pct.unid = NULL)
 }
 \arguments{
-\item{taxa.rank}{= Taxonomic Level (PHYLUM, CLASS, ORDER, FAMILY, GENUS)}
+\item{taxa.rank}{Taxonomic Level (PHYLUM, CLASS, ORDER, FAMILY, GENUS)}
 
-\item{pct.unid}{= A threshold can be established to exclude samples that do
+\item{pct.unid}{A threshold can be established to exclude samples that do
 have too many unidentified taxa in a sample. Enter the percentage of the
 sample that you are comfortable with being unidentified.  If not specified
 the function will not excluded any samples.}
 
-\item{long}{= Taxa count data}
+\item{long}{Taxa count data}
 }
 \value{
 Taxa counts in wide format

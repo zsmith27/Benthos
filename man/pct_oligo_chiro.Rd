@@ -7,11 +7,11 @@
 pct_oligo_chiro(class.wide, family.wide)
 }
 \arguments{
-\item{class.wide}{= Taxonomic counts aggregated at the class level
+\item{class.wide}{Taxonomic counts aggregated at the class level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 
-\item{family.wide}{= Taxonomic counts aggregated at the family level
+\item{family.wide}{Taxonomic counts aggregated at the family level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 }

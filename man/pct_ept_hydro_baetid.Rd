@@ -7,11 +7,11 @@
 pct_ept_hydro_baetid(order.wide, family.wide)
 }
 \arguments{
-\item{order.wide}{= Taxonomic counts aggregated at the order level
+\item{order.wide}{Taxonomic counts aggregated at the order level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 
-\item{family.wide}{= Taxonomic counts aggregated at the family level
+\item{family.wide}{Taxonomic counts aggregated at the family level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 }

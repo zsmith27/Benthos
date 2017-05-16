@@ -7,10 +7,10 @@
 pct_taxon(wide.df, taxon)
 }
 \arguments{
-\item{wide.df}{= Taxonomic counts aggregated at the appropriate taxonomic
+\item{wide.df}{Taxonomic counts aggregated at the appropriate taxonomic
 rank in a wide data format. Use the wide function to prepare the data.}
 
-\item{taxon}{= The taxon of interest.}
+\item{taxon}{The taxon of interest.}
 }
 \value{
 The percentage of individuals identified as the specified taxon.

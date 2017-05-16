@@ -7,11 +7,11 @@
 seq_taxa_rich(long.df, rank = "GENUS", master.df)
 }
 \arguments{
-\item{long.df}{= Data in a long data format}
+\item{long.df}{Data in a long data format}
 
-\item{rank}{= The taxonomic resolution of your dataset.}
+\item{rank}{The taxonomic resolution of your dataset.}
 
-\item{master.df}{= Master Taxa List.}
+\item{master.df}{Master Taxa List.}
 }
 \value{
 Sequences through each taxonomic hierarchy and taxon, calculating the

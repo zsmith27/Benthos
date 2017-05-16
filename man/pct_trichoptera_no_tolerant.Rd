@@ -7,19 +7,19 @@
 pct_trichoptera_no_tolerant(long, rank, master, tolerance_value = "BIBI_TV")
 }
 \arguments{
-\item{long}{= Taxonomic counts arrange in a long data format (i.e., each
+\item{long}{Taxonomic counts arrange in a long data format (i.e., each
 row represents a unique sample and taxon).}
 
-\item{rank}{= The taxonomic rank used to perform the analysis. You must
+\item{rank}{The taxonomic rank used to perform the analysis. You must
 sepecify either 'FAMILY' or "GENUS.'}
 
-\item{master}{= A master taxa list including taxonomic ranks Phylum through
+\item{master}{A master taxa list including taxonomic ranks Phylum through
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with
 the following script: data(master)}
 
-\item{tolerance_value}{= The name of the column in the master taxon list
+\item{tolerance_value}{The name of the column in the master taxon list
 (specified using the master variable) that contains tolerance values on
 a scale of 0-10.  Tolerant organisms are classified as organisms with a
 tolerance value >= 7.  The defualt is set to the the BIBI tolerance values,

@@ -7,10 +7,10 @@
 pct_ept_rich(long, rank)
 }
 \arguments{
-\item{long}{= Taxonomic counts arrange in a long data format (i.e., each
+\item{long}{Taxonomic counts arrange in a long data format (i.e., each
 row represents a unique sample and taxon).}
 
-\item{rank}{= The taxonomic rank used to perform the analysis. You must
+\item{rank}{The taxonomic rank used to perform the analysis. You must
 sepecify either 'FAMILY' or "GENUS.'}
 }
 \value{

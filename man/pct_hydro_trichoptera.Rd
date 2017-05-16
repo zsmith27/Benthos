@@ -7,7 +7,7 @@
 pct_hydro_trichoptera(order.wide, family.wide)
 }
 \arguments{
-\item{order.wide}{= Taxonomic counts aggregated at the class level
+\item{order.wide}{Taxonomic counts aggregated at the class level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 }

@@ -7,7 +7,7 @@
 pct_orthocladiinae(long)
 }
 \arguments{
-\item{long}{= Taxonomic counts arrange in a long data format (i.e., each
+\item{long}{Taxonomic counts arrange in a long data format (i.e., each
 row represents a unique sample and taxon).}
 }
 \value{

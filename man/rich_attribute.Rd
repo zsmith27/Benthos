@@ -8,16 +8,16 @@ rich_attribute(taxa.wide, master.df, attribute.column, attribute.interest,
   rank = "FAMILY")
 }
 \arguments{
-\item{taxa.wide}{= Wide data frame format of taxonomic counts.}
+\item{taxa.wide}{Wide data frame format of taxonomic counts.}
 
-\item{attribute.column}{= The name of the column that contains the
+\item{attribute.column}{The name of the column that contains the
 attribute of interest.}
 
-\item{attribute.interest}{= The specific attribute of interest}
+\item{attribute.interest}{The specific attribute of interest}
 
-\item{rank}{= The taxonomic taxa.rank used during the assessment.}
+\item{rank}{The taxonomic taxa.rank used during the assessment.}
 
-\item{master}{= taxonomic attributes table.}
+\item{master}{Taxonomic attributes table.}
 }
 \value{
 The richness of taxa representing a predefined group. Typically,

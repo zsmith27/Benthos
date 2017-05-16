@@ -9,29 +9,29 @@ select_metrics(long.df, master.df, taxa.rank, metrics.vec = "ALL",
   beck.col = "BECK_CLASS")
 }
 \arguments{
-\item{long.df}{= Taxonomic counts in a long data format.}
+\item{long.df}{Taxonomic counts in a long data format.}
 
-\item{master.df}{= The master taxa list contains taxonomic ranks from Phylum
+\item{master.df}{The master taxa list contains taxonomic ranks from Phylum
 to species and known taxonomic attributes.}
 
-\item{taxa.rank}{= The lowest taxonomic rank ("ORDER", "FAMILY", or "GENUS")
+\item{taxa.rank}{The lowest taxonomic rank ("ORDER", "FAMILY", or "GENUS")
 used to calculate the metrics.  If the majority of your taxa are identified
 to the family level, then it would be inappropriate to perform metric
 calculations at the genus level.}
 
-\item{metrics.vec}{= A vector of class character specifyin the metrics of
+\item{metrics.vec}{A vector of class character specifyin the metrics of
 interest. The vector must contain names specific to the Benthos package.
 Please review Benthos package documentation for a list of acceptable
 metric names. The defualt setting is "ALL", which indicates that all
 available Benthos metrics should be calculated.}
 
-\item{tv.cols}{= The name of the tolerance value column you want to use
+\item{tv.cols}{The name of the tolerance value column you want to use
 during metric calculations.}
 
-\item{ffg.cols}{= The name of the ffg value column you want to use
+\item{ffg.cols}{The name of the ffg value column you want to use
 during metric calculations.}
 
-\item{hab.cols}{= The name of the habit value column you want to use
+\item{hab.cols}{The name of the habit value column you want to use
 during metric calculations.}
 }
 \value{

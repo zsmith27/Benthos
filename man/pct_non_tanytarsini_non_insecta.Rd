@@ -7,15 +7,15 @@
 pct_non_tanytarsini_non_insecta(class.wide, order.wide, tribe.wide)
 }
 \arguments{
-\item{class.wide}{= Taxonomic counts aggregated at the class level
+\item{class.wide}{Taxonomic counts aggregated at the class level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 
-\item{order.wide}{= Taxonomic counts aggregated at the order level
+\item{order.wide}{Taxonomic counts aggregated at the order level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 
-\item{tribe.wide}{= Taxonomic counts aggregated at the tribe level
+\item{tribe.wide}{Taxonomic counts aggregated at the tribe level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 }

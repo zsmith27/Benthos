@@ -7,11 +7,11 @@
 pct_ept_hydropsyche(order.wide, genus.wide)
 }
 \arguments{
-\item{order.wide}{= Taxonomic counts aggregated at the order level
+\item{order.wide}{Taxonomic counts aggregated at the order level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 
-\item{genus.wide}{= Taxonomic counts aggregated at the genus level
+\item{genus.wide}{Taxonomic counts aggregated at the genus level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 }

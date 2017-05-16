@@ -7,11 +7,11 @@
 rich_by_rank(long.df, low.res.rank, high.res.rank, master.df)
 }
 \arguments{
-\item{long.df}{= Data in a long data format}
+\item{long.df}{Data in a long data format}
 
-\item{low.res.rank}{= Lower resolution taxonomic rank.}
+\item{low.res.rank}{Lower resolution taxonomic rank.}
 
-\item{high.res.rank}{= Higher resolution taxonomic rank.}
+\item{high.res.rank}{Higher resolution taxonomic rank.}
 
 \item{master.df}{= Master Taxa List.}
 }

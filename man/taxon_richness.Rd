@@ -7,10 +7,10 @@
 taxon_richness(long, taxon, low.res.rank, high.res.rank)
 }
 \arguments{
-\item{long}{= Taxonomic counts arrange in a long data format (i.e., each
+\item{long}{Taxonomic counts arrange in a long data format (i.e., each
 row represents a unique sample and taxon).}
 
-\item{rank}{= The taxonomic rank used to perform the analysis. This
+\item{rank}{The taxonomic rank used to perform the analysis. This
 function requires a rank below the Order level taxonomic classification.}
 }
 \value{

@@ -7,10 +7,10 @@
 pct_urban_intol(long.df, master.df)
 }
 \arguments{
-\item{long.df}{= Taxonomic counts arrange in a long data format (i.e., each
+\item{long.df}{Taxonomic counts arrange in a long data format (i.e., each
 row represents a unique sample and taxon).}
 
-\item{master.df}{= A master taxa list including taxonomic ranks Phylum through
+\item{master.df}{A master taxa list including taxonomic ranks Phylum through
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with

@@ -7,11 +7,11 @@
 pct_annelid_chiro(phylum.wide, family.wide)
 }
 \arguments{
-\item{phylum.wide}{= Taxonomic counts aggregated at the phylum level
+\item{phylum.wide}{Taxonomic counts aggregated at the phylum level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 
-\item{family.wide}{= Taxonomic counts aggregated at the family level
+\item{family.wide}{Taxonomic counts aggregated at the family level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 }

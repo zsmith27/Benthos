@@ -8,15 +8,15 @@ pct_attribute(Taxa.df, master.df, Group, Group_taxa.rank,
   taxa.rank = "FAMILY")
 }
 \arguments{
-\item{Taxa.df}{= Wide data frame format of taxonomic counts.}
+\item{Taxa.df}{Wide data frame format of taxonomic counts.}
 
-\item{Group}{= The taxonomic group to be assessed}
+\item{Group}{The taxonomic group to be assessed}
 
-\item{Group_taxa.rank}{= The specific taxa.rank or taxa.ranks of the group to be assessed.}
+\item{Group_taxa.rank}{The specific taxa.rank or taxa.ranks of the group to be assessed.}
 
-\item{taxa.rank}{= The taxonomic taxa.rank used during the assessment.}
+\item{taxa.rank}{The taxonomic taxa.rank used during the assessment.}
 
-\item{master.df.df}{= taxonomic attributes table.}
+\item{master.df.df}{Taxonomic attributes table.}
 }
 \value{
 The percentage of taxa representing a predefined group. Typically,

@@ -8,23 +8,23 @@ tol_index(long.df, master.df, tolerance.value = "BIBI_TV",
   taxa.rank = "FAMILY", remove_na = TRUE)
 }
 \arguments{
-\item{long.df}{= Taxonomic counts arrange in a long data format (i.e., each
+\item{long.df}{Taxonomic counts arrange in a long data format (i.e., each
 row represents a unique sample and taxon).}
 
-\item{master.df}{= A master taxa list including taxonomic ranks Phylum through
+\item{master.df}{A master taxa list including taxonomic ranks Phylum through
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with
 the following script: master.df <- data(master)}
 
-\item{tolerance.value}{= The name of the column in the master taxon list
+\item{tolerance.value}{The name of the column in the master taxon list
 (specified using the master variable) that contains tolerance values on
 a scale of 0-10.}
 
-\item{taxa.rank}{= The taxonomic rank used to perform the analysis. You must
+\item{taxa.rank}{The taxonomic rank used to perform the analysis. You must
 sepecify either "FAMILY" or "GENUS" (Defualt = "FAMILY").}
 
-\item{remove_na}{= If taxa are missing tolerance assigned tolerance values
+\item{remove_na}{If taxa are missing tolerance assigned tolerance values
 (tolerance.value == NA) then the scores could be skewed downward. Setting this
 parameter to TRUE will exclude these taxa and provide a better estimate of the
 tolerance measure being calculated.}

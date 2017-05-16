@@ -7,9 +7,9 @@
 seq_pct_taxa(long.df, master.df)
 }
 \arguments{
-\item{long.df}{= Data in a long data format}
+\item{long.df}{Data in a long data format}
 
-\item{master.df}{= Master taxa list}
+\item{master.df}{Master taxa list}
 }
 \value{
 The percent of the sample represented by each taxon per taxonomic level.

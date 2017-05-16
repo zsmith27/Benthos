@@ -8,23 +8,23 @@ rich_tolerance(taxa.wide, master.df, tolerance.value = "BIBI_TV", lower.value,
   upper.value)
 }
 \arguments{
-\item{taxa.wide}{= Taxonomic counts aggregated at the specific taxonomic
+\item{taxa.wide}{Taxonomic counts aggregated at the specific taxonomic
 classification (e.g., Order, Family, or Genus) in a wide data format.
  Use the wide function to prepare the data.}
 
-\item{master.df}{= A master taxa list including taxonomic ranks Phylum through
+\item{master.df}{A master taxa list including taxonomic ranks Phylum through
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with
 the following script: master.df <- data(master)}
 
-\item{tolerance.value}{= The name of the column in the master taxon list
+\item{tolerance.value}{The name of the column in the master taxon list
 (specified using the master variable) that contains tolerance values on
 a scale of 0-10.}
 
-\item{lower.value}{= the lower tolerance value bound.}
+\item{lower.value}{The lower tolerance value bound.}
 
-\item{upper.value}{= The upper tolerance value bound.}
+\item{upper.value}{The upper tolerance value bound.}
 }
 \value{
 The number of taxa that  fall within the specified

@@ -7,10 +7,10 @@
 rich_ephem_epeorus(long, genus.wide)
 }
 \arguments{
-\item{long}{= Taxonomic counts arrange in a long data format (i.e., each
+\item{long}{Taxonomic counts arrange in a long data format (i.e., each
 row represents a unique sample and taxon).}
 
-\item{genus.wide}{= Taxonomic counts aggregated at the genus level
+\item{genus.wide}{Taxonomic counts aggregated at the genus level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 }

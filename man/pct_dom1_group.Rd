@@ -7,13 +7,13 @@
 pct_dom1_group(long.df, master.df, Group, taxa.rank)
 }
 \arguments{
-\item{long.df}{= long.df data frame format of taxonomic counts.}
+\item{long.df}{Long data frame format of taxonomic counts.}
 
-\item{master.df}{= taxonomic attributes table.}
+\item{master.df}{Taxonomic attributes table.}
 
-\item{Group}{= The taxonomic group to be assessed}
+\item{Group}{The taxonomic group to be assessed}
 
-\item{taxa.rank}{= The taxonomic taxa.rank used during the assessment.}
+\item{taxa.rank}{The taxonomic taxa.rank used during the assessment.}
 }
 \value{
 The percentage of taxa representing by the most dominant (abundant)

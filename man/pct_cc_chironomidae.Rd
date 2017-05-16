@@ -7,11 +7,11 @@
 pct_cc_chironomidae(family.wide, genus.wide)
 }
 \arguments{
-\item{family.wide}{= Taxonomic counts aggregated at the family level
+\item{family.wide}{Taxonomic counts aggregated at the family level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 
-\item{genus.wide}{= Taxonomic counts aggregated at the genus level
+\item{genus.wide}{Taxonomic counts aggregated at the genus level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 }
