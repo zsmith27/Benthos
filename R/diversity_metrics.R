@@ -3,9 +3,9 @@
 #============================================================================
 #'Taxon Richness
 #'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. This
+#'@param rank The taxonomic rank used to perform the analysis. This
 #'function requires a rank below the Order level taxonomic classification.
 #'@return The number of taxa identified as ephemeropterans (Order: Ephemeroptera).
 #'@export
@@ -21,7 +21,7 @@ taxon_richness <- function(long, taxon, low.res.rank, high.res.rank){
 #============================================================================
 #'Internal Use: Calculate Richness
 #'
-#'@param wide.df = a wide dataframe of taxonomic counts.
+#'@param wide.df a wide dataframe of taxonomic counts.
 #'@return Calculates richness based on the appropriate number of columns.
 #'@export
 calc_richness <- function(wide.df){
@@ -41,7 +41,7 @@ calc_richness <- function(wide.df){
 #==============================================================================
 #'Margalef's Index
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
 #'@return Margalef's Index: (S - 1)/ln(N)
@@ -66,7 +66,7 @@ margalefs <- function(taxa.wide) {
 #==============================================================================
 #'Menhinick's Index
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
 #'@return Menhinick's Index: S/sqrt(N)
@@ -88,10 +88,10 @@ menhinicks <- function(taxa.wide) {
 #==============================================================================
 #'Percentage of the Most Dominant Taxon (Taxa)
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
-#'@param dom.level = A numeric value 1-5 indicating the number
+#'@param dom.level A numeric value 1-5 indicating the number
 #'@return Percent of individuals that represent the most abundant taxon or taxa.
 #'dom.level can be used to specify 1st-5th most abundant taxa by specifying
 #'the corresponding numeric value (1-5).  Values >1 include all of the previous
@@ -113,7 +113,7 @@ pct_dom <- function(taxa.wide, dom.level){
 #==============================================================================
 #'Simpson's Diversity Index
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
 #'@return Simpson's Divieristy Index: 1 - sum(n/N)^2
@@ -134,7 +134,7 @@ simpsons <- function(taxa.wide) {
 #==============================================================================
 #'Shannon Wiener Diversity Index
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
 #'@return Shannon Wiener Diversity Index: -sum(p * ln(p))
@@ -152,7 +152,7 @@ shannon <- function(taxa.wide) {
 #==============================================================================
 #'Probability of Interspecific Encounter (PIE)
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
 #'@return Hurlbert's (1971) Probability of Interspecific Encounter (PIE):
@@ -182,7 +182,7 @@ hurlberts_pie <- function(taxa.wide){
 #==============================================================================
 #'Abundance
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
 #'@return A count of the total number of organisms observed.
@@ -196,7 +196,7 @@ abundance <- function(taxa.wide){
 #==============================================================================
 #'Pielou's Evenness
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
 #'@return Pielou's Evenness Index: H'/ ln(S)
@@ -223,16 +223,16 @@ pielou <- function(taxa.wide){
 #============================================================================
 #'EPT Richness Excluding Tolerant Taxa
 #'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. You must
+#'@param rank The taxonomic rank used to perform the analysis. You must
 #'sepecify either 'FAMILY' or "GENUS.'
-#'@param master = A master taxa list including taxonomic ranks Phylum through
+#'@param master A master taxa list including taxonomic ranks Phylum through
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
 #'the following script: master.df <- data(master)
-#'@param tolerance_value = The name of the column in the master taxon list
+#'@param tolerance_value The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.  Tolerant organisms are classified as organisms with a
 #'tolerance value >= 7. The defualt is set to the the BIBI tolerance values,
@@ -267,9 +267,9 @@ ept_rich_no_tol <- function(long, rank = "FAMILY", master, tolerance_value = "BI
 #============================================================================
 #'EPT Richness
 #'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. You must
+#'@param rank The taxonomic rank used to perform the analysis. You must
 #'sepecify either 'FAMILY' or "GENUS.'
 #'@return The number of taxa identified as EPT (Orders: Ephemeroptera,
 #' Plecoptera, and Trichoptera).
@@ -286,9 +286,9 @@ rich_ept <- function(long, rank = "FAMILY"){
 #==============================================================================
 #'EPT Percent Taxa Richness
 #'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. You must
+#'@param rank The taxonomic rank used to perform the analysis. You must
 #'sepecify either 'FAMILY' or "GENUS.'
 #'@return The percentage of taxa identified as EPT (Orders: Ephemeroptera,
 #'Plecoptera, and Trichoptera).
@@ -314,16 +314,16 @@ pct_ept_rich <- function(long, rank){
 #==============================================================================
 #'Percentage of EPT Taxa Excluding Tolerant Taxa
 #'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. You must
+#'@param rank The taxonomic rank used to perform the analysis. You must
 #'sepecify either 'FAMILY' or "GENUS.'
-#'@param master = A master taxa list including taxonomic ranks Phylum through
+#'@param master A master taxa list including taxonomic ranks Phylum through
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
 #'the following script: master.df <- data(master)
-#'@param tolerance_value = The name of the column in the master taxon list
+#'@param tolerance_value The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.  Tolerant organisms are classified as organisms with a
 #'tolerance value >= 7.  The defualt is set to the the BIBI tolerance values,
@@ -362,9 +362,9 @@ pct_ept_rich_no_tol <- function (long, rank, master, tolerance_value = "BIBI_TV"
 #============================================================================
 #'COTE Richness
 #'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. You must
+#'@param rank The taxonomic rank used to perform the analysis. You must
 #'sepecify either 'FAMILY' or "GENUS.'
 #'@return The number of taxa identified as COTE (Orders: Coleoptera, Odonata,
 #' Trichoptera, and Ephemeroptera).
@@ -382,9 +382,9 @@ rich_cote <- function(long, rank = "FAMILY"){
 #============================================================================
 #'POTEC Richness
 #'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. You must
+#'@param rank The taxonomic rank used to perform the analysis. You must
 #'sepecify either 'FAMILY' or "GENUS.'
 #'@return The number of taxa identified as POTEC (Orders: Plecoptera, Odonata,
 #' Trichoptera, Ephemeroptera, and Coleoptera).
@@ -403,9 +403,9 @@ rich_potec <- function(long, rank = "FAMILY"){
 #==============================================================================
 #'Non-Chironomid and Oligochaet Taxa Richness
 #'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. This
+#'@param rank The taxonomic rank used to perform the analysis. This
 #'function requires a rank below the Order level taxonomic classification.
 #'@return The number of taxa that were not identified as oligochaets
 #'(Class: Oligochaeta) and chironomids (Family: Chironomidae).
@@ -429,10 +429,10 @@ rich_nco <- function(long, rank = "GENUS"){
 #==============================================================================
 #'Effective Number of Taxa
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
-#'@param index = Requires "shannon" (Shannon Wiener Diversity Index) or
+#'@param index Requires "shannon" (Shannon Wiener Diversity Index) or
 #'"invsimpson" (Inverse Simpson's Diversity Index).
 #'@return This functions converts the common diversity indices values to
 #'effective richness, as outlined by Jost (2006).  Effective richness is a

@@ -1,8 +1,8 @@
 #==============================================================================
 #'Prepare the NYSDEC SBU Data
 #'
-#'@param taxa.df = Taxonomic counts in a long data format.
-#'@param master.df = A Master Taxa List containing the appropriate and applicable
+#'@param taxa.df Taxonomic counts in a long data format.
+#'@param master.df A Master Taxa List containing the appropriate and applicable
 #'taxonomic hierarchy and taxonomic traits. Specify 'master' to use the Master
 #'Taxa List built in to the Benthos package.
 #'@return Prepare taxonomic data from the New York State Department of 
@@ -106,8 +106,8 @@ nysdec_data_prep_old <- function(taxa.df, master.df){
 #==============================================================================
 #'Prepare the NYSDEC SBU Data
 #'
-#'@param taxa.df = Taxonomic counts in a long data format.
-#'@param master.df = A Master Taxa List containing the appropriate and applicable
+#'@param taxa.df Taxonomic counts in a long data format.
+#'@param master.df A Master Taxa List containing the appropriate and applicable
 #'taxonomic hierarchy and taxonomic traits. Specify 'master' to use the Master
 #'Taxa List built in to the Benthos package.
 #'@return Prepare taxonomic data from the New York State Department of 

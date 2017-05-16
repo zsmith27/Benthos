@@ -1,7 +1,7 @@
 #==============================================================================
 #'Prepare the NYSDEC Master Taxa List
 #'
-#'@param dec.master = A Master Taxa List containing the appropriate and applicable
+#'@param dec.master A Master Taxa List containing the appropriate and applicable
 #'taxonomic hierarchy and taxonomic traits. Specify 'master' to use the Master
 #'Taxa List built in to the Benthos package.
 #'@return Prepare master taxa list from the New York State Department of 

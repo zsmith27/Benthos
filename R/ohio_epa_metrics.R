@@ -1,7 +1,7 @@
 #'Ohio Environmental Protection Agency Metrics
 #'
-#'@param long.df = Taxonomic counts in a long data format.
-#'@param master.df = The master taxa list contains taxonomic ranks from Phylum
+#'@param long.df Taxonomic counts in a long data format.
+#'@param master.df The master taxa list contains taxonomic ranks from Phylum
 #'to species and known taxonomic attributes.
 #'@return Ten metrics were selected by the Ohio Environmental Protection Agency
 #'to create the Ohio River macorinverterbate IBI. The index was developed

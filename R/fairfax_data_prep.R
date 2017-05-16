@@ -1,7 +1,7 @@
 #==============================================================================
 #'Prepare the Fairfax County Data
 #'
-#'@param taxa.df = Taxonomic counts in a long data format.
+#'@param taxa.df Taxonomic counts in a long data format.
 #'@return Prepare taxonomic data from the Fairfax County, VA.
 #'@importFrom magrittr "%>%"
 #'@export
@@ -83,7 +83,7 @@ fairfax_data_prep <- function(taxa.df){
 #==============================================================================
 #'Prepare the Fairfax County Taxonomic Attributes Table
 #'
-#'@param attributes.df = Taxonomic attributes table.
+#'@param attributes.df Taxonomic attributes table.
 #'@return Prepare Fairfax County's Taxonomic attribute table for use in the
 #'Benthos package.
 #'@importFrom magrittr "%>%"

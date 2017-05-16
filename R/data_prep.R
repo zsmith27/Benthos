@@ -5,8 +5,8 @@
 #==============================================================================
 #'Data Prep
 #'
-#'@param long.df = Taxonomic counts in a long data format.
-#'@param master.df = A Master Taxa List containing the appropriate and applicable
+#'@param long.df Taxonomic counts in a long data format.
+#'@param master.df A Master Taxa List containing the appropriate and applicable
 #'taxonomic hierarchy and taxonomic traits. Specify 'master' to use the Master
 #'Taxa List built in to the Benthos package.
 #'@return The provided taxonomic counts are merged with the provided Master 
@@ -113,7 +113,7 @@ data_prep <- function(long.df, master.df){
 #==============================================================================
 #'Data Clean Up
 #'
-#'@param x = a data frame.
+#'@param x a data frame.
 #'@return capitalizes all of the column names, as well as, removes any leading
 #'or trailing white space from the column names, columns of class character, 
 #'and columns of class factor.
@@ -138,7 +138,7 @@ clean_up <- function(x) {
 #==============================================================================
 #'Fill empty rows with lowest level of
 #'
-#'@param Taxon_List = Master taxon list in wide format
+#'@param Taxon_List Master taxon list in wide format
 #'@return Fills in blank spaces with the lowest level of taxonomic
 #' identification.
 #'@export
@@ -166,8 +166,8 @@ fill_taxa <- function(Taxon_List){
 #==============================================================================
 #'Long Data Frame
 #'Transform taxa count data from wide to a long format.
-#'@param x = Taxa count data
-#'@param Level = Taxonomic Level (PHYLUM, CLASS, ORDER, FAMILY, GENUS)
+#'@param x Taxa count data
+#'@param Level Taxonomic Level (PHYLUM, CLASS, ORDER, FAMILY, GENUS)
 #'@return Taxa counts in a long data format.
 #'@export
 #'
@@ -186,9 +186,9 @@ long <- function (wide.df, taxa.rank = "FAMILY") {
 #==============================================================================
 #'Wide Data Frame
 #'Transform taxa count data from long to wide format
-#'@param long = Taxa count data
-#'@param taxa.rank = Taxonomic Level (PHYLUM, CLASS, ORDER, FAMILY, GENUS)
-#'@param pct.unid = A threshold can be established to exclude samples that do
+#'@param long Taxa count data
+#'@param taxa.rank Taxonomic Level (PHYLUM, CLASS, ORDER, FAMILY, GENUS)
+#'@param pct.unid A threshold can be established to exclude samples that do
 #'have too many unidentified taxa in a sample. Enter the percentage of the
 #'sample that you are comfortable with being unidentified.  If not specified
 #'the function will not excluded any samples.
@@ -264,7 +264,7 @@ wide <- function (long.df, taxa.rank, pct.unid = NULL) {
 #==============================================================================
 #'Benthos Cheat
 #'
-#'@param long.df = Taxonomic counts in a long data format.
+#'@param long.df Taxonomic counts in a long data format.
 #'@return The Benthos package requires eight columns to exist before the metrics
 #'can be calculated.  Although it is generally not recommended, five of these
 #'columns (i.e., "STATION_ID", "AGENCY_CODE", "DATE", "METHOD", and

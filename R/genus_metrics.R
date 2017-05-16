@@ -3,7 +3,7 @@
 #==============================================================================
 #'Acid Tolerance Index (ATI)
 #'
-#'@param genus.wide = Taxonomic counts aggregated at the genus level
+#'@param genus.wide Taxonomic counts aggregated at the genus level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The number of Acid Tolerant Individuals (ATI) as described
@@ -26,10 +26,10 @@ pct_acid_tol <- function(genus.wide){
 #==============================================================================
 #'Percentage of Chironomids Identified as Chironomus and Cricoptopus
 #'
-#'@param genus.wide = Taxonomic counts aggregated at the genus level
+#'@param genus.wide Taxonomic counts aggregated at the genus level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param family.wide = Taxonomic counts aggregated at the family level
+#'@param family.wide Taxonomic counts aggregated at the family level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of chironomids (Family: Chironomidae) individuals
@@ -49,9 +49,9 @@ pct_cc_chironomidae <- function(family.wide, genus.wide){
 #==============================================================================
 #'Ephemeropteran Richness minus Epeorus
 #'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param genus.wide = Taxonomic counts aggregated at the genus level
+#'@param genus.wide Taxonomic counts aggregated at the genus level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The number of genera identified as ephemeropteran taxa
@@ -76,10 +76,10 @@ rich_ephem_epeorus <- function(long, genus.wide){
 #==============================================================================
 #'Percent EPT Minus Cheumatopsyche
 #'
-#'@param order.wide = Taxonomic counts aggregated at the genus level
+#'@param order.wide Taxonomic counts aggregated at the genus level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param genus.wide = Taxonomic counts aggregated at the genus level
+#'@param genus.wide Taxonomic counts aggregated at the genus level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of individuals identified as EPT (Orders: Ephemeroptera,
@@ -97,10 +97,10 @@ pct_ept_cheumatopsyche <- function(order.wide, genus.wide){
 #==============================================================================
 #'Percent EPT minus Hydropsyche
 #'
-#'@param order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param genus.wide = Taxonomic counts aggregated at the genus level
+#'@param genus.wide Taxonomic counts aggregated at the genus level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of individuals identified as EPT (Orders: Ephemeroptera,
@@ -118,13 +118,13 @@ pct_ept_hydropsyche <- function(order.wide, genus.wide){
 #==============================================================================
 #'Percentage of Non-Tanytarsini Diptera and Non-Insecta
 #'
-#'@param class.wide = Taxonomic counts aggregated at the class level
+#'@param class.wide Taxonomic counts aggregated at the class level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param tribe.wide = Taxonomic counts aggregated at the tribe level
+#'@param tribe.wide Taxonomic counts aggregated at the tribe level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of Diptera individuals not identified as Tanytarsini
@@ -155,13 +155,13 @@ pct_non_tanytarsini_non_insecta <- function(class.wide, order.wide, tribe.wide){
 #==============================================================================
 #'Ohio EPA Percentage of Tolerant Taxa
 #'
-#'@param class.wide = Taxonomic counts aggregated at the class level
+#'@param class.wide Taxonomic counts aggregated at the class level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param tribe.wide = Taxonomic counts aggregated at the tribe level
+#'@param tribe.wide Taxonomic counts aggregated at the tribe level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of Diptera individuals not identified as Tanytarsini
@@ -191,7 +191,7 @@ ohio_pct_tolerant <- function(){
 #==============================================================================
 #'Percentage of Orthocladiinae
 #'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
 #'@return The percentage of Orthocladiinae (Diptera; Chironomidae) individuals.
 #'Orthocladiinae is a subfamily of the family Chironomidae.

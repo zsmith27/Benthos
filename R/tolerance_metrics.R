@@ -3,19 +3,19 @@
 #==============================================================================
 #'Compute Tolerance Indices
 #'
-#'@param long.df = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long.df Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param master.df = A master taxa list including taxonomic ranks Phylum through
+#'@param master.df A master taxa list including taxonomic ranks Phylum through
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
 #'the following script: master.df <- data(master)
-#'@param tolerance.value = The name of the column in the master taxon list
+#'@param tolerance.value The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.
-#'@param taxa.rank = The taxonomic rank used to perform the analysis. You must
+#'@param taxa.rank The taxonomic rank used to perform the analysis. You must
 #'sepecify either "FAMILY" or "GENUS" (Defualt = "FAMILY").
-#'@param remove_na = If taxa are missing tolerance assigned tolerance values
+#'@param remove_na If taxa are missing tolerance assigned tolerance values
 #' (tolerance.value == NA) then the scores could be skewed downward. Setting this
 #' parameter to TRUE will exclude these taxa and provide a better estimate of the
 #' tolerance measure being calculated.
@@ -136,17 +136,17 @@ tol_index <- function(long.df, master.df, tolerance.value = "BIBI_TV",
 #==============================================================================
 #'Tolerance Index for Presence/Absence
 #'
-#'@param long.df = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long.df Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param master.df = A master taxa list including taxonomic ranks Phylum through
+#'@param master.df A master taxa list including taxonomic ranks Phylum through
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
 #'the following script: master.df <- data(master)
-#'@param tolerance.value = The name of the column in the master taxon list
+#'@param tolerance.value The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.
-#'@param taxa.rank = The taxonomic rank used to perform the analysis. You must
+#'@param taxa.rank The taxonomic rank used to perform the analysis. You must
 #'sepecify either "FAMILY" or "GENUS" (Defualt = "FAMILY").
 #'@return The average tolerance score using only presence/absence data for
 #'each unique sampling event. This metric is calculated at the family or
@@ -194,19 +194,19 @@ tol_pres_abs <- function(long.df, taxa.rank = "FAMILY", master.df, tolerance.val
 #==============================================================================
 #'Percentage of Intolerant Individuals
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
-#'@param master.df = A master taxa list including taxonomic ranks Phylum through
+#'@param master.df A master taxa list including taxonomic ranks Phylum through
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
 #'the following script: master.df <- data(master)
-#'@param tolerance.value = The name of the column in the master taxon list
+#'@param tolerance.value The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.
-#'@param lower.value = the lower tolerance value bound.
-#'@param upper.value = The upper tolerance value bound.
+#'@param lower.value The lower tolerance value bound.
+#'@param upper.value The upper tolerance value bound.
 #'@return The percentage of individuals that  fall within the specified
 #'tolerance value bounds. Recommendations: Intolerant taxa
 #'(lower.value = 0, upper.value = 3), facultative taxa
@@ -230,19 +230,19 @@ pct_tol_val <- function(taxa.wide, master.df, tolerance.value = "BIBI_TV",
 #==============================================================================
 #'Richness of Tolerance Group
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
-#'@param master.df = A master taxa list including taxonomic ranks Phylum through
+#'@param master.df A master taxa list including taxonomic ranks Phylum through
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
 #'the following script: master.df <- data(master)
-#'@param tolerance.value = The name of the column in the master taxon list
+#'@param tolerance.value The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.
-#'@param lower.value = the lower tolerance value bound.
-#'@param upper.value = The upper tolerance value bound.
+#'@param lower.value The lower tolerance value bound.
+#'@param upper.value The upper tolerance value bound.
 #'@return The number of taxa that  fall within the specified
 #'tolerance value bounds. Recommendations: Intolerant taxa
 #'(lower.value = 0, upper.value = 3), facultative taxa
@@ -277,9 +277,9 @@ rich_tolerance <- function(taxa.wide, master.df, tolerance.value = "BIBI_TV",
 #==============================================================================
 #'***Percentage of Urban Intolerant Individuals***
 #'
-#'@param long.df = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long.df Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param master.df = A master taxa list including taxonomic ranks Phylum through
+#'@param master.df A master taxa list including taxonomic ranks Phylum through
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
@@ -302,19 +302,19 @@ pct_urban_intol <- function(long.df, master.df) {
 #==============================================================================
 #'Beck's Index
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
-#'@param taxa.rank = The taxonomic rank used to perform the analysis. You must
+#'@param taxa.rank The taxonomic rank used to perform the analysis. You must
 #'sepecify either "FAMILY" or "GENUS" (Defualt = "FAMILY").
-#'@param master.df = A master taxa list including taxonomic ranks Phylum through
+#'@param master.df A master taxa list including taxonomic ranks Phylum through
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
 #'the following script: master.df <- data(master)
-#'@param beck.colum = The name of the column in the master.df that contains
+#'@param beck.colum The name of the column in the master.df that contains
 #'Beck values.
-#'@param beck.version = The version of Beck's Index specified as 1 or 3.  The
+#'@param beck.version The version of Beck's Index specified as 1 or 3.  The
 #'defualt is 1, the orginal Beck's Index:
 #'2(S1) + 1(S2) + 3(S3)
 #'where:

@@ -3,9 +3,9 @@
 #==============================================================================
 #'The percentage each taxon makes up of a sample
 #'
-#'@param wide.df = Data in a wide data format.
-#'@param taxa.rank = Taxonomic rank (all caps).
-#'@param master.df = Master taxa list
+#'@param wide.df Data in a wide data format.
+#'@param taxa.rank Taxonomic rank (all caps).
+#'@param master.df Master taxa list
 #'@return The percent of the sample represented by each taxa per taxon level.
 #'@export
 #==============================================================================
@@ -51,8 +51,8 @@ calc_pct_taxa <- function(wide.df, taxa.rank, master.df){
 #==============================================================================
 #'The percentage each taxon makes up of a sample
 #'
-#'@param long.df = Data in a long data format
-#'@param master.df = Master taxa list
+#'@param long.df Data in a long data format
+#'@param master.df Master taxa list
 #'@return The percent of the sample represented by each taxon per taxonomic level.
 #'@export
 #==============================================================================
@@ -143,9 +143,9 @@ seq_pct_taxa <- function(long.df, master.df){
 #==============================================================================
 #'Richness of All Taxon
 #'
-#'@param long.df = Data in a long data format
-#'@param low.res.rank = Lower resolution taxonomic rank.
-#'@param high.res.rank = Higher resolution taxonomic rank.
+#'@param long.df Data in a long data format
+#'@param low.res.rank Lower resolution taxonomic rank.
+#'@param high.res.rank Higher resolution taxonomic rank.
 #'@param master.df = Master Taxa List.
 #'@return Sequences through each taxon at level of the specified low.res.rank
 #'and calculates richness based on the observations at the specified
@@ -167,9 +167,9 @@ rich_by_rank <- function(long.df, low.res.rank, high.res.rank, master.df) {
 #==============================================================================
 #'Sequence Through and Calculate the Richness of All Taxon
 #'
-#'@param long.df = Data in a long data format
-#'@param rank = The taxonomic resolution of your dataset.
-#'@param master.df = Master Taxa List.
+#'@param long.df Data in a long data format
+#'@param rank The taxonomic resolution of your dataset.
+#'@param master.df Master Taxa List.
 #'@return Sequences through each taxonomic hierarchy and taxon, calculating the
 #' richness of tax at the specified taxonomic rank ('''rank''').
 #'@export

@@ -1,7 +1,7 @@
 #==============================================================================
 #'Prepare the DRBC Data
 #'
-#'@param taxa.df = Taxonomic counts in a long data format.
+#'@param taxa.df Taxonomic counts in a long data format.
 #'@return Prepare taxonomic data from the Delaware River Basin Commission 
 #'(DRBC).
 #'@importFrom magrittr "%>%"
@@ -92,7 +92,7 @@ drbc_data_prep <- function(taxa.df){
 #==============================================================================
 #'Prepare the DRBC Attributes Table
 #'
-#'@param taxa.df = Taxonomic counts in a long data format.
+#'@param taxa.df Taxonomic counts in a long data format.
 #'@return Prepare taxa attributes table from the data provided by the Delaware 
 #'River Basin Commission (DRBC).
 #'@importFrom magrittr "%>%"

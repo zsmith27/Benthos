@@ -3,9 +3,9 @@
 #==============================================================================
 #'Percentage of a Specified Taxon
 #'
-#'@param wide.df = Taxonomic counts aggregated at the appropriate taxonomic
+#'@param wide.df Taxonomic counts aggregated at the appropriate taxonomic
 #' rank in a wide data format. Use the wide function to prepare the data.
-#' @param taxon = The taxon of interest.
+#' @param taxon The taxon of interest.
 #'@return The percentage of individuals identified as the specified taxon.
 #'@export
 
@@ -18,10 +18,10 @@ pct_taxon <- function(wide.df, taxon) {
 #==============================================================================
 #'Proportion of Gastropoda, Oligochaeta, and Dipteran Individuals
 #'
-#'@param class.wide = Taxonomic counts aggregated at the class level
+#'@param class.wide Taxonomic counts aggregated at the class level
 #'classification in a wide data format. Use the wide function to
 #'prepare the data.
-#'@param order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return One minus the proportional number of gastropods (Class: Gastropoda),
@@ -40,7 +40,7 @@ gold <- function(class.wide, order.wide) {
 #==============================================================================
 #'Percentage of Ephemeropteran Individuals Minus Baetid
 #'
-#'@param order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of individuals identified as Ephemeropterans
@@ -61,7 +61,7 @@ pct_epmeroptera_no_baetid <- function(order.wide, family.wide) {
 #==============================================================================
 #'Percentage of EPT Individuals
 #'
-#'@param order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of individuals identified as ephemeropterans
@@ -82,10 +82,10 @@ pct_ept <- function(order.wide) {
 #==============================================================================
 #'Percentage of EPT Individuals Minus Hydropsychid and Baetid Individuals
 #'
-#'@param order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param family.wide = Taxonomic counts aggregated at the family level
+#'@param family.wide Taxonomic counts aggregated at the family level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of individuals identified as ephemeropterans
@@ -111,10 +111,10 @@ pct_ept_hydro_baetid <- function(order.wide, family.wide) {
 #==============================================================================
 #'Percentage of EPT Individuals Minus Hydropsychid Individuals
 #'
-#'@param order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param family.wide = Taxonomic counts aggregated at the family level
+#'@param family.wide Taxonomic counts aggregated at the family level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of individuals identified as ephemeropterans
@@ -139,10 +139,10 @@ pct_ept_no_hydro <- function(order.wide, family.wide) {
 #==============================================================================
 #'Percentage EPT Individuals Identified as Hydropsychids
 #'
-#'@param order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param family.wide = Taxonomic counts aggregated at the family level
+#'@param family.wide Taxonomic counts aggregated at the family level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return  The percentage of EPT (Orders: Ephemeroptera, Plecoptera,
@@ -163,7 +163,7 @@ pct_hydro_ept <- function(order.wide, family.wide) {
 #==============================================================================
 #'Percentage of Trichopterans Represented by Hydropsychids
 #'
-#'@param order.wide = Taxonomic counts aggregated at the class level
+#'@param order.wide Taxonomic counts aggregated at the class level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of trichopteran (Order:Trichoptera) individuals
@@ -181,7 +181,7 @@ pct_hydro_trichoptera <- function(order.wide, family.wide) {
 #==============================================================================
 #'Percentage of Trichopterans Minus Hydropsychids
 #'
-#'@param order.wide = Taxonomic counts aggregated at the class level
+#'@param order.wide Taxonomic counts aggregated at the class level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of trichopteran (Order:Trichoptera) individuals
@@ -199,7 +199,7 @@ pct_trichoptera_no_hydro <- function(order.wide, family.wide) {
 #==============================================================================
 #'Percentage of COTE Individuals
 #'
-#'@param order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of individuals identified as coleopterans
@@ -229,7 +229,7 @@ pct_cote <- function(order.wide) {
 #==============================================================================
 #'Percentage of POTEC Individuals
 #'
-#'@param order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of individuals identified as plecopterans
@@ -263,10 +263,10 @@ pct_potec <- function(order.wide) {
 #==============================================================================
 #'Percentage of Limestone Individuals
 #'
-#'@param order.wide = order.wide = Taxonomic counts aggregated at the order level
+#'@param order.wide order.wide = Taxonomic counts aggregated at the order level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param family.wide = Taxonomic counts aggregated at the family level
+#'@param family.wide Taxonomic counts aggregated at the family level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of individuals identified as isopods (Order: Isopoda),
@@ -286,10 +286,10 @@ pct_limestone <- function(order.wide, family.wide) {
 #==============================================================================
 #'Percentage of Oligochaet and Chironomid Individuals
 #'
-#'@param class.wide = Taxonomic counts aggregated at the class level
+#'@param class.wide Taxonomic counts aggregated at the class level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param family.wide = Taxonomic counts aggregated at the family level
+#'@param family.wide Taxonomic counts aggregated at the family level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of individuals identified as oligochaets
@@ -306,10 +306,10 @@ pct_oligo_chiro <- function(class.wide, family.wide){
 #==============================================================================
 #'Percentage of Annelid and Chironomid Individuals
 #'
-#'@param phylum.wide = Taxonomic counts aggregated at the phylum level
+#'@param phylum.wide Taxonomic counts aggregated at the phylum level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
-#'@param family.wide = Taxonomic counts aggregated at the family level
+#'@param family.wide Taxonomic counts aggregated at the family level
 #' classification in a wide data format. Use the wide function to
 #' prepare the data.
 #'@return The percentage of individuals identified as annelids (Phylum: Annelida)
@@ -328,7 +328,7 @@ pct_annelid_chiro <- function(phylum.wide, family.wide){
 #==============================================================================
 #'Percentage of Unidentified Individuals
 #'
-#'@param taxa.wide = Taxonomic counts aggregated at the specific taxonomic
+#'@param taxa.wide Taxonomic counts aggregated at the specific taxonomic
 #' classification (e.g., Order, Family, or Genus) in a wide data format.
 #'  Use the wide function to prepare the data.
 #'@return The percentage of individuals that were not identified at the
@@ -344,16 +344,16 @@ pct_unidentified <- function(taxa.wide) {
 #==============================================================================
 #'Percentage of EPT Taxa Excluding Tolerant Taxa
 #'
-#'@param long = Taxonomic counts arrange in a long data format (i.e., each
+#'@param long Taxonomic counts arrange in a long data format (i.e., each
 #'row represents a unique sample and taxon).
-#'@param rank = The taxonomic rank used to perform the analysis. You must
+#'@param rank The taxonomic rank used to perform the analysis. You must
 #'sepecify either 'FAMILY' or "GENUS.'
-#'@param master = A master taxa list including taxonomic ranks Phylum through
+#'@param master A master taxa list including taxonomic ranks Phylum through
 #'the specified taxonomic rank (Family or Genus) and the an
 #'associated list of tolerance values. The default is set to the master taxa
 #'list included in the BIBI package.  The master taxa list can be viewed with
 #'the following script: data(master)
-#'@param tolerance_value = The name of the column in the master taxon list
+#'@param tolerance_value The name of the column in the master taxon list
 #'(specified using the master variable) that contains tolerance values on
 #'a scale of 0-10.  Tolerant organisms are classified as organisms with a
 #'tolerance value >= 7.  The defualt is set to the the BIBI tolerance values,
