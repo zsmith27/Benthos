@@ -16,8 +16,6 @@
 
 
 data_prep <- function(long.df, master.df){
-  # Make sure all column names are uppercase.
-  #names(long.df) <- toupper(names(long.df))
   # All column names to uppercase and remove leading and trailing white space
   # from column names, character fields, and factor fields.
   long.df <- clean_up(long.df)
@@ -129,6 +127,9 @@ clean_up <- function(x) {
   char.cols <- sapply(x, class) %in% c('character', 'factor')
   # Remove leading and trailing white space from characters and factors.
   x[, char.cols] <- apply(x[, char.cols], 2, trimws)
+  # Fill blanks with NAs.
+  x[x == ""] <- NA
+  # End clean_up function.
   return(x)
 }
 
