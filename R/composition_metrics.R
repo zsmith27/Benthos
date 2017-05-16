@@ -179,6 +179,24 @@ pct_hydro_trichoptera <- function(order.wide, family.wide) {
 }
 
 #==============================================================================
+#'Percentage of Trichopterans Minus Hydropsychids
+#'
+#'@param order.wide = Taxonomic counts aggregated at the class level
+#' classification in a wide data format. Use the wide function to
+#' prepare the data.
+#'@return The percentage of trichopteran (Order:Trichoptera) individuals
+#'minus the percentage of hydropsychids (Family: Hydropsychidae). 
+#'This metric typically decreases with degradation.
+#'@export
+
+pct_trichoptera_no_hydro <- function(order.wide, family.wide) {
+  trichop.vec <- pct_taxon(order.wide, "TRICHOPTERA")
+  hydro.vec <- pct_taxon(family.wide, "HYDROPSYCHIDAE")
+  final.vec <- trichop.vec - hydro.vec
+  return(final.vec)
+}
+
+#==============================================================================
 #'Percentage of COTE Individuals
 #'
 #'@param order.wide = Taxonomic counts aggregated at the order level
