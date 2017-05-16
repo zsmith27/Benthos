@@ -289,7 +289,7 @@ all_metrics <- function(long.df, master.df, taxa.rank,
     print("...%EPT Minus Hydropsychidae")
     metrics$PCT_EPT_NO_HYDRO <- pct_ept_no_hydro(order.wide, family.wide)
     print("...%Trichoptera Minus Hydropsychidae")
-    metrics$PCT_NON_HYDROP_TRICHOPTERA <- pct_non_hydrop_trichoptera(order.wide, family.wide)
+    metrics$PCT_NON_HYDROP_TRICHOPTERA <- pct_trichoptera_no_hydro(order.wide, family.wide)
     #metrics$PCT_HYDRO_TRICHOPTERA <- pct_hydro_trichoptera(order.wide, family.wide)
     print("...%Ephemeroptera Minus Baetidae")
     metrics$PCT_EPHEMEROPTERA_NO_BAETID <- pct_epmeroptera_no_baetid(order.wide, family.wide)
