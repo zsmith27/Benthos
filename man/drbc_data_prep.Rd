@@ -7,7 +7,7 @@
 drbc_data_prep(taxa.df)
 }
 \arguments{
-\item{taxa.df}{= Taxonomic counts in a long data format.}
+\item{taxa.df}{Taxonomic counts in a long data format.}
 }
 \value{
 Prepare taxonomic data from the Delaware River Basin Commission 

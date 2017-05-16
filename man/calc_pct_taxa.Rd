@@ -7,11 +7,11 @@
 calc_pct_taxa(wide.df, taxa.rank, master.df)
 }
 \arguments{
-\item{wide.df}{= Data in a wide data format.}
+\item{wide.df}{Data in a wide data format.}
 
-\item{taxa.rank}{= Taxonomic rank (all caps).}
+\item{taxa.rank}{Taxonomic rank (all caps).}
 
-\item{master.df}{= Master taxa list}
+\item{master.df}{Master taxa list}
 }
 \value{
 The percent of the sample represented by each taxa per taxon level.

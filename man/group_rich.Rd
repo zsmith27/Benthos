@@ -7,9 +7,9 @@
 group_rich(NameList, Taxa.df)
 }
 \arguments{
-\item{NameList}{= uninque list of taxa.}
+\item{NameList}{uninque list of taxa.}
 
-\item{Taxa.df}{= Wide data frame format of taxonomic counts.}
+\item{Taxa.df}{Wide data frame format of taxonomic counts.}
 }
 \value{
 A vector of taxa richness for a specific list of taxa representing

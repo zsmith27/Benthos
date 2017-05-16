@@ -7,9 +7,9 @@
 group_taxa(NameList, Taxa.df)
 }
 \arguments{
-\item{NameList}{= uninque list of taxa.}
+\item{NameList}{uninque list of taxa.}
 
-\item{Taxa.df}{= Wide data frame format of taxonomic counts.}
+\item{Taxa.df}{Wide data frame format of taxonomic counts.}
 }
 \value{
 Data frame of a specific list of taxa. Used in habit and functional

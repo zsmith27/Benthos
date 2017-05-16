@@ -7,7 +7,7 @@
 clean_up(x)
 }
 \arguments{
-\item{x}{= a data frame.}
+\item{x}{a data frame.}
 }
 \value{
 capitalizes all of the column names, as well as, removes any leading

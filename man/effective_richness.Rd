@@ -7,11 +7,11 @@
 effective_richness(taxa.wide, index)
 }
 \arguments{
-\item{taxa.wide}{= Taxonomic counts aggregated at the specific taxonomic
+\item{taxa.wide}{Taxonomic counts aggregated at the specific taxonomic
 classification (e.g., Order, Family, or Genus) in a wide data format.
  Use the wide function to prepare the data.}
 
-\item{index}{= Requires "shannon" (Shannon Wiener Diversity Index) or
+\item{index}{Requires "shannon" (Shannon Wiener Diversity Index) or
 "invsimpson" (Inverse Simpson's Diversity Index).}
 }
 \value{

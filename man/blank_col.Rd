@@ -7,10 +7,10 @@
 blank_col(taxon, taxa.rank)
 }
 \arguments{
-\item{taxon}{= The name of the taxon necessary for calculating a metric but
+\item{taxon}{The name of the taxon necessary for calculating a metric but
 is not found in the data set.}
 
-\item{taxa.rank}{= Taxanomic taxa.rank (e.g. Class, Order, Family, Genus, etc.).}
+\item{taxa.rank}{Taxanomic taxa.rank (e.g. Class, Order, Family, Genus, etc.).}
 }
 \value{
 Creates a temporary vector containing zero values the length of the

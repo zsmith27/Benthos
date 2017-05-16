@@ -7,9 +7,9 @@
 data_prep(long.df, master.df)
 }
 \arguments{
-\item{long.df}{= Taxonomic counts in a long data format.}
+\item{long.df}{Taxonomic counts in a long data format.}
 
-\item{master.df}{= A Master Taxa List containing the appropriate and applicable
+\item{master.df}{A Master Taxa List containing the appropriate and applicable
 taxonomic hierarchy and taxonomic traits. Specify 'master' to use the Master
 Taxa List built in to the Benthos package.}
 }

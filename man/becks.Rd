@@ -7,20 +7,20 @@
 becks(taxa.wide, taxa.rank, master.df, beck.column, beck.version = 1)
 }
 \arguments{
-\item{taxa.wide}{= Taxonomic counts aggregated at the specific taxonomic
+\item{taxa.wide}{Taxonomic counts aggregated at the specific taxonomic
 classification (e.g., Order, Family, or Genus) in a wide data format.
  Use the wide function to prepare the data.}
 
-\item{taxa.rank}{= The taxonomic rank used to perform the analysis. You must
+\item{taxa.rank}{The taxonomic rank used to perform the analysis. You must
 sepecify either "FAMILY" or "GENUS" (Defualt = "FAMILY").}
 
-\item{master.df}{= A master taxa list including taxonomic ranks Phylum through
+\item{master.df}{A master taxa list including taxonomic ranks Phylum through
 the specified taxonomic rank (Family or Genus) and the an
 associated list of tolerance values. The default is set to the master taxa
 list included in the BIBI package.  The master taxa list can be viewed with
 the following script: master.df <- data(master)}
 
-\item{beck.version}{= The version of Beck's Index specified as 1 or 3.  The
+\item{beck.version}{The version of Beck's Index specified as 1 or 3.  The
 defualt is 1, the orginal Beck's Index:
 2(S1) + 1(S2) + 3(S3)
 where:
@@ -31,7 +31,7 @@ as specified by PADNR:
 where:
 S# = Taxa richness at each level of Beck's classifications (0-3).}
 
-\item{beck.colum}{= The name of the column in the master.df that contains
+\item{beck.colum}{The name of the column in the master.df that contains
 Beck values.}
 }
 \value{

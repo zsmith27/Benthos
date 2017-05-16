@@ -7,7 +7,7 @@
 benthos_cheat(long.df)
 }
 \arguments{
-\item{long.df}{= Taxonomic counts in a long data format.}
+\item{long.df}{Taxonomic counts in a long data format.}
 }
 \value{
 The Benthos package requires eight columns to exist before the metrics

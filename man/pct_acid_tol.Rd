@@ -7,7 +7,7 @@
 pct_acid_tol(genus.wide)
 }
 \arguments{
-\item{genus.wide}{= Taxonomic counts aggregated at the genus level
+\item{genus.wide}{Taxonomic counts aggregated at the genus level
 classification in a wide data format. Use the wide function to
 prepare the data.}
 }

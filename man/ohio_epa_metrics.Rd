@@ -7,9 +7,9 @@
 ohio_epa_metrics(long.df, master.df)
 }
 \arguments{
-\item{long.df}{= Taxonomic counts in a long data format.}
+\item{long.df}{Taxonomic counts in a long data format.}
 
-\item{master.df}{= The master taxa list contains taxonomic ranks from Phylum
+\item{master.df}{The master taxa list contains taxonomic ranks from Phylum
 to species and known taxonomic attributes.}
 }
 \value{

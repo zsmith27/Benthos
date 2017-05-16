@@ -8,9 +8,9 @@ Transform taxa count data from wide to a long format.}
 long(wide.df, taxa.rank = "FAMILY")
 }
 \arguments{
-\item{x}{= Taxa count data}
+\item{x}{Taxa count data}
 
-\item{Level}{= Taxonomic Level (PHYLUM, CLASS, ORDER, FAMILY, GENUS)}
+\item{Level}{Taxonomic Level (PHYLUM, CLASS, ORDER, FAMILY, GENUS)}
 }
 \value{
 Taxa counts in a long data format.

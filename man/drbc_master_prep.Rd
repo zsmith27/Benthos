@@ -7,7 +7,7 @@
 drbc_master_prep(taxa.df)
 }
 \arguments{
-\item{taxa.df}{= Taxonomic counts in a long data format.}
+\item{taxa.df}{Taxonomic counts in a long data format.}
 }
 \value{
 Prepare taxa attributes table from the data provided by the Delaware 

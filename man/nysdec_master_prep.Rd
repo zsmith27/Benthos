@@ -7,7 +7,7 @@
 nysdec_master_prep(dec.master)
 }
 \arguments{
-\item{dec.master}{= A Master Taxa List containing the appropriate and applicable
+\item{dec.master}{A Master Taxa List containing the appropriate and applicable
 taxonomic hierarchy and taxonomic traits. Specify 'master' to use the Master
 Taxa List built in to the Benthos package.}
 }

@@ -7,7 +7,7 @@
 calc_richness(wide.df)
 }
 \arguments{
-\item{wide.df}{= a wide dataframe of taxonomic counts.}
+\item{wide.df}{a wide dataframe of taxonomic counts.}
 }
 \value{
 Calculates richness based on the appropriate number of columns.

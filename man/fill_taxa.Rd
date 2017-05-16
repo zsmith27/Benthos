@@ -7,7 +7,7 @@
 fill_taxa(Taxon_List)
 }
 \arguments{
-\item{Taxon_List}{= Master taxon list in wide format}
+\item{Taxon_List}{Master taxon list in wide format}
 }
 \value{
 Fills in blank spaces with the lowest level of taxonomic

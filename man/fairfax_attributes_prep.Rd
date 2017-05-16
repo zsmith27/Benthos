@@ -7,7 +7,7 @@
 fairfax_attributes_prep(attributes.df)
 }
 \arguments{
-\item{attributes.df}{= Taxonomic attributes table.}
+\item{attributes.df}{Taxonomic attributes table.}
 }
 \value{
 Prepare Fairfax County's Taxonomic attribute table for use in the
