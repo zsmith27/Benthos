@@ -57,14 +57,11 @@ metrics.df <- all_metrics(long.fill, drbc.master, "GENUS",
                           tv.col = "TV",
                           ffg.col = "FFG",
                           hab.col = "HABIT")
-
-
-long.df <- long.fill
-master.df <- drbc.master
-taxa.rank <- "GENUS"
-tv.col = "TV"
-ffg.col = "FFG"
-hab.col = "HABIT"
+system.time(
+metrics.df <- all_metrics(long.fill, master, "GENUS", 
+                          tv.col = "BIBI_TV",
+                          ffg.col = "BIBI_FFG",
+                          hab.col = "BIBI_HABIT"))
 
 #==============================================================================
 # Change your working directory if you want the calculated metrics to be

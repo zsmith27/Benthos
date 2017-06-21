@@ -305,29 +305,56 @@ all_metrics <- function(long.df, master.df, taxa.rank,
       print("...%Annelida and Chironomidae")
       phylum.wide <- wide(long.df, "PHYLUM")
       metrics$PCT_ANNELID_CHIRO <- pct_annelid_chiro(phylum.wide, family.wide)
+      metrics$PCT_ANNELID_CHIRO <- pct_taxon(phylum.wide, "ANNELIDA") +
+        pct_taxon(family.wide, "CHIRONOMIDAE")
     }
     
     print("...%Limeston Taxa")
     metrics$PCT_LIMESTONE <- pct_limestone(order.wide, family.wide)
   #}
-
+  #============================================================================
   if(!is.null(genus.wide)){
     print("...%Chironomidae Composed of Chricotopus and Chironomis")
-    metrics$PCT_CC_CHIRO <- pct_cc_chironomidae(family.wide, genus.wide)
-    print("...%EPT Composed of Cheumatopsyche")
-    metrics$PCT_EPT_CHEUMATOPSYCHE <- pct_ept_cheumatopsyche(order.wide, genus.wide)
-    print("...%EPT Composed of Hydropsyche")
-    metrics$PCT_EPT_HYDROPSYCHE <- pct_ept_hydropsyche(order.wide, genus.wide)
+    metrics$PCT_CC_CHIRO2 <- pct_taxon(genus.wide, c("CHRICOTOPUS",
+                                                     "CHIRONOMIS")) /
+      pct_taxon(family.wide, "CHIRONOMIDAE") * 100
+    print("...%EPT minus Cheumatopsyche")
+    #--------------------------------------------------------------------------
+    metrics$PCT_EPT_CHEUMATOPSYCHE <- pct_taxon(order.wide, c("EPHEMEROPTERA",
+                                                               "PLECOPTERA", 
+                                                               "TRICHOPTERA")) -
+      pct_taxon(genus.wide, "CHEUMATOPSYCHE")
+    #--------------------------------------------------------------------------
+    print("...%EPT minus Hydropsyche")
+    metrics$PCT_EPT_HYDROPSYCHE <- pct_taxon(order.wide, c("EPHEMEROPTERA",
+                                                            "PLECOPTERA",
+                                                            "TRICHOPTERA")) -
+      pct_taxon(genus.wide, "HYDROPSYCHE")
+      
   }
+  #==============================================================================
   print("...%EPT")
-  metrics$PCT_EPT <- pct_ept(order.wide)
+  metrics$PCT_EPT <- pct_taxon(order.wide, c("EPHEMEROPTERA",
+                                              "PLECOPTERA",
+                                              "TRICHOPTERA"))
+  #----------------------------------------------------------------------------
   print("...%COTE")
-  metrics$PCT_COTE <- pct_cote(order.wide)
+  metrics$PCT_COTE <- pct_taxon(order.wide, c("COLEOPTERA",
+                                               "ODONATA",
+                                               "TRICHOPTERA",
+                                               "EPHEMEROPTERA"))
+  #----------------------------------------------------------------------------
   print("...%POTEC")
-  metrics$PCT_POTEC <- pct_potec(order.wide)
+  metrics$PCT_POTEC <- pct_taxon(order.wide, c("PLECOPTERA", 
+                                                "ODONATA",
+                                                "TRICHOPTERA",
+                                                "EPHEMEROPTERA",
+                                                "COLEOPTERA"))
+  #----------------------------------------------------------------------------
   if(!is.null(class.wide)){
     print("...GOLD")
-    metrics$GOLD <- gold(class.wide, order.wide)
+    metrics$GOLD <- 100 - (pct_taxon(class.wide, c("GASTROPODA", "OLIGOCHAETA")) +
+      pct_taxon(order.wide, "DIPTERA"))
   }
   #Functional Feeding Group (FFG) Metrics========================================
   print("Calculating FFG Metrics:")

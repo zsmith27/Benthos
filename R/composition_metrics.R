@@ -2,16 +2,23 @@
 # Composition Metrics
 #==============================================================================
 #'Percentage of a Specified Taxon
-#'
+#'@description Calculate the percentage of each sample represented by the
+#'specified taxon or taxa.
 #'@param wide.df Taxonomic counts aggregated at the appropriate taxonomic
 #' rank in a wide data format. Use the wide function to prepare the data.
-#' @param taxon The taxon of interest.
-#'@return The percentage of individuals identified as the specified taxon.
+#'@param taxon The taxon or taxa of interest. To specify more than one taxa 
+#'use: c("TAXA1", "TAXA2", "TAXA3").
+#'@return A numeric vector containing the percentage of each sample 
+#'represented by the specified taxon or taxa.
+#'@details 
+# #'@seealso \code{\link{wide}} for converting a long data format to a wide 
+#'data format.
 #'@export
 
 pct_taxon <- function(wide.df, taxon) {
-  final.vec <- blank_col(taxon, wide.df) /
-    rowSums(wide.df[, 8:ncol(wide.df)]) * 100
+  taxon.vec <- blank_col(taxon, wide.df)
+  all.vec <- rowSums(wide.df[, 8:ncol(wide.df)])
+  final.vec <- taxon.vec / all.vec * 100
   return(final.vec)
 }
 

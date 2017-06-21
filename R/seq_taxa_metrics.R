@@ -156,7 +156,7 @@ rich_by_rank <- function(long.df, low.res.rank, high.res.rank, master.df) {
   taxa.org <- unique(long.df[, low.res.rank])
   taxa.vec <- taxa.org[taxa.org %in% unique(master.df[, low.res.rank])]
   rich.list <- lapply(taxa.vec, function(x){
-    print(paste("...RICH", x, sep = "_"))
+    #print(paste("...RICH", x, sep = "_"))
     final.list <- taxon_richness(long.df, x, low.res.rank, high.res.rank)
   return(final.list)
   } )

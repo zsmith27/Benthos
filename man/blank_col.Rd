@@ -4,13 +4,14 @@
 \alias{blank_col}
 \title{Temporary vector with zero values}
 \usage{
-blank_col(taxon, taxa.rank)
+blank_col(taxon, wide.df)
 }
 \arguments{
 \item{taxon}{The name of the taxon necessary for calculating a metric but
 is not found in the data set.}
 
-\item{taxa.rank}{Taxanomic taxa.rank (e.g. Class, Order, Family, Genus, etc.).}
+\item{wide.df}{Taxonomic counts aggregated at the appropriate taxonomic
+rank in a wide data format. Use the wide function to prepare the data.}
 }
 \value{
 Creates a temporary vector containing zero values the length of the

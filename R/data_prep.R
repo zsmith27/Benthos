@@ -35,7 +35,7 @@ data_prep <- function(long.df, master.df){
   if(!"CONDITION" %in% names(long.df)) long.df$CONDITION <- "NONE"
   #============================================================================
   # Subset the master taxa list to only include taxonomic hierarchy.
-  sub.master <- unique(master[, c("FINAL_ID", "AGENCY_ID",
+  sub.master <- unique(master.df[, c("FINAL_ID", "AGENCY_ID",
                                   "PHYLUM", "SUBPHYLUM", "CLASS", "SUBCLASS",
                                   "ORDER", "SUBORDER", "FAMILY", "SUBFAMILY",
                                   "TRIBE", "GENUS", "SPECIES")])

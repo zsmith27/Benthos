@@ -55,7 +55,9 @@ drbc_data_prep <- function(taxa.df){
   taxa.df$REPORTING_VALUE <- as.character(taxa.df$REPORTING_VALUE) %>% as.numeric()
   #----------------------------------------------------------------------------
   # Change column name "UNIQUEID" to "UNIQUE_ID".
-  names(taxa.df)[names(taxa.df) %in% "UNIQUEID"] <- "UNIQUE_ID"
+  #names(taxa.df)[names(taxa.df) %in% "UNIQUEID"] <- "UNIQUE_ID"
+  # Generate a uinque ID based on the station and date.
+  taxa.df$UNIQUE_ID <- paste(taxa.df$STATION_ID, taxa.df$DATE, sep = "_")
   #----------------------------------------------------------------------------
   # Refers to assigned conditions, such as Reference or Degraded.
   if(!"CONDITION" %in% names(taxa.df)) taxa.df$CONDITION <- "NONE"
@@ -148,6 +150,8 @@ drbc_master_prep <- function(taxa.df){
   #----------------------------------------------------------------------------
   # Remove any duplicate rows.
   final.df <- unique(final.df)
+  test <- final.df[duplicated(final.df$FINAL_ID), ]$FINAL_ID
+  
   #----------------------------------------------------------------------------
   # End drbc_master_prep function.
   return(final.df)

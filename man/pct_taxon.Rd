@@ -10,11 +10,17 @@ pct_taxon(wide.df, taxon)
 \item{wide.df}{Taxonomic counts aggregated at the appropriate taxonomic
 rank in a wide data format. Use the wide function to prepare the data.}
 
-\item{taxon}{The taxon of interest.}
+\item{taxon}{The taxon or taxa of interest. To specify more than one taxa 
+use: c("TAXA1", "TAXA2", "TAXA3").}
 }
 \value{
-The percentage of individuals identified as the specified taxon.
+A numeric vector containing the percentage of each sample 
+represented by the specified taxon or taxa.
 }
 \description{
-Percentage of a Specified Taxon
+Calculate the percentage of each sample represented by the
+specified taxon or taxa.
+}
+\details{
+data format.
 }

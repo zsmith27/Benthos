@@ -74,7 +74,8 @@ group_rich <- function(NameList, Taxa.df){
 
 #'@param taxon The name of the taxon necessary for calculating a metric but
 #'is not found in the data set.
-#'@param taxa.rank Taxanomic taxa.rank (e.g. Class, Order, Family, Genus, etc.).
+#'@param wide.df Taxonomic counts aggregated at the appropriate taxonomic
+#' rank in a wide data format. Use the wide function to prepare the data.
 #'@return Creates a temporary vector containing zero values the length of the
 #'data frame specified by the object taxa.rank.  Prevents errors created by missing taxon names
 #'necessary for metric calculations. For example, if no Trichoptera taxa were observed
@@ -85,12 +86,17 @@ group_rich <- function(NameList, Taxa.df){
 #'can be calculated.
 #'@export
 
-blank_col <- function(taxon, taxa.rank){
-  if(taxon %in% colnames(taxa.rank)) {
-    final.vec <- taxa.rank[, taxon] 
-  } else {
-    final.vec <- rep(0, nrow(taxa.rank))
-  }
+blank_col <- function(taxon, wide.df){
+  
+  final.df <- sapply(taxon, function(taxon.x) {
+    if(taxon.x %in% colnames(wide.df)) {
+      wide.df[, taxon.x] 
+    } else {
+      rep(0, nrow(wide.df))
+    }
+  })
+  
+  final.vec <- rowSums(final.df)
   return(final.vec)
 }
 
