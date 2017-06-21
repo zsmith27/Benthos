@@ -130,4 +130,38 @@ all.df <- all_metrics(long.fill, attributes.df, "GENUS",
                           tv.col = "MBSS.UTV",
                           ffg.col = "FFG",
                           hab.col = "HABITAT")
+pct_taxon(ord.df, c("EPHEMEROPTERA", "TRICHOPTERA", "PLECOPTERA"))
+blank_col(c("EPHEMEROPTERA", "TRICHOPTERA", "PLECOPTERA"))
+wide.df <- ord.df
+taxon <- c("EPHEMEROPTERA", "TRICHOPTERA", "PLECOPTERA")
 
+identical(all.df$GOLD, all.df$GOLD2)
+identical(all.df$PCT_COTE, all.df$PCT_COTE2)
+identical(all.df$PCT_POTEC, all.df$PCT_POTEC2)
+test <- all.df[, c("UNIQUE_ID", "GOLD", "GOLD2")]
+test$DIFF <- test[, 2] - test[, 3]
+
+tapply(fam.df$CHIRONOMIDAE, fam.df$UNIQUE_ID + fam.df$STATION_ID, sum)
+taxon <- "TRICHOPTERA"
+
+sub.df <- long.fill[long.fill$FAMILY %in% taxon, ]
+sapply(unique(long.fill$UNIQUE_ID), function(x) {
+  if (x %in% sub.df$UNIQUE_ID) {
+    sub.df[]
+  }
+})
+tapply(sub.df$REPORTING_VALUE, sub.df$UNIQUE_ID, sum) /
+  tapply(long.fill$REPORTING_VALUE, long.fill$UNIQUE_ID,  sum) *100
+
+sum(long.fill[long.fill$FAMILY %in% taxon, "REPORTING_VALUE"])
+tapply(long.fill[long.fill$FAMILY %in% taxon, "REPORTING_VALUE"],
+       long.fill[long.fill$FAMILY %in% taxon, "UNIQUE_ID"], sum, na.rm = TRUE) 
+taxon <- "CHIRONOMIDAE"
+taxon.rank <- "FAMILY"
+
+    
+    
+    
+    
+  }
+})

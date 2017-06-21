@@ -13,21 +13,22 @@
 # package.
 install.packages(c("devtools","curl", "httr"))
 # Install the Benthos package.
-devtools::install_github("zsmith27/Benthos", build_vignettes = TRUE, force = TRUE)
+devtools::install_github("zsmith27/Benthos",  force = TRUE)
 # Load the Benthos package.
 library(Benthos)
 # Load the Master Taxa List contained within the Benthos package.
 data(master)
-vignette(package = "Benthos")
+#vignette(package = "Benthos")
 #==============================================================================
 # Set your working directory.
 # This is where your files are stored on your computer.
-setwd("C:/Users/zsmith/Desktop/DEC_LAKE")
+#setwd("C:/Users/zsmith/Desktop/DEC_LAKE")
+setwd("C:/Users/Owner/Desktop/NYSDEC/NYSDEC_LAKE")
 # Import csv containing taxonomic counts.
-dec <- read.csv("MasterSpeciesTable_R.csv", stringsAsFactors = FALSE)
+dec <- read.csv("MasterSpeciesTable.csv", stringsAsFactors = FALSE)
 #==============================================================================
 # Format data to meet the formating requirments of the Benthos package.
-long <- nysdec_data_prep(dec)
+long <- nysdec_data_prep_old(dec, master)
 # We need to updated the master taxa list to include the missing taxa indicated
 # by the ISSUE column.
 
