@@ -4,23 +4,26 @@
 \alias{pct_taxon}
 \title{Percentage of a Specified Taxon}
 \usage{
-pct_taxon(wide.df, taxon)
+pct_taxon(long.df, unique.id.col, count.col, taxon.col, taxon)
 }
 \arguments{
-\item{wide.df}{Taxonomic counts aggregated at the appropriate taxonomic
-rank in a wide data format. Use the wide function to prepare the data.}
+\item{long.df}{Taxonomic counts arranged in a long data format.}
+
+\item{unique.id.col}{The name of the column that contains a unique sampling
+event ID.}
+
+\item{count.col}{The name of the column that contains taxanomic counts.}
+
+\item{taxon.col}{The name of the column that contains the taxon or taxa 
+of interest.}
 
 \item{taxon}{The taxon or taxa of interest. To specify more than one taxa 
 use: c("TAXA1", "TAXA2", "TAXA3").}
 }
 \value{
-A numeric vector containing the percentage of each sample 
-represented by the specified taxon or taxa.
+A numeric vector of percentages.
 }
 \description{
 Calculate the percentage of each sample represented by the
 specified taxon or taxa.
-}
-\details{
-data format.
 }

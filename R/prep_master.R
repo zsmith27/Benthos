@@ -10,6 +10,10 @@
 #setwd("C:/Users/zsmith/Desktop/Benthos_R/Benthos")
 #devtools::use_data(master, overwrite = TRUE)
 
+#setwd("Data")
+#onondaga <- read.csv("ZMS_THESIS_06_18_2017.csv", stringsAsFactors = FALSE)
+#devtools::use_data(onondaga, overwrite = TRUE)
+
 #setwd("C:/Users/zsmith/Desktop/Benthos_R/Benthos")
 #devtools::use_package("data.table")
 #devtools::use_package("vegan")

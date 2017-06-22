@@ -4,22 +4,29 @@
 \alias{gold}
 \title{Proportion of Gastropoda, Oligochaeta, and Dipteran Individuals}
 \usage{
-gold(class.wide, order.wide)
+gold(long.df, unique.id.col, count.col, class.col, order.col)
 }
 \arguments{
-\item{class.wide}{Taxonomic counts aggregated at the class level
-classification in a wide data format. Use the wide function to
-prepare the data.}
+\item{long.df}{Taxonomic counts arranged in a long data format.}
 
-\item{order.wide}{Taxonomic counts aggregated at the order level
-classification in a wide data format. Use the wide function to
-prepare the data.}
+\item{unique.id.col}{The name of the column that contains a unique sampling
+event ID.}
+
+\item{count.col}{The name of the column that contains taxanomic counts.}
+
+\item{class.col}{The name of the column with class-level taxonomic information.}
+
+\item{order.col}{The name of the column with order-level taxonomic information.}
 }
 \value{
-One minus the proportional number of gastropods (Class: Gastropoda),
-oligochaetes (Class: Oligochaeta), and dipteran (Order: Diptera) individuals.
-This metric typically decreases with degradation.
+A numeric vector containing the percentage of each sample 
+represented by the specified taxon or taxa.
+
+Numeric vector of percentages.
 }
 \description{
-Proportion of Gastropoda, Oligochaeta, and Dipteran Individuals
+The percentage of individuals not represented by 
+gastropods (Class: Gastropoda), oligochaetes (Class: Oligochaeta),
+ and dipteran (Order: Diptera). This metric typically decreases with 
+ degradation.
 }
