@@ -57,7 +57,8 @@ drbc_data_prep <- function(taxa.df){
   # Change column name "UNIQUEID" to "UNIQUE_ID".
   #names(taxa.df)[names(taxa.df) %in% "UNIQUEID"] <- "UNIQUE_ID"
   # Generate a uinque ID based on the station and date.
-  taxa.df$UNIQUE_ID <- paste(taxa.df$STATION_ID, taxa.df$DATE, sep = "_")
+  #taxa.df$UNIQUE_ID <- paste(taxa.df$STATION_ID, taxa.df$DATE, sep = "_")
+  names(taxa.df)[names(taxa.df) %in% "ACTIVITY.ID"] <- "UNIQUE_ID"
   #----------------------------------------------------------------------------
   # Refers to assigned conditions, such as Reference or Degraded.
   if(!"CONDITION" %in% names(taxa.df)) taxa.df$CONDITION <- "NONE"
@@ -151,7 +152,9 @@ drbc_master_prep <- function(taxa.df){
   # Remove any duplicate rows.
   final.df <- unique(final.df)
   test <- final.df[duplicated(final.df$FINAL_ID), ]$FINAL_ID
-  
+  #----------------------------------------------------------------------------
+  # Create a Becks column.
+  final.df$BECK <- round(ifelse(final.df$TV <= 2, final.df$TV, NA), 0)
   #----------------------------------------------------------------------------
   # End drbc_master_prep function.
   return(final.df)
